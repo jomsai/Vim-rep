@@ -1,0 +1,198 @@
+"Vimrc direct from the Vundle README page
+" Will add other stuff after getting it working
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path (RunTimePath) to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+Plugin 'tpope/vim-fugitive'
+" plugin from http://vim-scripts.org/vim/scripts.html
+" Plugin 'L9'
+" Git plugin not hosted on GitHub
+Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+
+" Syntastic Plugin for Vim Syntax Hilighting
+ Plugin 'Syntastic'
+" git repos on your local machine (i.e. when working on your own plugin)
+" Plugin 'file:///home/gmarik/path/to/plugin'
+
+" Vim-airline Statusline Plugin leaner tha Powerline and great with Vundle
+Plugin 'vim-airline/vim-airline'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Install L9 and avoid a Naming conflict if you've already installed a
+" different version somewhere else.
+" Plugin 'ascenator/L9', {'rdw99': 'newL9'}
+" Plugin COlor Scheme Solarized for Dark background
+" Plugin 'Solarized'
+" VividChalk Color Scheme
+" Plugin 'vividchalk.vim'
+" Plugin 'tpope/vim-vividchalk'
+" More colorschemes
+" Plugin 'jnurmine/zenburn'
+" Plugin 'altercation/vim-colors-solarized'
+"  Color Scheme of Flazz
+Plugin 'flazz/vim-colorschemes'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
+
+
+set encoding=utf-8 nobomb
+set nomodeline
+set clipboard=unnamed
+" Bash-style tab completion
+set wildmode=longest,list
+set wildmenu
+set noswapfile  " No swap files, use version control instead
+set nowritebackup
+set nobackup
+set number " Show line numbers 
+set laststatus=2  " Always show a status line
+set ignorecase
+set hlsearch
+set smartcase  " if search has Capital letter be sensitive to that
+set ruler  " Set ruler
+set incsearch
+set magic
+set cursorline
+syntax on
+set showmode
+
+" Fix Delete (backspace) on Mac OS X
+" set backspace=2
+
+set splitbelow
+set splitright
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+
+set term=xterm-256color
+set t_Co=256
+" Solarized Color Scheme for Dark background
+" syntax enable
+"  set background=dark
+" colorscheme solarized
+
+" Vividchalk Colorscheme
+" syntax enable
+" set background=dark
+"colorscheme vividchalk.vim
+
+" Flazz Color Choices
+" colorscheme wombat
+" colorscheme molokai
+" colorscheme elflord
+" colorscheme zenburn
+" colorscheme morning
+" colorscheme desert
+" colorscheme evening
+" colorscheme pablo
+" colorscheme peachpuff
+" colorscheme desert256
+" colorscheme breeze
+" colorscheme morning
+" colorscheme darkblue
+" colorscheme gothic
+colorscheme aqua
+" colorscheme earth
+" colorscheme slate
+" colorscheme torte
+" colorscheme delek
+" colorscheme murphy
+" colorscheme koehler
+" colorscheme relaxedgreen
+" colorscheme darkblack
+" colorscheme chocolateliquor
+" colorscheme less
+" colorscheme impact
+" colorscheme motus
+" colorscheme freya
+" colorscheme black_angus
+
+" Netrw Settings
+let g:netrw_liststyle=0         " thin (change to 3 for tree)
+let g:netrw_banner=0            " no banner
+let g:netrw_altv=1              " open files on right
+let g:netrw_preview=1           " open previews vertically
+" Netrw Settings Dr Chips Settings the Author of netrw!
+" let g:netrw_altv          = 1
+let g:netrw_fastbrowse    = 2
+let g:netrw_keepdir       = 0
+" let g:netrw_liststyle     = 2
+let g:netrw_retmap        = 1
+let g:netrw_silent        = 1
+let g:netrw_special_syntax= 1
+
+" Syntastic recommmends these settings as a first until used to it
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" Vi inside Bash may not work like this on Mac OS X
+" set editing-mode vi
+
+" Python and other language support
+let python_highlight_all=1
+" Python tabs and indentation
+au BufRead,BufNewFile *.py,*.pyw	set tabstop=4
+au BufRead,BufNewFile *.py,*pyw 	set shiftwidth=4
+au BufRead,BufNewFile *.py,*.pyw	set expandtab
+au BufRead,BufNewFile *.py,*pyw		set softtabstop=4
+au BufRead,BufNewFile *.py,*.pyw	set textwidth=79
+au BufRead,BufNewFile *.py,*.pyw	set autoindent
+au BufRead,BufNewFile *.py,*.pyw	set fileformat=unix
+" Python workflow script not working
+" au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+" js html css indents
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2
+    \ set softtabstop=2
+    \ set shiftwidth=2
+
+" some YouComplete me stuff here if ever needed
+" let g:ycm_autoclose_preview_window_after_completion=1
+" map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+"python with virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+	project_base_dir = os.environ['VIRTUAL_ENV']
+	activate_this = os.path.join(project_base_dir, 'bble syntaxin/activate_this.py')
+	execfile(activate_this, dict(__file__=activate_this))
+EOF
