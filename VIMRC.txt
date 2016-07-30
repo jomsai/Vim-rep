@@ -4,31 +4,32 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-set rtp+=~/.vim/bundle/Vundle.vim  " set the RunTimePath=rtp to include Vundle & initialize
+" Vundle Packet Manager setup starts here
+set rtp+=~/.vim/bundle/Vundle.vim  " set RunTimePath=rtp to include Vundle & initialize
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
-
 Plugin 'VundleVim/Vundle.vim'  " let Vundle manage Vundle, required
 
-" Keep Plugin commands between vundle#begin/end.
-Plugin 'tpope/vim-fugitive'  " vim-fugitive plugin on GitHub repo
-" Plugin 'L9' " plugin from http://vim-scripts.org/vim/scripts.html
-Plugin 'git://git.wincent.com/command-t.git' " Command-t Repo
-Plugin 'Syntastic'  " Syntastic Plugin for Vim Syntax Hilighting
+" Add all Plugins you want installed between vundle#begin/end.
+Plugin 'tpope/vim-fugitive'  " vim-fugitive plugin for  Git
+Plugin 'tpope/vim-commentary'  " Comment Uncomment code with gc
+Plugin 'danchoi/elinks.vim'  "elinks install to see html in Vim
+Plugin 'yuratomo/gmail.vim'  " Gmail inside Vim no need for elinks
+Plugin 'git://github.com/Shougo/vimproc.git'
+Plugin 'Syntastic'  " Syntastic for Vim Syntax Hilighting
 " git repos on your local machine (i.e. when working on your own plugin)
 " Plugin 'file:///home/gmarik/path/to/plugin'
-Plugin 'Valloric/YouCompleteMe' " YCM Install or Valloric/YouCompleteMe
-Plugin 'vim-airline/vim-airline' " Statusline Plugin leaner than Powerline great with Vundle
-Plugin 'ctrlpvim/ctrlp.vim' " 2 choices kien/ctrlp or this one from Repo
-Plugin 'flazz/vim-colorschemes' " Color Schemes listed below to select
-Plugin 'vim-airline/vim-airline-themes' " Schemes for vim-airline
+Plugin 'Valloric/YouCompleteMe' " YCM tab completion
+Plugin 'flazz/vim-colorschemes' " Color Schemes that work great!
+Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'powerline/fonts'
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+call vundle#end()  " required
+filetype plugin indent on  " required
 " To ignore plugin indent changes, instead use:
-"filetype plugin on
+" filetype plugin on
 
 " Brief Vundle help
 " :PluginList       - lists configured plugins
@@ -38,19 +39,22 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
+let &path = $path . 'c:\Program files\git\bin'  " Gmail PATH for gmail.vim
+
 set encoding=utf-8 nobomb
 set nomodeline
 set clipboard=unnamed
 set wildmode=longest,list  " Bash-style tab completion At command line, complete longest common string, then list alternatives
 set wildmenu
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip  " MacOSX/Linux- Some file types not to search with
 
-" Turn off saves swaps but also wipes out history undos counts????
+" Turn off save swaps wipes out history counts! Undo OK
 set noswapfile  " No swap files
 set nowritebackup
 set nobackup
-set viminfo=  " don't use or save viminfo files
-" set history=2000000  " I will never really do this
-" set undolevels=1000  " 1000 undos
+set viminfo='0,f0,%  " If no ARG won't use the file at all
+set history=200  " Need to confirm this with backups off! 
+set undolevels=200  " Confirm this 
 " set updatecount=100  " switch every 100 chars
 
 set laststatus=2  " Always show a status line even if only 1 window
@@ -62,20 +66,17 @@ set incsearch  " Incrementally search while typing a /regex
 set ruler  " Set ruler
 set magic
 
-" set cursorline  " highlight cursor line same as below ???
-set cul  " highlight current line
-hi CursorLine term=none cterm=none ctermbg=3  " adjust color
-
-" These 2 number line commands can both be on off or vary
+" 2 line number commands
 " See  http://vim.wikia.com/wiki/Display_line_numbers 
 set number " Show line numbers 
-set relativenumber  " Display numbers relative to cursor line
+" set relativenumber  " Display line number relative to cursor
 
+set cul  " highlight current cursorline (cul)
+hi CursorLine term=none cterm=none ctermbg=3  " adjust color
 " Some Column stuff I need to evaluate
-" Goal is auto to set the netrw column as half width
 set colorcolumn=81  " 80-column line
 highlight! link ColorColumn CursorColumn " 1st time to see this link notation
-set cursorcolumn
+set cursorcolumn  " cursorcolumn (cuc) enabled
 
 syntax on
 set synmaxcol=2048  " Syntax coloring too-long lines is slow????
@@ -94,6 +95,7 @@ set term=xterm-256color  "Some color schemes need these 3 lines
 set t_Co=256
 syntax enable
 
+
 set mouse-=a   " Disable mouse
 set mousehide  " Hide mouse after chars typed
 
@@ -102,17 +104,18 @@ set noerrorbells  " No noise I hope no CLUNK!
 set vb t_vb= " disable any beeps or flashes on error
 set visualbell  " Use visual bell instead of beeping when doing something wrong
 
-" set backspace=2  " Fix Delete (backspace) on Mac OS X but seems fine to me
+set backspace=2  " Delete (backspace) Key works on Mac OS X
 
 " Looking for a way to open a shell console when only Vim windows open
-set ttyfast                   " we have a fast terminal
+set ttyfast  " we have a fast terminal
 set shell=bash
 
-set fileformats=unix,dos,mac    " support all three newline formats
+set fileformats=unix,dos,mac  " support all three newline formats
 
-set splitbelow
-set splitright
-"split navigations
+" set splitbelow
+" set splitright
+
+" split screen navigations
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
@@ -126,7 +129,7 @@ nnoremap <C-H> <C-W><C-H>
 " colorscheme morning
 " colorscheme desert
 " colorscheme evening
-" colorscheme pablo
+colorscheme pablo
 " colorscheme peachpuff
 " colorscheme desert256
 " colorscheme breeze
@@ -137,7 +140,6 @@ nnoremap <C-H> <C-W><C-H>
 " colorscheme earth
 " colorscheme slate
 " colorscheme torte
-" colorscheme delek
 " colorscheme murphy
 " colorscheme koehler
 " colorscheme relaxedgreen
@@ -182,80 +184,41 @@ nnoremap <C-H> <C-W><C-H>
 " colorscheme inkpot
 " colorscheme kolor
 " colorscheme railscasts
-colorscheme candycode
+" colorscheme candycode
 
-" Vim-Airline
-let g:airline_left_alt_sep=''
-let g:airline_right_alt_sep=''
-let g:airline_section_a='' " mode
-let g:airline_section_b='' " branch
-let g:airline_section_z='' " ruler
-let g:airline_theme='kolor'
+" Netrw Settings!
+" let g:netrw_preview=1  " open previews 0=horiz 1=vert & works with alto
+" let g:netrw_browse_split=1  "Default=0Horiz, =1Vert, =2Tab =3Window
+" let g:netrw_alto=1  " Opens files to the right
+" let g:netrw_winsize=30  " Netrw Window xx% of Whole Window
+let g:netrw_liststyle=0  " 0=ThinList 1=LongList,2=WideList 3=Tree
+let g:netrw_fastbrowse=0  "0=Slow -many refreshes, 1=Med, 2=Fast
+let g:netrw_keepdir=0  "Default=1 to make cwd immune from browse
+" let g:netrw_retmap=1  " Default=0 Mouse mappings I do not want
+let g:netrw_silent=1  " NETRW messages arrive silently=1 or otherwise=2
+" let g:netrw_special_syntax=1  " fg bg cterm effects poss. Eval. this
+let g:netrw_banner=0  " no banner
 
-" Solarized Color Scheme & settings to consider -try dark or light bg
-" set background=dark
-" colorscheme solarized
-
-" Vividchalk Colorscheme & settings to consider -try dark or light bg
-" set background=light
-" colorscheme vividchalk
-
-" CTRL-P Options
-" let g:ctrlp_map = '<c-p>' " 15 lines of CtrlP Options
-" let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra' " If no DIR specified default to local cwd
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux -Next 7 some file types not to bother with
-" set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_custom_ignore = {
-  \ 'dir': '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
-let g:ctrlp_user_command = 'find %s -type f'        " MacOSX/Linux -custom file listing commands
-" let g:ctrlp_user_command = 'dir %s /-n /b /s /a-d'  " Windows
-" let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
-" For more Options try :help ctrlp-options for other options
-let g:ctrlp_max_height = 100
-let g:ctrlp_use_caching = 0
-" let g:ctrlp_user_command = g:ag_binary . ' %s -l --nocolor -g ""'
-" let g:ctrlp_working_path_mode = ''
-
-" Netrw Settings
-let g:netrw_liststyle=0         " thin (change to 3 for tree)
-let g:netrw_banner=0            " no banner
-let g:netrw_altv=1              " open files on right
-let g:netrw_preview=1           " open previews vertically
-" Netrw Settings Dr Chips Settings the Author of netrw!
-" let g:netrw_altv          = 1
-let g:netrw_fastbrowse    = 2
-let g:netrw_keepdir       = 0
-" let g:netrw_liststyle     = 2
-let g:netrw_retmap        = 1
-let g:netrw_silent        = 1
-let g:netrw_special_syntax= 1
+" Powerline Statusline
+" call vam#ActivateAddons(['powerline'])
+set fillchars+=stl:\ ,stlnc:\
+let g:Powerline_symbols = 'fancy'
 
 " Syntastic recommmends these settings as a first until used to it
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-" set editing-mode vi " Vi inside Bash may not work like this on Mac OS X
-
 " YouCompleteMe stuff here
 let g:ycm_autoclose_preview_window_after_completion=1
 map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
+" let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
 
-" Command-T stuff to consider
-" Plugin "git://git.wincent.com/command-t.git"
-" let g:CommandTMatchWindowAtTop=1 " show window at top
-
-" Python support to the end
+" Python support to the EOF
 let python_highlight_all=1
 " Python tabs and indentation
 au BufRead,BufNewFile *.py,*.pyw	set tabstop=4
@@ -288,3 +251,4 @@ if filereadable($VIRTUAL_ENV . '/.vimrc')
 	source $VIRTUAL_ENV/.vimrc
 endif
 
+source ~/.mascpar  " Gmail.vim line
