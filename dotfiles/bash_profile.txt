@@ -1,39 +1,30 @@
 #Sample Prompts syntax "\033[fg;bgm\] symbolic \[\033[0m\]"
-#FGBl30Rd31Gn32Ye33Bl34Mg35Cy36Gr90Wt97
-#BGBl40Rd41Gr42Ye43Bl44Mg45Cy46Gr100Wt107
 #export PS1="\033[0;46m\]<\s-\v$\[\033[0m\]"
 #export PS1="\u@\h\w $ "
 #echo PS1 ---> Output was [\u@\h \W]\$
 #export PS1="\033[0;41m\][>\t  \u@\h \W  [[->\$\[\033[0m\]"
-#Reset to Yellow My Color Default0 RedBG41 1 space after prompt!
 #export PS1="\[\033[0;41m\][>\t  \u@\h \W  [[->\$\[\033[0m\] "
-#LtGrayFG37 BlackBG40 timed short prompt
 #export PS1="\033[37;40m\]]\t\u@\W -->$\[\033[0m\] "
-#CyanFG36 BlackBG40 time user exit code 
 #export PS1="\033[36;40m \]\t \u  \W  [ \$?! ]==>$\[\033[0m\] "
-#YellowFG33 LtBlueBG104 time user exit code
 #export PS1="\033[33;104m \]\t \u  \W  [ \$?! ]==>$\[\033[0m\] "
-#LtGreenFG92 BlueBG44 time user exit code
 #export PS1="\033[92;44m \]\t \u  \W  [ \$?! ]==>$\[\033[0m\]"
-#BlueFG34 on RedBG41 with Exit Code
 #export PS1="\033[34;41m \]\t \u  \W  [ \$?! ]==>$\[\033[0m\] "
 #export PS1=">\T][->\W:>>\u->>\$?!->-\\$\[$(tput sgr0)\]" #Online PS1 Generator
-# COOL PS1 below from stackoverflow
 #export PS1='\033[0;33m\]\u\[\033[0m\]@\[\033[0;32m\]\h\[\033[0m\]:\[\033[0;34m\]\w\[\033[0m\]\$ '
 #export PS1='\033[0;33m\]\u\[\033[0m\]@\[\033[0;32m\]\W\[\033[0m\]:\[ \$?! ]:\[\033[0;34m\]\w\[\033[0m\]\$ '
 #export PS1="\a\$"
 #export PS1="\A \h \$"
-#Strange RED time beginning & CMD area RED. PROMPT always stays on ROW-1
 #export PS1="\033[s\033[0;0H\033[0;41m\033[K\033[1;33m\t\033[0m\033[u\]<\u@\h \W>\$ "
 #export PS1="\u@\h [\$(ls | wc -l)]:\$ "  # ls | wc -l in prompt
 #export PS1="\033[36m\]\u\[\033[37m\]@\[\033[33;1m\]\w\[\033[m\]\[\033[32m\]\[\033[m\]\]$ "
 # Working COMBO 2 color 16 & 256 with exit code after in 2nd Color
 export PS1="\033[107;38;5;199m \]\t \u  \W  \033[33;48;5;52m [ \$?! ]==>$\[\033[0m\] "
 #export PS1="\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
+#export PS1="\033[01;31mBASH IN RED\033[00m: "
 
 export PATH="/usr/local/sbin:$PATH"
-export PATH=~/bin:"$PATH"
-export PATH=~/Python:"$PATH"
+export PATH="~/bin:$PATH"
+export PATH="~/Python:$PATH"
 
 # Type psman <cmd> and Opens Man Page in Preview.app
 psman()
@@ -81,28 +72,13 @@ alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 alias en0='ipconfig getpacket en0' # ipInfo0: Get info on connections for en0
 alias en1='ipconfig getpacket en1' # ipInfo1: Get info on connections for en1
 alias en6='ipconfig getpacket en6' # ipInfo6: Get info on connections for en6
-alias so='source .bash_profile' # source both dotfiles would be better
+alias so='source .bash_profile || exit 1' # source both dotfiles would be better
 alias rules='sudo pfctl -sa | less'
 ql () { qlmanage -p "$*" >& /dev/null; }  # Quicklook any file in Preview
 alias path='echo -e ${PATH//:/\\n}'  # path: Echo all executable Paths
 alias shopt='shopt'   # Show_options: display bash options settings
 alias flushDNS='dscacheutil -flushcache' # flushDNS: Flush out the DNS Cache
 alias tcpdump='tcpdump -i en6 > ~/Desktop/tdump.txt'
-# Show Hide Hidden Files Toggle Dotfiles ON OFF -useful?
-alias doton='defaults write com.apple.finder ShowAllFiles TRUE'
-alias dotoff='defaults write com.apple.finder ShowAllFiles FALSE'
-
-#export PS1="\033[01;31mBASH IN RED\033[00m: "
-BLACK='\033[0;30m'  #0;30=Lt,1;32=Dk
-RED='\033[0;31m'  #0;31=Lt,1;31=Dk
-GREEN='\033[0;32m' #0;32=Lt,1;32=Dk '\033[1;32m'
-BROWN='\033[0;33m'  #0;33=Brown,1;33=Bright YELLOW
-BLUE='\033[0;34m'  #0;34=Lt,1;34=Dk
-PURPLE='\033[0;35m'  #0;35=Lt,1;35=Dk
-CYAN='\033[0;36m'  #0;36=Lt,1;36=Dk
-WHITE='\033[1;37m'  #0;37=Lt Gray but 1:37=White
-ENDCOLOR='\033[0m'
-BLINK='\033[5;32;47m'  #Blinking GreenFG on GrayBG
 
 # My USER Processes
 my_ps() { ps $@ -u $USER -o pid,%cpu,%mem,start,time,bsdtime,command ; }
@@ -131,8 +107,6 @@ alias ttop="top -R -F -s 10 -o rsize"  # Low Resource Top
 
 # Add Vi editing in Bash -Do a $ bind -P to check
 set -o vi
-# also vim as Default editor ????Have no idea how to use it???
-export EDITOR=/usr/bin/vim
 
 #   Git aliases
 #   ------------------------------------------------------------
@@ -169,25 +143,36 @@ zipf () { zip -r "$1".zip "$1" ; }  # zipf:Create a ZIP archive of a folder
 #   -----------------------------------------------------------
 spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; }
 
-# Ruby stuff I had to add for some VIM plugin install to work
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
-
 #colors below=>osxdaily.com/2012/02/21/add-color-to-the-terminal-in-mac-os-x/
 # 2 Color choices to Terminal NOW it works great!
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad # Dark color theme
 #export LSCOLORS=GxFxCxDxBxegedabagaced # light color theme does not work
-#export TERM="xterm-color"
-export TERM="xterm-256color"  #Want to try this
+export TERM="xterm-color"
+#export TERM="xterm-256color"  #Want to try this
 #export TERM=screen-256color  #Possibly for Linux
+
+#BLACK='\033[0;30m'  #0;30=Lt,1;32=Dk
+#RED='\033[0;31m'  #0;31=Lt,1;31=Dk
+#GREEN='\033[0;32m' #0;32=Lt,1;32=Dk '\033[1;32m'
+#BROWN='\033[0;33m'  #0;33=Brown,1;33=Bright YELLOW
+#BLUE='\033[0;34m'  #0;34=Lt,1;34=Dk
+#PURPLE='\033[0;35m'  #0;35=Lt,1;35=Dk
+#CYAN='\033[0;36m'  #0;36=Lt,1;36=Dk
+#WHITE='\033[1;37m'  #0;37=Lt Gray but 1:37=White
+#ENDCOLOR='\033[0m'
+#BLINK='\033[5;32;47m'  #Blinking GreenFG on GrayBG
+
+# Ruby stuff I had to add for some VIM plugin install to work
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+#export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+#test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+#export PATH="/usr/local/sbin:$PATH"
 
 # Things to remember
 # Color lines that may work in Linux but not in Mac
 #LS_COLORS='di=1:fi=0:ln=31:pi=5:so=5:bd=5:cd=5:or=31:mi=0:ex=35:*.rpm=90'
 #export LS_COLORS='di=96:fi=103:ln=31:pi=5:so=5:bd=5:cd=5:or=31:mi=0:ex=35:*.rpm=90'
 # alias ls='ls --color'  # Changed to alias lsc but does not work
-
-
-test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
-export PATH="/usr/local/sbin:$PATH"
