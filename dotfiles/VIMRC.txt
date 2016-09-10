@@ -4,26 +4,27 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
-" Vundle Packet Manager setup starts here
-set rtp+=~/.vim/bundle/Vundle.vim  " set RunTimePath=rtp to include Vundle & initialize
+" Vundle Plugin Manager setup starts here
+set rtp+=~/.vim/bundle/Vundle.vim  " Set RTP from REL path to include Vundle & initialize
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
 Plugin 'VundleVim/Vundle.vim'  " let Vundle manage Vundle, required
-
 " Add all Plugins you want installed between vundle#begin/end.
 Plugin 'tpope/vim-fugitive'  " vim-fugitive plugin for  Git
 Plugin 'tpope/vim-commentary'  " Comment Uncomment code with gc
-Plugin 'danchoi/elinks.vim'  "elinks install to see html in Vim
 Plugin 'yuratomo/gmail.vim'  " Gmail inside Vim no need for elinks
 Plugin 'git://github.com/Shougo/vimproc.git'
 Plugin 'Syntastic'  " Syntastic for Vim Syntax Hilighting
 " git repos on your local machine (i.e. when working on your own plugin)
 " Plugin 'file:///home/gmarik/path/to/plugin'
-Plugin 'Valloric/YouCompleteMe' " YCM tab completion
+" Plugin 'Valloric/YouCompleteMe' " YCM tab completion
 Plugin 'flazz/vim-colorschemes' " Color Schemes that work great!
-Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+" Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'powerline/fonts'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 
 " All of your Plugins must be added before the following line
 call vundle#end()  " required
@@ -39,6 +40,12 @@ filetype plugin indent on  " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 
+" Vim-Airlines stuff
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline_powerline_fonts = 1
+
 let &path = $path . 'c:\Program files\git\bin'  " Gmail PATH for gmail.vim
 
 set encoding=utf-8 nobomb
@@ -49,11 +56,11 @@ set wildmenu
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip  " MacOSX/Linux- Some file types not to search with
 
 " Turn off save swaps wipes out history counts! Undo OK
-set noswapfile  " No swap files
-set nowritebackup
-set nobackup
+"set noswapfile  " No swap files
+"set nowritebackup
+"set nobackup
 set viminfo='0,f0,%  " If no ARG won't use the file at all
-set history=200  " Need to confirm this with backups off! 
+set history=1000  " Need to confirm this with backups off! 
 set undolevels=200  " Confirm this 
 " set updatecount=100  " switch every 100 chars
 
@@ -61,13 +68,12 @@ set laststatus=2  " Always show a status line even if only 1 window
 set ignorecase  " Default to using case insensitive searches
 set smartcase  " if search has Capital letter be sensitive to that
 set smarttab  " Handle tabs more intelligently
-set hlsearch  "Highlight searches by default
+set hlsearch  " Highlight searches by default
 set incsearch  " Incrementally search while typing a /regex
-set ruler  " Set ruler
+set ruler
 set magic
 
-" 2 line number commands
-" See  http://vim.wikia.com/wiki/Display_line_numbers 
+"2 line number commands, see  http://vim.wikia.com/wiki/Display_line_numbers 
 set number " Show line numbers 
 " set relativenumber  " Display line number relative to cursor
 
@@ -79,6 +85,7 @@ highlight! link ColorColumn CursorColumn " 1st time to see this link notation
 set cursorcolumn  " cursorcolumn (cuc) enabled
 
 syntax on
+syntax enable
 set synmaxcol=2048  " Syntax coloring too-long lines is slow????
 set showmode
 set showmatch  " Show matching brackets
@@ -91,18 +98,16 @@ set shortmess+=a  " Use [+]/[RO]/[w] for modified/readonly/written
 set confirm  " Y-N-C prompt if closing with unsaved changes
 set autochdir  " Change to DIR of the file you just opened say you used a filepath
 
-set term=xterm-256color  "Some color schemes need these 3 lines
-set t_Co=256
-syntax enable
-
+set term=xterm-256color  "Some color schemes need these 2 lines
+" set t_Co=256
 
 set mouse-=a   " Disable mouse
 set mousehide  " Hide mouse after chars typed
 
-set novisualbell  " No blinking
 set noerrorbells  " No noise I hope no CLUNK!
 set vb t_vb= " disable any beeps or flashes on error
 set visualbell  " Use visual bell instead of beeping when doing something wrong
+" set novisualbell  " No blinking
 
 set backspace=2  " Delete (backspace) Key works on Mac OS X
 
@@ -143,7 +148,7 @@ nnoremap <C-H> <C-W><C-H>
 " colorscheme gothic
 " colorscheme aqua
 " colorscheme earth
-colorscheme slate
+" colorscheme slate
 " colorscheme torte
 " colorscheme murphy
 " colorscheme koehler
@@ -172,11 +177,8 @@ colorscheme slate
 " colorscheme hybridline
 " colorscheme hybrid
 " colorscheme kalisi
-" colorscheme light
-" colorscheme lucius
 " colorscheme luna
 " colorscheme monochrome
-" colorscheme powerlineish
 " colorscheme raven
 " colorscheme serene
 " colorscheme silver
@@ -188,8 +190,8 @@ colorscheme slate
 
 " colorscheme inkpot
 " colorscheme kolor
-" colorscheme railscasts
-" colorscheme candycode
+colorscheme railscasts
+" colorscheme candycode " nice scheme & less busy with no cursorline
 
 " Netrw Settings!
 " let g:netrw_preview=1  " open previews 0=horiz 1=vert & works with alto
@@ -204,24 +206,14 @@ let g:netrw_silent=1  " NETRW messages arrive silently=1 or otherwise=2
 " let g:netrw_special_syntax=1  " fg bg cterm effects poss. Eval. this
 let g:netrw_banner=0  " no banner
 
-" Powerline Statusline
-" call vam#ActivateAddons(['powerline'])
-set fillchars+=stl:\ ,stlnc:\
-let g:Powerline_symbols = 'fancy'
-
 " Syntastic recommmends these settings as a first until used to it
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-
-" YouCompleteMe stuff here
-let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-" let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
 
 " Python support to the EOF
 let python_highlight_all=1
@@ -234,26 +226,23 @@ au BufRead,BufNewFile *.py,*.pyw	set textwidth=79
 au BufRead,BufNewFile *.py,*.pyw	set autoindent
 au BufRead,BufNewFile *.py,*.pyw	set fileformat=unix
 " Python workflow script not working
-" au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 " js html css indents
-au BufNewFile,BufRead *.js, *.html, *.css
-    \ set tabstop=2
-    \ set softtabstop=2
-    \ set shiftwidth=2
+au BufNewFile,BufRead *.js, *.html, *.css set tabstop=2 set softtabstop=2 set shiftwidth=2
 
 "python with virtualenv support
-py << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-	project_base_dir = os.environ['VIRTUAL_ENV']
-	activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-	execfile(activate_this, dict(__file__ = activate_this))
-EOF
+"py << EOF
+"import os
+"import sys
+"if 'VIRTUAL_ENV' in os.environ:
+"	project_base_dir = os.environ['VIRTUAL_ENV']
+"	activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+"	execfile(activate_this, dict(__file__ = activate_this))
+"EOF
 
 " Load up virtualenv's vimrc if it exists
-if filereadable($VIRTUAL_ENV . '/.vimrc')
-	source $VIRTUAL_ENV/.vimrc
-endif
+"if filereadable($VIRTUAL_ENV . '/.vimrc')
+"	source $VIRTUAL_ENV/.vimrc
+"endif
 
-source ~/.mascpar  " Gmail.vim line
+" source ~/.mascpar  " Gmail.vim line
