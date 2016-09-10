@@ -93,7 +93,32 @@ extract () {
         else
              echo "'$1' is not a valid file"
         fi
-}
+	}
+
+#    Hosts file info
+ ii() {
+	echo -e "\nYou are logged on ${RED}$HOST"
+	echo -e "\nAdditionnal information:$NC " ; uname -a
+	echo -e "\n${RED}Users logged on:$NC " ; w -h
+	echo -e "\n${RED}Current date :$NC " ; date
+	echo -e "\n${RED}Machine stats :$NC " ; uptime
+	echo -e "\n${RED}Current network location :$NC " ; scselect
+	echo -e "\n${RED}Public facing IP Address :$NC " ;myip
+	#echo -e "\n${RED}DNS Configuration:$NC " ; scutil --dns
+	echo
+	}
+
+# My USER Processes
+my_ps() { ps $@ -u $USER -o pid,%cpu,%mem,start,time,bsdtime,command ; }
+findPid () { lsof -t -c c "$@" ; }
+#   memHogsTop, memHogsPs:  Find memory hogs
+#   -----------------------------------------------------
+alias memHogsTop='top -l 1 -o rsize | head -20'
+alias memHogsPs='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
+#   cpuHogs:  Find CPU hogs
+#   -----------------------------------------------------
+alias cpu_hogs='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
+alias ttop="top -R -F -s 10 -o rsize"  # Low Resource Top
 
 zipf () { zip -r "$1".zip "$1" ; }  # zipf:Create a ZIP archive of a folder
 spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; } #Mac spotlight metadata search
@@ -117,6 +142,17 @@ CYAN='\033[0;36m'  #0;36=Lt,1;36=Dk
 WHITE='\033[1;37m'  #0;37=Lt Gray but 1:37=White
 ENDCOLOR='\033[0m'
 BLINK='\033[5;32;47m'  #Blinking GreenFG on GrayBG
+
+#   Git aliases
+#   ------------------------------------------------------------
+alias ga='git add -A'                       #ga:            Git add all files
+alias gs='git status'                       #gs:            Git status
+alias gc='git commit -m'                    #gc:            Git commit w/ message
+alias gpu='git pull'                        #gpu:           Git pull
+alias gp='git push'                         #gp:            Git push
+alias gr='git revert HEAD'                  #gr:            Git revert HEAD
+
+set -o vi  # Add Vi editing in Bash -Do a $ bind -P to check
 
 export CURL_CA_BUNDLE=~/.ssh/cacert.pem
 
