@@ -1,6 +1,3 @@
-"Vimrc direct from the Vundle README page
-" Will add other stuff after getting it working
-
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -9,7 +6,7 @@ set rtp+=~/.vim/bundle/Vundle.vim  " Set RTP from REL path to include Vundle & i
 call vundle#begin()
 " alternatively, pass a path where Vundle should install plugins
 "call vundle#begin('~/some/path/here')
-Plugin 'VundleVim/Vundle.vim'  " let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
 " Add all Plugins you want installed between vundle#begin/end.
 Plugin 'tpope/vim-fugitive'  " vim-fugitive plugin for  Git
 Plugin 'tpope/vim-commentary'  " Comment Uncomment code with gc
@@ -47,6 +44,7 @@ let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 1
 
 let &path = $path . 'c:\Program files\git\bin'  " Gmail PATH for gmail.vim
+" source ~/.mascpar  " Gmail.vim line
 
 set encoding=utf-8 nobomb
 set nomodeline
@@ -76,6 +74,11 @@ set magic
 "2 line number commands, see  http://vim.wikia.com/wiki/Display_line_numbers 
 set number " Show line numbers 
 " set relativenumber  " Display line number relative to cursor
+
+" Enable folding -Eval or use Plugin-tmhedberg/SimpylFold
+set foldmethod=indent
+set foldlevel=99
+nnoremap <space> za   " Remap to spacebar from za
 
 set cul  " highlight current cursorline (cul)
 hi CursorLine term=none cterm=none ctermbg=3  " adjust color
@@ -122,8 +125,8 @@ let mapleader = "," " remains in effect in Bash so switched off
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>  " Hit ,ev to edit-vert .vimrc
 nnoremap <leader>sv :source $MYVIMRC<cr>  " Hit ,sv to quick so .vimrc
 
-" set splitbelow
-" set splitright
+set splitbelow
+set splitright
 
 " split screen navigations
 nnoremap <C-J> <C-W><C-J>
@@ -132,7 +135,7 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " Flazz Color Choices
-" colorscheme wombat
+colorscheme wombat
 " colorscheme molokai
 " colorscheme elflord
 " colorscheme zenburn
@@ -190,7 +193,7 @@ nnoremap <C-H> <C-W><C-H>
 
 " colorscheme inkpot
 " colorscheme kolor
-colorscheme railscasts
+" colorscheme railscasts
 " colorscheme candycode " nice scheme & less busy with no cursorline
 
 " Netrw Settings!
@@ -245,4 +248,3 @@ au BufNewFile,BufRead *.js, *.html, *.css set tabstop=2 set softtabstop=2 set sh
 "	source $VIRTUAL_ENV/.vimrc
 "endif
 
-" source ~/.mascpar  " Gmail.vim line
