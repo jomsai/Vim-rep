@@ -27,27 +27,21 @@ PATH=/opt/local/bin:$PATH   #Where Py3 is
 VISUAL=/opt/local/bin/vim; export VISUAL
 EDITOR=/opt/local/bin/vim; export EDITOR
 PAGER=/usr/bin/less; export PAGER
+SHELL=/usr/local/bin/bash
 
-# Type psman <cmd> and Opens Man Page in Preview.app
-psman()
-{
-man -t "${1}" | open -f -a /Applications/Preview.app/
-}
-
-# Commands to fix sudo. I prefer > command | xargs sudo
+# Commands to fix sudo. I prefer command | xargs sudo
 # alias ll | sed "s/.*'\(.*\)'.*/\1/g" | xargs sudo  use when sudo needed
 alias sudo='sudo '
+alias sbb='sudo $(fc -ln -1)'  # sudo !! shortcut
 alias exp='export -p'  #List of all Shell VAR declared
 alias env='printenv'   #Same as above via another command. Shows _ VAR
-alias ..='cd ../'                # Go back 1 directory level
-alias .2='cd ../../'             # Go back 2 directory levels
-alias .3='cd ../../../'          # Go back 3 directory levels
-alias .4='cd ../../../../'       # Go back 4 directory levels
-alias .5='cd ../../../../../'    # Go back 5 directory levels
-alias .6='cd ../../../../../../' # Go back 6 directory levels
-#cd() { builtin cd "$@"; ll; }
-cd() { builtin cd "$@" && ls -FGlAhpi; }
-alias ls='ls -FGlAhpi'  # Preferred 'ls' implementation
+alias bashv="/usr/local/bin/bash --version | grep darwin | cut -c 19-30"
+alias ..='cd ..'                # Go back 1 directory level
+alias ...='cd ../..'             # Go back 2 directory levels
+alias ....='cd ../../../'          # Go back 3 directory levels
+alias .....='cd ../../../../'       # Go back 4 directory levels
+alias ......='cd ../../../../../'    # Go back 5 directory levels
+alias ls='ls -FGlAhpi'
 alias l.='ls -d .* -G'
 alias lss='ls -al | less'
 alias lg='ls -al | grep ' #just add a term to search for
@@ -75,8 +69,7 @@ alias nface="scutil --nwi | grep interfaces: | cut -c 21-23"
 alias intip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
 alias intips="ifconfig $nface | grep inet | cut -d ' ' -f2"  #inet4 & inet6 intIP
 alias extip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias myip='curl ip.appspot.com'  # Occ. reliable IP Site
-alias myip2="curl icanhazip.com"   # Eval new IP site
+alias myip="curl icanhazip.com"  #site curl ip.appspot.com is unreliable 
 alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 alias ipcfg="nface | xargs ipconfig getpacket"  #ARG before COMMAND with xargs
 alias rules='sudo pfctl -sa | less'
@@ -86,10 +79,11 @@ alias shopt='shopt'   # Show_options: display bash options settings
 alias flushDNS='dscacheutil -flushcache' # flushDNS: Flush out the DNS Cache
 alias tdump="tcpdump -i $nface > ~/Desktop/tdump.txt" # TCPDUMP Active interface
 alias spk='say "What the hell do you want from me"'
-alias so='source ~/.bash_profile && cp ~/.bash_profile ~/.bash_profile.bak && cp ~/.bash_profile ~/Desktop/bash_profile.txt'
+alias so='source ~/.bash_profile && cp ~/.bash_profile ~/.bash_profile.bak && cp ~/.bash_profile ~/Vim-rep/dotfiles/bash_profile.txt'
 # To Source my .vimrc works but exits 1 due to Vundle ERR so next requires || 
-alias sovim='source .vimrc || cp .vimrc .vimrc.bak && cp .vimrc ~/Desktop/VIMRC.txt'
+alias sovim='source .vimrc || cp .vimrc .vimrc.bak && cp .vimrc ~/Vim-rep/dotfiles/VIMRC.txt'
 alias vimcp='cp .vimrc .vimrc.bak && cp .vimrc ~/Desktop/VIMRC.txt'
+alias sotmux='tmux source-file ~/.tmux.conf && cp ~/.tmux.conf ~/.tmux.conf.bak && cp ~/.tmux.conf ~/Vim-rep/dotfiles/tmux.conf.txt'
 alias chrome="open -a \"Google Chrome\""
 alias bp="$EDITOR ~/.bash_profile"  # Quick access to the file in Vim
 alias ax="chmod 700"  ## Make executable by me only
@@ -100,6 +94,17 @@ alias flush="sudo killall -HUP mDNSResponder"
 echo -e "ALERT *\\*/ ${PURPLE}${WBG}MOTD${NC}"  #Message in Purple on Yellow
 #Needs work==>  echo -e "${CYAN}${WBG}BASH Version ${which --version} - for $USER${NC}"
 echo -e "MOTD \033[107;38;5;199m Semper fi \033[33;48;5;52m Fuhgettaboutit${NC}"
+
+cd() { builtin cd "$@" && ls -FGlAhpi; }
+
+# Type psman <cmd> and Opens Man Page in Preview.app
+psman()
+{
+man -t "${1}" | open -f -a /Applications/Preview.app/
+}
+
+# Function to move to new DIR when created. cd - then toggles last 2 DIR
+function mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\""; }
 
 # extract any file compression type
 extract () {
@@ -213,9 +218,6 @@ export LESS_TERMCAP_se=$'\033[0m'
 export LESS_TERMCAP_so=$'\033[01;44;33m'
 export LESS_TERMCAP_ue=$'\033[0m'
 export LESS_TERMCAP_us=$'\033[01;32m'
-
-# Bash Upgrade version in use not SYS /bin/bash BASH_VERSION one.
-alias bashv="/usr/local/bin/bash --version | grep darwin | cut -c 19-30"
 
 NC='\033[0m'  # NO COLOR RESET back to Default
 BLINK='\033[5;32;47m'  #Blinking GreenFG on GrayBG
