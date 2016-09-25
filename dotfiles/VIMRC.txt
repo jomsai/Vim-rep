@@ -19,6 +19,7 @@ Plugin 'Syntastic'  " Syntastic for Vim Syntax Hilighting
 Plugin 'flazz/vim-colorschemes' " Color Schemes that work great!
 " Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'powerline/fonts'
+Plugin 'tmux-plugins/vim-tmux'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -74,6 +75,7 @@ set magic
 "2 line number commands, see  http://vim.wikia.com/wiki/Display_line_numbers 
 set number " Show line numbers 
 " set relativenumber  " Display line number relative to cursor
+" set numberwidth=5
 
 " Enable folding -Eval or use Plugin-tmhedberg/SimpylFold
 set foldmethod=indent
@@ -84,6 +86,8 @@ set cul  " highlight current cursorline (cul)
 hi CursorLine term=none cterm=none ctermbg=3  " adjust color
 " Some Column stuff I need to evaluate
 set colorcolumn=81  " 80-column line
+" set textwidth=80  "Show where 80 CHAR ends
+" set colorcolumn=+1
 highlight! link ColorColumn CursorColumn " 1st time to see this link notation
 set cursorcolumn  " cursorcolumn (cuc) enabled
 
@@ -134,8 +138,11 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+" Run Commands that require interactive Shell
+" nnoremap <Leader>r :RunInInteractiveShell<space>
+
 " Flazz Color Choices
-colorscheme wombat
+" colorscheme wombat
 " colorscheme molokai
 " colorscheme elflord
 " colorscheme zenburn
@@ -143,7 +150,6 @@ colorscheme wombat
 " colorscheme desert
 " colorscheme evening
 " colorscheme pablo
-" colorscheme peachpuff
 " colorscheme desert256
 " colorscheme breeze
 " colorscheme morning
@@ -191,7 +197,7 @@ colorscheme wombat
 " colorscheme ir_black
 " colorscheme peaksea
 
-" colorscheme inkpot
+colorscheme inkpot
 " colorscheme kolor
 " colorscheme railscasts
 " colorscheme candycode " nice scheme & less busy with no cursorline
