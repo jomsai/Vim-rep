@@ -20,29 +20,22 @@ setw -g xterm-keys on  # Xterm Key Binding
 set -g base-index 1  # Count Sessions from 1 on
 
 # Title and Status Bar Settings
-set -g set-titles on
+set -g set-titles off
 #set -option -g set-titles-string ' [#S:#I #H] #W'
 set -g status on
 set -g status-position bottom  #set -g status-position [bottom | top]
-#set -g utf8 on  # set -g status-utf8 on
 set-option -g status-style bg=black  #set -g status-bg black
 set -g status-fg white
 set -g status-justify centre
-#set -g status-justify left
 set -g status-interval 5 
 set -g status-left-length 50 #90
 set -g status-right-length 50 #60
 set -g status-left "#[fg=Green]#(whoami)#[fg=white]::#[fg=cyan]#{pane_current_path}#[fg=white]::#[fg=yellow]#(curl ipecho.net/plain;echo)#[fg=white]"
 set -g status-right 'Batt: #{battery_icon} #{battery_percentage} #{battery_remain} | %a %h-%d %H:%M '
-#set -g status-right " #[fg=Cyan]#S [ #(~/bin/imap_check.py)] #[fg=magenta]%H:%M: %a %d-%h-%Y"
-#set -g status-right '#[fg=green][#[fg=blue]%Y-%m-%d #[fg=white]%H:%M#[default] #($HOME/bin/battery)#[fg=green]]'
-#set -g status-right "#[fg=colour155]#(pmset -g batt | ~/bin/battinfo.rb) | #[fg=colour45]%d %b %R"
 #set -g status-right '#[fg=Cyan]#S #[fg=white]%a %d %b %R'
 setw -g window-status-current-format "#[fg=cyan,reverse]#{pane_current_path}::#W "
 set-window-option -g automatic-rename off
 #set -g bell-action any
-#bind V split-window -h
-#bind H split-window
 
 # Tmux Continuum from Default Settings if needed
 #set -g @continuum-save-interval '60'  #Default is 15 minutes

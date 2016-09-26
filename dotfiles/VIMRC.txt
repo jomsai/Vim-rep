@@ -3,32 +3,22 @@ filetype off                  " required
 
 " Vundle Plugin Manager setup starts here
 set rtp+=~/.vim/bundle/Vundle.vim  " Set RTP from REL path to include Vundle & initialize
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+call vundle#begin()  " Add all Plugins you want installed between vundle#begin/end.
 Plugin 'VundleVim/Vundle.vim'
-" Add all Plugins you want installed between vundle#begin/end.
 Plugin 'tpope/vim-fugitive'  " vim-fugitive plugin for  Git
 Plugin 'tpope/vim-commentary'  " Comment Uncomment code with gc
 Plugin 'yuratomo/gmail.vim'  " Gmail inside Vim no need for elinks
 Plugin 'git://github.com/Shougo/vimproc.git'
 Plugin 'Syntastic'  " Syntastic for Vim Syntax Hilighting
-" git repos on your local machine (i.e. when working on your own plugin)
-" Plugin 'file:///home/gmarik/path/to/plugin'
-" Plugin 'Valloric/YouCompleteMe' " YCM tab completion
 Plugin 'flazz/vim-colorschemes' " Color Schemes that work great!
-" Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'powerline/fonts'
 Plugin 'tmux-plugins/vim-tmux'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-
-" All of your Plugins must be added before the following line
-call vundle#end()  " required
+call vundle#end()  " required & No Plugins past this line
 filetype plugin indent on  " required
-" To ignore plugin indent changes, instead use:
-" filetype plugin on
+" To ignore plugin indent changes, instead use: filetype plugin on
 
 " Brief Vundle help
 " :PluginList       - lists configured plugins
@@ -36,9 +26,8 @@ filetype plugin indent on  " required
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 " see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
 
-" Vim-Airlines stuff
+" Vim-Airline stuff
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
@@ -47,6 +36,8 @@ let g:airline_powerline_fonts = 1
 let &path = $path . 'c:\Program files\git\bin'  " Gmail PATH for gmail.vim
 " source ~/.mascpar  " Gmail.vim line
 
+syntax on
+syntax enable
 set encoding=utf-8 nobomb
 set nomodeline
 set clipboard=unnamed
@@ -78,21 +69,19 @@ set number " Show line numbers
 " set numberwidth=5
 
 " Enable folding -Eval or use Plugin-tmhedberg/SimpylFold
-set foldmethod=indent
-set foldlevel=99
-nnoremap <space> za   " Remap to spacebar from za
+"set foldmethod=indent
+"set foldlevel=99
+"nnoremap <space> za   " Remap to spacebar from za
 
-set cul  " highlight current cursorline (cul)
-hi CursorLine term=none cterm=none ctermbg=3  " adjust color
 " Some Column stuff I need to evaluate
-set colorcolumn=81  " 80-column line
+set cul  " highlight current cursorline (cul)
+"hi CursorLine term=none cterm=none ctermbg=3  " adjust color
+"set colorcolumn=81  " 80-column line
 " set textwidth=80  "Show where 80 CHAR ends
-" set colorcolumn=+1
-highlight! link ColorColumn CursorColumn " 1st time to see this link notation
-set cursorcolumn  " cursorcolumn (cuc) enabled
+"set colorcolumn=+1
+" highlight! link ColorColumn CursorColumn " 1st time to see this link notation
+set cuc  " cursorcolumn (cuc) enabled
 
-syntax on
-syntax enable
 set synmaxcol=2048  " Syntax coloring too-long lines is slow????
 set showmode
 set showmatch  " Show matching brackets
@@ -106,7 +95,7 @@ set confirm  " Y-N-C prompt if closing with unsaved changes
 set autochdir  " Change to DIR of the file you just opened say you used a filepath
 
 set term=xterm-256color  "Some color schemes need these 2 lines
-" set t_Co=256
+set t_Co=256
 
 set mouse-=a   " Disable mouse
 set mousehide  " Hide mouse after chars typed
@@ -162,7 +151,7 @@ nnoremap <C-H> <C-W><C-H>
 " colorscheme murphy
 " colorscheme koehler
 " colorscheme relaxedgreen
-" colorscheme darkblack
+colorscheme darkblack
 " colorscheme chocolateliquor
 " colorscheme less
 " colorscheme impact
@@ -197,7 +186,7 @@ nnoremap <C-H> <C-W><C-H>
 " colorscheme ir_black
 " colorscheme peaksea
 
-colorscheme inkpot
+" colorscheme inkpot
 " colorscheme kolor
 " colorscheme railscasts
 " colorscheme candycode " nice scheme & less busy with no cursorline
