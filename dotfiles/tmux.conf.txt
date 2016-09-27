@@ -13,7 +13,7 @@ set -g status-interval 5
 
 # focus events enabled for terminals that support them
 set -g focus-events on
-# super useful when using "grouped sessions" and multi-monitor setup
+# Useful when using "grouped sessions" and multi-monitor setup
 #setw -g aggressive-resize on
 
 setw -g xterm-keys on  # Xterm Key Binding
@@ -30,7 +30,8 @@ set -g status-justify centre
 set -g status-interval 5 
 set -g status-left-length 50 #90
 set -g status-right-length 50 #60
-set -g status-left "#[fg=Green]#(whoami)#[fg=white]::#[fg=cyan]#{pane_current_path}#[fg=white]::#[fg=yellow]#(curl ipecho.net/plain;echo)#[fg=white]"
+#set -g status-left "#[fg=Green]#(whoami)#[fg=white]::#[fg=cyan]#{pane_current_path}#[fg=white]::#[fg=yellow]#(curl ipecho.net/plain;echo)#[fg=white]"
+set -g status-left "#[fg=Green]#(whoami)#[fg=white]::#[fg=yellow]#(curl ipecho.net/plain;echo)#[fg=white]"
 set -g status-right 'Batt: #{battery_icon} #{battery_percentage} #{battery_remain} | %a %h-%d %H:%M '
 #set -g status-right '#[fg=Cyan]#S #[fg=white]%a %d %b %R'
 setw -g window-status-current-format "#[fg=cyan,reverse]#{pane_current_path}::#W "
@@ -41,6 +42,7 @@ set-window-option -g automatic-rename off
 #set -g @continuum-save-interval '60'  #Default is 15 minutes
 #set -g @continuum-save-interval '0'  #If you need Auto Saves Off a while
 
+# Things To Remember
 #Colours=black, red, green, yellow, blue, magenta, cyan, white
 #Colour Attr: bright dim, underscore, blink, reverse, hidden, or italics
 #==>Quick PANE RECYCLING

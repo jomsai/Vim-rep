@@ -151,7 +151,7 @@ nnoremap <C-H> <C-W><C-H>
 " colorscheme murphy
 " colorscheme koehler
 " colorscheme relaxedgreen
-colorscheme darkblack
+" colorscheme darkblack
 " colorscheme chocolateliquor
 " colorscheme less
 " colorscheme impact
@@ -178,15 +178,13 @@ colorscheme darkblack
 " colorscheme luna
 " colorscheme monochrome
 " colorscheme raven
-" colorscheme serene
-" colorscheme silver
 " colorscheme simple
 " colorscheme term
 " colorscheme understated
 " colorscheme ir_black
 " colorscheme peaksea
 
-" colorscheme inkpot
+colorscheme inkpot
 " colorscheme kolor
 " colorscheme railscasts
 " colorscheme candycode " nice scheme & less busy with no cursorline
