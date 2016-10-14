@@ -159,7 +159,7 @@ nnoremap <C-H> <C-W><C-H>
 " colorscheme freya
 " colorscheme black_angus
 " colorscheme badwolf
-" colorscheme jellybeans
+colorscheme jellybeans
 " colorscheme laederon
 " colorscheme bubblegum
 " colorscheme ubaryd
@@ -184,7 +184,7 @@ nnoremap <C-H> <C-W><C-H>
 " colorscheme ir_black
 " colorscheme peaksea
 
-colorscheme inkpot
+" colorscheme inkpot
 " colorscheme kolor
 " colorscheme railscasts
 " colorscheme candycode " nice scheme & less busy with no cursorline

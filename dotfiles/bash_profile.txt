@@ -9,7 +9,7 @@
 #export PS1="\033[33;104m \]\t \u  \W  [ \$?! ]==>$\[\033[0m\] "
 #export PS1="\033[92;44m \]\t \u  \W  [ \$?! ]==>$\[\033[0m\]"
 #export PS1="\033[34;41m \]\t \u  \W  [ \$?! ]==>$\[\033[0m\] "
-export PS1=">\T][->\W:>>\u->>\$?!->-\\$\[$(tput sgr0)\]" #Online PS1 Generator
+#export PS1=">\T][->\W:>>\u->>\$?!->-\\$\[$(tput sgr0)\]" #Online PS1 Generator
 #export PS1='\033[0;33m\]\u\[\033[0m\]@\[\033[0;32m\]\h\[\033[0m\]:\[\033[0;34m\]\w\[\033[0m\]\$ '
 #export PS1='\033[0;33m\]\u\[\033[0m\]@\[\033[0;32m\]\W\[\033[0m\]:\[ \$?! ]:\[\033[0;34m\]\w\[\033[0m\]\$ '
 #export PS1="\a\$"
@@ -18,8 +18,9 @@ export PS1=">\T][->\W:>>\u->>\$?!->-\\$\[$(tput sgr0)\]" #Online PS1 Generator
 #export PS1="\u@\h [\$(ls | wc -l)]:\$ "  # ls | wc -l in prompt
 #export PS1="\033[36m\]\u\[\033[37m\]@\[\033[33;1m\]\w\[\033[m\]\[\033[32m\]\[\033[m\]\]$ "
 # Working COMBO 3 color 16 & 256 with exit code in 2nd Color
-#export PS1="\033[107;38;5;199m \]\t \u \033[0;107;32m \w  \033[33;48;5;52m [ \$?! ]==>\$${NC} "
+#export PS1="\033[107;38;5;199m \]\t \u \033[0;107;32m \w  \033[33;48;5;52m [ \$?! ]==>$NC$ "
 #export PS1="\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
+PS1="\[$(tput bold)\]\[$(tput setaf 2)\]\t \[$(tput setaf 6)\][\u \[$(tput setaf 3)\]\W \[$(tput setaf 6)\]]\[$(tput setaf 5)\]=[ $?! ]\[$(tput setaf 6)\]>\\$ \[$(tput sgr0)\]"
 
 PATH=/opt/pkg/bin/vim:$PATH  #Where Vim 7.4 is
 PATH=/Library/Frameworks/Python.framework/Versions/3.5/bin/:$PATH   #Where Py3 is
@@ -32,7 +33,7 @@ SHELL=/usr/local/bin/bash
 # alias ll | sed "s/.*'\(.*\)'.*/\1/g" | xargs sudo  use when sudo needed
 alias sudo='sudo '
 alias sbb='sudo $(fc -ln -1)'  # sudo !! shortcut
-alias exp='export -p'  #List of all Shell VAR declared
+alias env2='export -p'  #List of all Shell VAR declared
 alias env='printenv'   #Same as above via another command. Shows _ VAR
 alias bashv="/usr/local/bin/bash --version | grep darwin | cut -c 19-30"
 alias ..='cd ..'                # Go back 1 directory level
@@ -48,11 +49,14 @@ alias lswc='ls -al | wc -l'  # Items in DIR via ls with word count
 alias lsl='ls -lah@e -G | less'
 alias less='less -FSRXc'  # Preferred 'less' implementation
 alias c='clear'
+alias ebp="$EDITOR ~/.bash_profile"  # Quick access to the file in Vim
+alias evmrc="$EDITOR ~/.vimrc"
 alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)'
 alias sha1='openssl dgst -sha1 '
 alias sha256='openssl dgst -sha256 '
 alias sha512='openssl dgst -sha512 '
 alias h='history'
+alias hd="tail -n 35 /var/log/daily.out | grep /dev/disk1 | awk {'print \$5'}"  #Mac HD Avail Space
 alias j='jobs -l'
 alias p3='ping -c 3 -s 1'
 alias p1='scutil -r ${intip} 8.8.8.8'  # simple ping reachable?
@@ -60,11 +64,11 @@ alias fastping='ping -c 100 -s.2'
 alias routes='netstat -r'
 alias tcp='netstat -anp tcp'
 alias udp='netstat -anp udp'
-alias ports='sudo lsof -i | grep LISTEN'  # ports: All listen connections
+alias ports="sudo lsof -i | grep LISTEN && netstat -an | grep LISTEN"  #ports: listen connections x2
 alias listen='netstat -anp tcp | grep LISTEN'  # listen: All listen connections
 alias sock='lsof -i'  #All open TCP/IP Sockets
 alias loop='netstat -anp tcp | grep 127.0.0.1'  # Loopback interface tcp stats
-alias nface="scutil --nwi | grep interfaces: | cut -c 21-23"
+alias nface="scutil --nwi | grep interfaces: | cut -c 21-23"  #LINUX  netstat -r | grep default | awk '{print $8}'
 alias intip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
 alias intips="ifconfig $nface | grep inet | cut -d ' ' -f2"  #inet4 & inet6 intIP
 alias extip="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -74,9 +78,17 @@ alias ipcfg="nface | xargs ipconfig getpacket"  #ARG before COMMAND with xargs
 alias rules='sudo pfctl -sa | less'
 ql () { qlmanage -p "$*" >& /dev/null; }  # Quicklook any file in Preview
 alias path='echo -e ${PATH//:/\\n}'  # path: Echo all executable Paths
+alias psname="ps -o comm= -p $1"
 alias shopt='shopt'   # Show_options: display bash options settings
 alias flushDNS='dscacheutil -flushcache' # flushDNS: Flush out the DNS Cache
-alias tdump="tcpdump -i $nface > ~/Desktop/tdump.txt" # TCPDUMP Active interface
+alias term_size='echo "Rows=$(tput lines) Cols=$(tput cols)"'
+#alias tdump="sudo tcpdump $nface >> ~/Desktop/tdump.txt" # TCPDUMP Active interface
+alias tdump="sudo tcpdump -i${nface} -nnvXXSs 1514 -c2000 -w ~/Desktop/tdump2k.pcap"
+alias tdumpping="sudo tcpdump -nnvXXSs 1514 icmp -c200 -w ~/Desktop/tdumpping.pcap"
+# tcpdump with 9 second timeout so no need for Ctrl-c Need Work
+#alias tdump="sudo timeout 9 bash -c tcpdump $nface >> ~/Desktop/tdump.txt" # TCPDUMP Active interface
+alias yt="youtube-dl $1 > ~/Downloads/$1"
+
 alias spk='say "What the hell do you want from me"'
 alias so='source ~/.bash_profile && cp ~/.bash_profile ~/.bash_profile.bak && cp ~/.bash_profile ~/Vim-rep/dotfiles/bash_profile.txt'
 # To Source my .vimrc works but exits 1 due to Vundle ERR so next requires || 
@@ -85,7 +97,6 @@ alias vimcp='cp .vimrc .vimrc.bak && cp .vimrc ~/Desktop/VIMRC.txt'
 alias sotmux='tmux source-file ~/.tmux.conf && cp ~/.tmux.conf ~/.tmux.conf.bak && cp ~/.tmux.conf ~/Vim-rep/dotfiles/tmux.conf.txt'
 alias tmux3='tmux && tmux split-window -v -l 30 && tmux split-window -h'
 alias chrome="open -a \"Google Chrome\""
-alias bp="$EDITOR ~/.bash_profile"  # Quick access to the file in Vim
 alias ax="chmod 700"  ## Make executable by me only
 alias cpwd='pwd|tr -d "\n"|pbcopy'
 alias flush="sudo killall -HUP mDNSResponder"
@@ -95,6 +106,10 @@ alias cpu="iostat"
 echo -e "ALERT *\\*/ ${PURPLE}${WBG}MOTD${NC}"  #Message in Purple on Yellow
 #Needs work==>  echo -e "${CYAN}${WBG}BASH Version ${which --version} - for $USER${NC}"
 echo -e "MOTD \033[107;38;5;199m Semper fi \033[33;48;5;52m Fuhgettaboutit${NC}"
+# tput SETAF style syntax for MOTD
+echo -e "${bldgrn}Green tput ${bldmag}MOTD${txtrst}"
+echo "${reverse} Reverse Current FGBG Text MOTD${txtrst}"
+printf '\e[38;5;222;48;5;238m  Hi  \e[m\n'
 
 cd() { builtin cd "$@" && ls -FGlAhpi; }
 
@@ -106,8 +121,10 @@ man -t "${1}" | open -f -a /Applications/Preview.app/
 
 # Function to move to new DIR when created. cd - then toggles last 2 DIR
 function mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\""; }
+# function to print nunbers down the screen as per $1 e.g. count 6
+function count(){ python -c "for num in xrange($1):print num";}
 
-# extract any file compression type
+# extract function for any Archive Compression Type
 extract () {
         if [ -f $1 ] ; then
           case $1 in
@@ -129,6 +146,12 @@ extract () {
         fi
 	}
 
+#========Archive Aliases
+alias mktar='tar -cvf'
+alias mkbz2='tar -cvjf'
+alias mkgz='tar -cvzf'
+#========
+
 #    Hosts file info
 ii()
 {
@@ -142,9 +165,24 @@ ii()
 	echo -e "\n${BROWN}Machine stats :" ; uptime
 	echo -e "\n${GREEN}CPU Stats: " ; iostat
 	echo -e "\n${CYAN}Disk Usage:" ; df -h
-	echo -e "\n${GreenBrownBG}DNS Configuration:" ; scutil --dns | head -n 12
-	printf "${CYAN}Current date :" ; date
+	printf "\n${GreenBrownBG}DNS Configuration:" ; scutil --dns | head -n 12
+	printf "${CYAN}Current date : $NC" ; date
 	echo
+}
+
+# No more cd ../../../
+up() {
+	local d=""
+	limit=$1
+	for ((i=1; i<=limit; i++))
+		do
+			d=$d/..
+		done
+	d=$(echo $d | sed 's/^\///')
+	if [ -z "$d" ]; then
+		d=..
+	fi
+	cd $d
 }
 
 # My USER Processes
@@ -164,6 +202,8 @@ spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; } #Mac spotlight metadata 
 
 # Make your directories and files access rights sane. For EVAL.
 #function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
+
+#====Colors MISC====
 
 #colors below=>osxdaily.com/2012/02/21/add-color-to-the-terminal-in-mac-os-x/
 # 2 Color choices to Terminal NOW it works great!
@@ -208,7 +248,7 @@ BlackYellowBG='\033[1;103;30m'
 CyanGrayBG='\033[1;107;36m'
 BlackGreenBG='\033[1;102;30m'
 YellowMaroonBG='\033[1;88;226m'  # Yellow Text MaroonBG 256 Colors
-NC='\033[0m'  # NO COLOR RESET back to Default
+NC="\033[0m"  # NO COLOR RESET back to Default
 BLINK='\033[5;32;47m'  #Blinking GreenFG on GrayBG
 
 # LESS man page colors (makes Man pages more readable).
@@ -219,6 +259,23 @@ export LESS_TERMCAP_se=$'\033[0m'
 export LESS_TERMCAP_so=$'\033[01;44;33m'
 export LESS_TERMCAP_ue=$'\033[0m'
 export LESS_TERMCAP_us=$'\033[01;32m'
+
+# tput SETAF Text 8 color variables
+txtund=$(tput sgr 0 1)  # Underline
+txtbld=$(tput bold)   # Bold
+bldred=${txtbld}$(tput setaf 1) #  red
+bldgrn=${txtbld}$(tput setaf 2) #  green
+bldyel=${txtbld}$(tput setaf 3) #  yellow
+bldblu=${txtbld}$(tput setaf 4) #  blue
+bldmag=${txtbld}$(tput setaf 5) #  magenta
+bldcyn=${txtbld}$(tput setaf 6) #  cyan
+bldwht=${txtbld}$(tput setaf 7) #  white
+reverse=${txtbld}$(tput rev) 	# reverse FGBG
+txtrst=$(tput sgr0)   			# Reset
+info=${bldwht}*${txtrst}   		# Feedback
+pass=${bldblu}*${txtrst}
+warn=${bldred}*${txtrst}
+ques=${bldblu}?${txtrst}
 
 #   Git aliases
 #   ------------------------------------------------------------
@@ -231,10 +288,23 @@ alias gr='git revert HEAD'                  #gr:            Git revert HEAD
 
 export CURL_CA_BUNDLE=~/.ssh/cacert.pem
 
+export HISTFILESIZE=20000
+export HISTSIZE=10000
+export HISTCONTROL=erasedups:ignoredups:ignorespace
+shopt -s checkwinsize  #update winsize if needed
+shopt -s histappend   #try to list long commands on 1 line
+PROMPT_COMMAND='history -a'
+
+
 # Things to remember
 # Sample Prompts syntax "\033[fg;bgm\] symbolic \[\033[0m\]"
-
+#  mkdir dirname && cd $_   #  makes dir=dirname and cds to it
 # Setting PATH for Python 3.5
 # The original version is saved in .bash_profile.pysave
 PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
 export PATH
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+
+
