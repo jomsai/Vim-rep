@@ -65,6 +65,7 @@ alias j='jobs -l'
 alias p3='ping -c 3 -s 1'
 alias p1='scutil -r ${intip} 8.8.8.8'  # simple ping reachable?
 alias fastping='ping -c 100 -s.2'
+alias dnsping="scutil --dns | tail -n1 | cut -c 14-26" #MacOS Reachable or Not Reachable
 alias routes='netstat -r'
 alias tcp='netstat -anp tcp'
 alias udp='netstat -anp udp'
@@ -310,11 +311,17 @@ done
 color {232..255}
 }
 
-# OK 16 Million COLORS also
+# 16 million COLOR Test Function that works
 print16millcolors()
 {
-	for r in {200..255..5}; do fb=4;g=1;b=1;printf '\033[0;%s8;2;%s;%s;%sm   ' "$fb" "$r" "$g" "$b"; done; echo	
+	fb=3;r=255;g=1;b=1;printf '\033[0;%s8;2;%s;%s;%sm▒▒▒ ' "$fb" "$r" "$g" "$b"
 }
+
+# OK 16 Million COLORS also but does not work
+#print16millcolors2()
+#{
+#	for r in {200..255..5}; do fb=4;g=1;b=1;printf '\033[0;%s8;2;%s;%s;%sm   ' "$fb" "$r" "$g" "$b"; done; echo	
+#}
 
 # Mixed Colors -BOLD element1 Easy to  REV FGBG change 1 to 7
 WhiteGrayBG='\033[1;47;88m'
