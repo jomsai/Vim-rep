@@ -115,6 +115,12 @@ echo -e "${bldgrn}Green tput ${bldmag}MOTD${txtrst}"
 echo "${reverse} Reverse Current FGBG Text MOTD${txtrst}"
 printf '\e[38;5;222;48;5;238m  Hi  \e[m\n'
 
+# Server will SHUTDOWN Message function using tput 6 or CYAN
+gohome()
+{
+	tput setaf 6; echo "The Server will SHUTDOWN in 15 minutes so SAVE and go home"
+}
+
 cd() { builtin cd "$@" && ls -FGlAhpi; }
 
 # Type psman <cmd> and Opens Man Page in Preview.app
@@ -264,6 +270,50 @@ print8colors()
 	echo -e "\033[0;35;47m Magenta  \033[0m 0;35m \t\033[1;35;40m DarkMagenta\033[0m 1;35m"
 	echo -e "\033[0;36;47m Cyan     \033[0m 0;36m \t\033[1;36;40m Dark Cyan  \033[0m 1;36m"
 	echo -e "\033[0;37;47m LightGray\033[0m 0;37m \t\033[1;37;40m White      \033[0m 1;37m"
+}
+
+
+# 16 COLOR Function --NOTE can crash terminator
+print16colors()
+{
+for clbg in {40..47} {100..107} 49 ; do
+	#Foreground
+	for clfg in {30..37} {90..97} 39 ; do
+		#Formatting
+		for attr in 0 1 2 4 5 7 ; do
+			#Print the result
+			echo -en "\033[${attr};${clbg};${clfg}m ^[${attr};${clbg};${clfg}m \033[0m"
+		done
+		echo #Newline
+	done
+done
+exit 0
+}
+
+
+# 256 COLOR function #2
+# color_256_function_for_loop_tput.sh
+print256colors2()
+{
+color()
+{ 
+	for c; do
+		printf '\e[48;5;%dm%03d' $c $c
+		done
+		printf '\e[0m \n'
+}
+IFS=$' \t\n'
+color {0..15}
+for ((i=0;i<6;i++)); do
+	color $(seq $((i*36+16)) $((i*36+51)))
+done
+color {232..255}
+}
+
+# OK 16 Million COLORS also
+print16millcolors()
+{
+	for r in {200..255..5}; do fb=4;g=1;b=1;printf '\033[0;%s8;2;%s;%s;%sm   ' "$fb" "$r" "$g" "$b"; done; echo	
 }
 
 # Mixed Colors -BOLD element1 Easy to  REV FGBG change 1 to 7
