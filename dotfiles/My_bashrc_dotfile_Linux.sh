@@ -112,6 +112,7 @@ alias gr='git revert HEAD'                  #gr:    Git revert HEAD
 alias gd="git diff --color"					#gd:	Git diff in color
 alias glog='git log'
 alias gco='git checkout'
+alias gk='gitk --all&' alias gx='gitx --all'
 #alias gt="git today --since='1 days agos'"	#gt:	Git last 24 hours
 #alias gl="git log --pretty=format:'%h %ad | %s [%an]' --graph --since='30 days agos' --color"
 

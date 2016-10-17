@@ -387,6 +387,9 @@ alias gd="git diff --color"			#gd:	Git diff in color
 alias gt="git today --since='1 day ago'"	#gt:	Git last 24 hours
 alias gl="git log --pretty=format:'%h %ad | %s [%an]' --graph --since='30 days ago' --color"
 alias gogit='cd ~/Vim-rep && gs'
+alias gk='gitk --all&'
+alias gx='gitx --all'
+# NOTE: hist alias in .gitconfig used as git hist gives a pretty=format history
 # https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
 source ~/git-completion.bash   # need the file from URL above in ~
 
