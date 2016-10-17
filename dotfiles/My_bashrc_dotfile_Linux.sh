@@ -119,6 +119,14 @@ alias iptlistout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers'
 alias iptlistfw='sudo /sbin/iptables -L FORWARD -n -v --line-numbers'
 alias firewall=iptlist
 
+#===================VM Management================#
+#====cpu#==64bit=or=32==Intel=vmx=AMD=svm=etc====#
+alias cpuinfo='cat /proc/cpuinfo | grep --color -E "vmx|svm|lm"'
+alias cpus='grep processor /proc/cpuinfo'
+alias cpuspecs='head /proc/cpuinfo'
+alias cpuram='free -m'
+alias cpuswap='free -m'
+alias vmsize='ls -Rh ~/VirtualBox\ VMs/ | grep .vdi'
 
 ########NEED WORK FOR LINUX########
 #alias routes='netstat -r'
@@ -239,8 +247,6 @@ function count(){ python -c "for num in xrange($1):print num";}
 # Make your directories and files access rights sane. For EVAL.
 #function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
 
-
-
 #====================Message Center==============#
 #== echo -e for ESC, \033 works > \e on MacOS====#
 #== quoting () work but also generate error
@@ -262,7 +268,6 @@ gohome()
 {
 tput setaf 6; echo "The Server will SHUTDOWN in 15 minutes so SAVE and go home"
 }
-
 
 #Test Display for 256 COLOR display
 print256colors()
