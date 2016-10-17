@@ -103,6 +103,7 @@ alias mkgz='tar -cvzf'
 alias ga='git add -A'                       #ga:    Git add all files
 alias gb='git branch'
 alias gcob='git checkout -b'
+alias gf='git fetch'
 alias gs='git status'                       #gs:    Git status
 alias gc='git commit -m'                    #gc:    Git commit w/ message
 alias gpu='git pull'                        #gpu:   Git pull

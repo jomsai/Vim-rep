@@ -379,6 +379,7 @@ ques=${bldblu}?${txtrst}
 alias ga='git add -A'                   	#ga:            Git add all files
 alias gs='git status'                       	#gs:            Git status
 alias gc='git commit -m'                   	#gc:            Git commit w/ message
+alias gf='git fetch'
 alias gpu='git pull'                        	#gpu:           Git pull
 alias gp='git push'                         	#gp:            Git push
 alias gr='git revert HEAD'                  	#gr:            Git revert HEAD
