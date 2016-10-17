@@ -107,8 +107,9 @@ alias gpu='git pull'                        #gpu:   Git pull
 alias gp='git push'                         #gp:    Git push
 alias gr='git revert HEAD'                  #gr:    Git revert HEAD
 alias gd="git diff --color"					#gd:	Git diff in color
-alias gt="git today --since='1 days agos'"	#gt:	Git last 24 hours
-alias gl="git log --pretty=format:'%h %ad | %s [%an]' --graph --since='30 days agos' --color"
+alias glog='git log'
+#alias gt="git today --since='1 days agos'"	#gt:	Git last 24 hours
+#alias gl="git log --pretty=format:'%h %ad | %s [%an]' --graph --since='30 days agos' --color"
 
 # Git aliases from https://gist.github.com/ald890/9089169
 #alias g="git"
@@ -176,10 +177,9 @@ alias fhere="find . -name "
 alias h='history'
 alias j='jobs'
 alias less='less -R --tabs=4' # colorful 'less', tab stops = 4
-alias md="mkdir -pv"
+alias mkdir='mkdir -p -v'
 alias mount='mount |column -t'
 alias now='date +"%T"'
-alias path='echo -e ${PATH//:/\\n}'
 alias now='date +"%T"'
 alias nowtime=now
 alias nowdate='date +"%d-%m-%Y"'
