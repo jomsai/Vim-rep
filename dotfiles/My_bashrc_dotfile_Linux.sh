@@ -20,8 +20,6 @@ export HISTCONTROL=erasedups:ignoredups:ignorespace
 #====My PS1 from Kirsle Online PS1 generator=====#
 PS1="\[$(tput bold)\]\[$(tput setaf 3)\]\t\[$(tput setaf 2)\][\[$(tput setaf 4)\] \u \[$(tput setaf 1)\]]==> \[$(tput setaf 3)\]\h \[$(tput setaf 6)\] \W ]\[$(tput bold)\]\[$(tput setaf 2)\][ $?! ]\[$(tput setaf 4)\][[>\[$(tput setaf 1)\]\\$ \[$(tput sgr0)\]"
 
-
-
 #====================Aliases=====================#
 #======================ls========================#
 #==Set ls then others should call same options===#
@@ -123,9 +121,17 @@ alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)'
 alias ping3='ping -c3 -s1 8.8.8.8'
 alias fastping='ping -c 100 -s.2'
 alias nface="ip -s link | grep 2: | cut -d ' ' -f2" #Linux
-#alias dnsping="scutil --dns | tail -n1 | cut -c 14-26" #MacOS
-#alias nface="scutil --nwi | grep interfaces: | cut -c 21-23" #MacOS
 #alias nface="  netstat -r | grep default | awk '{print $8}'" #Linux
+alias intip="ifconfig | grep Bcast | cut -c 21-34"
+alias extip="curl icanhazip.com"
+alias extip2="dig +short myip.opendns.com @resolver1.opendns.com"
+alias routes='netstat -r'
+alias tcp='netstat -anp tcp'
+alias udp='netstat -anp udp'
+alias ports="sudo lsof -i | grep LISTEN && netstat -an | grep LISTEN"  #ports: listen connections x2
+alias listen='netstat -anp tcp | grep LISTEN'  # listen: All listen connections
+alias sock='lsof -i'  #All open TCP/IP Sockets
+alias loop='netstat -anp tcp | grep 127.0.0.1'  # Loopback interface tcp stats
 
 #===================IPTables=====================#
 ##======shortcut  for iptables with sudo=========#
@@ -146,21 +152,6 @@ alias cpuspecs='head /proc/cpuinfo'
 alias cpuram='free -m'
 alias cpuswap='free -m'
 alias vmsize='ls -Rh ~/VirtualBox\ VMs/ | grep .vdi'
-
-########NEED WORK FOR LINUX########
-#alias routes='netstat -r'
-#alias tcp='netstat -anp tcp'
-#alias udp='netstat -anp udp'
-#alias ports="sudo lsof -i | grep LISTEN && netstat -an | grep LISTEN"  #ports: listen connections x2
-#alias listen='netstat -anp tcp | grep LISTEN'  # listen: All listen connections
-#alias sock='lsof -i'  #All open TCP/IP Sockets
-#alias loop='netstat -anp tcp | grep 127.0.0.1'  # Loopback interface tcp stats
-#alias nface="scutil --nwi | grep interfaces: | cut -c 21-23"  #LINUX  netstat -r | grep default | awk '{print $8}'
-#alias intip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
-#alias intips="ifconfig $nface | grep inet | cut -d ' ' -f2"  #inet4 & inet6 intIP
-#alias extip="dig +short myip.opendns.com @resolver1.opendns.com"
-#alias myip="curl icanhazip.com"  #site curl ip.appspot.com is unreliable 
-#alias ipcfg="nface | xargs ipconfig getpacket"  #ARG before COMMAND with xargs
 
 #================Misc Aliases====================#
 #==============Some safer Options================#
@@ -184,9 +175,7 @@ alias grep='grep --color=auto'
 alias fhere="find . -name "
 alias h='history'
 alias j='jobs'
-alias intip="ifconfig | grep Bcast | cut -c 21-34"
-alias extip="curl icanhazip.com"
-alias extip2="dig +short myip.opendns.com @resolver1.opendns.com"
+alias less='less -R --tabs=4' # colorful 'less', tab stops = 4
 alias md="mkdir -pv"
 alias mount='mount |column -t'
 alias now='date +"%T"'
