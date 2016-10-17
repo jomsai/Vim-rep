@@ -29,11 +29,13 @@ alias ls='ls -XhailcF --color=auto'
 alias ll="ls -lv --group-directories-first"
 alias lss='ls | less'  # ls+less
 alias lsn='ls -n'  # UID PID instead of names
-
 alias lsrev='ls -r'  #reverse alphabetical sort
 alias lsize='ls -S'   #Sort by file size
 alias lmod='ls -tlc'  # Sort by Mod Time, New 1st
 alias lswc='ls | wc -l'  # This ls has many lines?
+alias ld='ls -d */'   # only Dirs
+alias l.='ls -dAFh .[^.]*'  # ls only Dotfiles
+alias lst='ls -hFtal | grep $(date +%Y-%m-%d)' #ls Today
 
 #======================cd========================#
 alias ..='cd ..'
@@ -369,7 +371,8 @@ trap _exit EXIT
 #PATH=/Library/Frameworks/Python.framework/Versions/3.5/bin/:$PATH   #Where Py3 is
 
 #alias ls='ls -FGlAhpi'
-#alias l.='ls -d .* -G'
+#alias l.='\ls -d .* -G'  #dotfiles without ls opts above & MacOS
+#alias l.l='ls -d .* -G'   #dotfiles with ls opts above & MacOS
 #alias lss='ls -al | less'
 #alias lst='ls -ailhGtc'  # Sort by time
 #alias lg='ls -al | grep ' #just add a term to search for

@@ -58,6 +58,8 @@ alias lst='ls -ailhGtc'  # Sort by time
 alias lstr='ls -ctr'  # Sort Time but in reverse
 alias lswc='ls -al | wc -l'  # Items in DIR via ls with word count
 alias lsl='ls -lah@e -G | less'
+alias ld='ls -d */' # only Dirs
+#alias lst='ls -hFtal | grep $(date +%Y-%m-%d)' #ls Today
 alias less='less -FSRXc'  # Preferred 'less' implementation
 alias c='clear'
 alias ebp="$EDITOR ~/.bash_profile"  # Quick access to the file in Vim
@@ -383,6 +385,7 @@ alias gr='git revert HEAD'                  #gr:            Git revert HEAD
 alias gd="git diff --color"					#gd:	Git diff in color
 alias gt="git today --since='1 day ago'"	#gt:	Git last 24 hours
 alias gl="git log --pretty=format:'%h %ad | %s [%an]' --graph --since='30 days ago' --color"
+alias gogit='cd ~/Vim-rep && gs'
 
 export CURL_CA_BUNDLE=~/.ssh/cacert.pem
 
