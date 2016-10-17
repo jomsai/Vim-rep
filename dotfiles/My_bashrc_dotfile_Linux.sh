@@ -48,7 +48,7 @@ alias ......='cd ../../../../../'
 alias sudo='sudo '
 alias sbb='sudo $(fc -ln -1)'  # sudo !! shortcut
 
-#=============Backup & Source Dotfiles===========#
+#=============My Backup & Source Dotfiles========#
 alias apt3='sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && echo "YYaawwwzzzaaa"'
 alias so='source ~/.bashrc && cp ~/.bashrc ~/.bashrc.bak && cp ~/.bashrc ~/Desktop/bashrc.txt && echo "Bashrc on the desktop"'
 alias sovim='source ~/.vimrc && cp ~/.vimrc ~/.vimrc.bak && cp ~/.vimrc ~/Desktop/vimrc.txt && echo "Vimrc on the desktop"'
@@ -72,21 +72,24 @@ alias path='echo -e ${PATH//:/\\n}'  # executable Paths
 alias shoptvar='shopt -p' # ShowALL & u=OFF, s=ON status
 alias shopton='shopt -s'    # Show all s=ON
 alias shoptoff='shopt -u'   # Show all u=OFF
-
-# Enable options:
-#shopt -s cdspell
-shopt -s cdable_vars
-shopt -s checkhash
+#=Bash Options=shopt -s=set -u=unset options=====#
+# -p=ListALLOptions -q=EXIT0 if set 1 if not=====#
+#= -o=List all SET env Options that are set on===#
+#shopt -s cdspell  #small spell autocorrects
+shopt -s cdable_vars  # cd ls assumes DIR where ls is
+shopt -s checkhash   # ls (does exist? yes ok do it)
 shopt -s checkwinsize   #update winsize if needed
-shopt -s sourcepath
+#shopt -s sourcepath  #Already Default enabled
 shopt -s no_empty_cmd_completion
-shopt -s cmdhist
-shopt -s histappend histreedit histverify
 shopt -s extglob   # Needed for programmable completion
 #histappend --try to list long commands on 1 line
 # Disable options: # No shell warn incoming mail
 shopt -u mailwarn
 unset MAILCHECK
+#====history related shopt options
+shopt -s cmdhist #Saves all of a long cmd in history
+shopt -s histappend histreedit histverify
+PROMPT_COMMAND='history -a'
 
 #==============Archival & Packaging==============#
 #=======Note: Also zipf & extract Functions======#
@@ -96,7 +99,7 @@ alias mkbz2='tar -cvjf'
 alias mkgz='tar -cvzf'
 
 
-#================Networking====================#
+#==================Networking====================#
 alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)'
 alias ping3='ping -c3 -s1 8.8.8.8'
 alias fastping='ping -c 100 -s.2'
@@ -104,6 +107,18 @@ alias nface="ip -s link | grep 2: | cut -d ' ' -f2" #Linux
 #alias dnsping="scutil --dns | tail -n1 | cut -c 14-26" #MacOS
 #alias nface="scutil --nwi | grep interfaces: | cut -c 21-23" #MacOS
 #alias nface="  netstat -r | grep default | awk '{print $8}'" #Linux
+
+#===================IPTables=====================#
+##======shortcut  for iptables with sudo=========#
+alias ipt='sudo /sbin/iptables'
+ 
+# display all rules #
+alias iptlist='sudo /sbin/iptables -L -n -v --line-numbers'
+alias iptlistin='sudo /sbin/iptables -L INPUT -n -v --line-numbers'
+alias iptlistout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers'
+alias iptlistfw='sudo /sbin/iptables -L FORWARD -n -v --line-numbers'
+alias firewall=iptlist
+
 
 ########NEED WORK FOR LINUX########
 #alias routes='netstat -r'
@@ -121,25 +136,26 @@ alias nface="ip -s link | grep 2: | cut -d ' ' -f2" #Linux
 #alias ipcfg="nface | xargs ipconfig getpacket"  #ARG before COMMAND with xargs
 
 #================Misc Aliases====================#
-alias c='/usr/bin/clear'
+#==============Some safer Options================#
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
-alias diff='colordiff'
 alias cp='cp -i'
+alias mv='mv -i'
+alias ln='ln -i'
+alias rm='rm -I --preserve-root' #Interactive > 3 files & nada under /
+
+
+alias c='/usr/bin/clear'
+alias diff='colordiff'
 alias du='du -kh'
 alias df='df -kTh'
 
-alias env='printenv'
-alias env2='export -p'
-
-alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
 alias h='history'
-alias ipt='sudo /sbin/iptables'
-
-
+alias j='jobs'
 alias intip="ifconfig | grep Bcast | cut -c 21-34"
 alias extip="curl icanhazip.com"
 alias extip2="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -150,10 +166,7 @@ alias now='date +"%T"'
 alias nowtime=now
 alias nowdate='date +"%d-%m-%Y"'
 # bc format example -Remeber to install bc
-
-alias j='jobs'
-alias ln='ln -i'
-
+alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)'
 alias os='ip route'
 
 alias sha1='openssl dgst -sha1 '
@@ -185,8 +198,7 @@ up() {
 	cd $d
 }
 
-
-# Make sure these commands are down via root
+# Make sure these commands are done via root
 # I have an alias for this already sudo included
 # Maybe other commands can use this
 if [ $UID -ne 0 ]; then
@@ -219,7 +231,6 @@ extract () {
 	fi
 }
 
-
 # Function to move to new DIR when created. cd - then toggles last 2 DIR
 function mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\""; }
 # function to print nunbers down the screen as per $1 e.g. count 6
@@ -231,12 +242,19 @@ function count(){ python -c "for num in xrange($1):print num";}
 
 
 #====================Message Center==============#
+#== echo -e for ESC, \033 works > \e on MacOS====#
+#== quoting () work but also generate error
 echo -e "ALERT *\\*/ ${PURPLE}${WBG}MOTD${NC}"  #Message in Purple on Yellow
 #Needs work==>  echo -e "${CYAN}${WBG}BASH Version ${which --version} - for $USER${NC}"
-echo -e "MOTD \033[107;38;5;199m Semper fi \033[33;48;5;52m Fuhgettaboutit${NC}"
-# tput SETAF style syntax for MOTD
+echo -e "MOTD \033[107;38;5;199m Fuhgettaboutit \033[33;48;5;52m Semper fi ${NC}"
+echo -e "$GreenBrownBG Conf in 10 minutes NOT MANDATORY... Free Cookies! $NC"
+echo -e "${BlackYellowBG} Welcome to a new day! ${NC}"
+# tput SETAF style syntax for MOTD and quoting () work but also generate error
 echo -e "${bldgrn}Green tput ${bldmag}MOTD${txtrst}"
+echo "$bldgrn Help me I am out of Oreos! $txtrst"
+echo "${bldmag} Party at the Boss House 7PM! ${txtrst}"
 echo "${reverse} Reverse Current FGBG Text MOTD${txtrst}"
+
 printf '\e[38;5;222;48;5;238m  Hi  \e[m\n'
 
 # Server SHUTDOWN Message function using tput 6 or CYAN
@@ -315,9 +333,7 @@ function _exit()
 }
 trap _exit EXIT
 
-
-
-
+#================END Message Center==============#
 
 #====Mac OS Only Aliases Functions & Scripts=====#
 
@@ -461,7 +477,7 @@ PBG='\033[45m'
 CBG='\033[46m'
 WBG='\033[47m'
 
-# Mixed Colors -BOLD element1 Easy to  REV FGBG change 1 to 7
+# Mixed Colors(8 and 256) -BOLD element1 Easy to REV FGBG change 1 to 7
 WhiteGrayBG='\033[1;47;88m'
 GreenBrownBG='\033[1;100;92m'
 BlackYellowBG='\033[1;103;30m' 

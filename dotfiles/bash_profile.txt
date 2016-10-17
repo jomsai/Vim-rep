@@ -107,12 +107,18 @@ alias cpwd='pwd|tr -d "\n"|pbcopy'
 alias flush="sudo killall -HUP mDNSResponder"
 alias cpu="iostat"
 
-#MESSAGE Center when needed
+#====================Message Center==============#
+#== echo -e for ESC, \033 works > \e on MacOS====#
+#== quoting () work but also generate error
 echo -e "ALERT *\\*/ ${PURPLE}${WBG}MOTD${NC}"  #Message in Purple on Yellow
 #Needs work==>  echo -e "${CYAN}${WBG}BASH Version ${which --version} - for $USER${NC}"
-echo -e "MOTD \033[107;38;5;199m Semper fi \033[33;48;5;52m Fuhgettaboutit${NC}"
-# tput SETAF style syntax for MOTD
+echo -e "MOTD \033[107;38;5;199m Fuhgettaboutit \033[33;48;5;52m Semper fi ${NC}"
+echo -e "$GreenBrownBG Conf in 10 minutes NOT MANDATORY... Free Cookies! $NC"
+echo -e "${BlackYellowBG} Welcome to a new day! ${NC}"
+# tput SETAF style syntax for MOTD and quoting () work but also generate error
 echo -e "${bldgrn}Green tput ${bldmag}MOTD${txtrst}"
+echo "$bldgrn Help me I am out of Oreos! $txtrst"
+echo "${bldmag} Party at the Boss House 7PM! ${txtrst}"
 echo "${reverse} Reverse Current FGBG Text MOTD${txtrst}"
 printf '\e[38;5;222;48;5;238m  Hi  \e[m\n'
 
@@ -121,8 +127,9 @@ gohome()
 {
 	tput setaf 6; echo "The Server will SHUTDOWN in 15 minutes so SAVE and go home"
 }
+#==============END Message Center===============#
 
-cd() { builtin cd "$@" && ls -FGlAhpi; }
+cd() { builtin cd "$@" && ls ; }
 
 # Type psman <cmd> and Opens Man Page in Preview.app
 psman()
