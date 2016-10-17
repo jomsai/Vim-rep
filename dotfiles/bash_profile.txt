@@ -373,14 +373,16 @@ pass=${bldblu}*${txtrst}
 warn=${bldred}*${txtrst}
 ques=${bldblu}?${txtrst}
 
-#   Git aliases
-#   ------------------------------------------------------------
+#=================Git aliases===================================#
 alias ga='git add -A'                       #ga:            Git add all files
 alias gs='git status'                       #gs:            Git status
 alias gc='git commit -m'                    #gc:            Git commit w/ message
 alias gpu='git pull'                        #gpu:           Git pull
 alias gp='git push'                         #gp:            Git push
 alias gr='git revert HEAD'                  #gr:            Git revert HEAD
+alias gd="git diff --color"					#gd:	Git diff in color
+alias gt="git today --since='1 day ago'"	#gt:	Git last 24 hours
+alias gl="git log --pretty=format:'%h %ad | %s [%an]' --graph --since='30 days ago' --color"
 
 export CURL_CA_BUNDLE=~/.ssh/cacert.pem
 
