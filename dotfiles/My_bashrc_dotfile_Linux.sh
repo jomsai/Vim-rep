@@ -48,8 +48,9 @@ alias ......='cd ../../../../../'
 alias sudo='sudo '
 alias sbb='sudo $(fc -ln -1)'  # sudo !! shortcut
 
-#=============My Backup & Source Dotfiles========#
+#=============Linux & Dotfiles========#
 alias apt3='sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && echo "YYaawwwzzzaaa"'
+alias sai="sudo apt-get install"
 alias so='source ~/.bashrc && cp ~/.bashrc ~/.bashrc.bak && cp ~/.bashrc ~/Desktop/bashrc.txt && echo "Bashrc on the desktop"'
 alias sovim='source ~/.vimrc && cp ~/.vimrc ~/.vimrc.bak && cp ~/.vimrc ~/Desktop/vimrc.txt && echo "Vimrc on the desktop"'
 
@@ -97,6 +98,27 @@ PROMPT_COMMAND='history -a'
 alias mktar='tar -cvf'
 alias mkbz2='tar -cvjf'
 alias mkgz='tar -cvzf'
+
+#==================Github Aliases================#
+alias ga='git add -A'                       #ga:            Git add all files
+alias gs='git status'                       #gs:            Git status
+alias gc='git commit -m'                    #gc:            Git commit w/ message
+alias gpu='git pull'                        #gpu:           Git pull
+alias gp='git push'                         #gp:            Git push
+alias gr='git revert HEAD'                  #gr:            Git revert HEAD
+alias gd="git diff --color"
+
+# Git aliases from https://gist.github.com/ald890/9089169
+#alias g="git"
+alias g:rollback="git reset --hard HEAD~1"
+alias gb="git reset --soft HEAD~1"
+alias ga="git add ."
+alias gc="git commit -m"
+alias gp="git push"
+alias gt="git today --since='1 days agos'"
+alias gl="git log --pretty=format:'%h %ad | %s [%an]' --graph --since='30 days agos' --color"
+
+
 
 
 #==================Networking====================#
@@ -153,7 +175,7 @@ alias mv='mv -i'
 alias ln='ln -i'
 alias rm='rm -I --preserve-root' #Interactive > 3 files & nada under /
 
-
+#alias -- -="cd -" # Have no idea about this. Gotta know.
 alias c='/usr/bin/clear'
 alias diff='colordiff'
 alias du='du -kh'
@@ -162,11 +184,13 @@ alias df='df -kTh'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias grep='grep --color=auto'
+alias fhere="find . -name "
 alias h='history'
 alias j='jobs'
 alias intip="ifconfig | grep Bcast | cut -c 21-34"
 alias extip="curl icanhazip.com"
 alias extip2="dig +short myip.opendns.com @resolver1.opendns.com"
+alias md="mkdir -pv"
 alias mount='mount |column -t'
 alias now='date +"%T"'
 alias path='echo -e ${PATH//:/\\n}'
@@ -517,15 +541,6 @@ info=${bldwht}*${txtrst}   		# Feedback
 pass=${bldblu}*${txtrst}
 warn=${bldred}*${txtrst}
 ques=${bldblu}?${txtrst}
-
-#==================Github Aliases================#
-alias ga='git add -A'                       #ga:            Git add all files
-alias gs='git status'                       #gs:            Git status
-alias gc='git commit -m'                    #gc:            Git commit w/ message
-alias gpu='git pull'                        #gpu:           Git pull
-alias gp='git push'                         #gp:            Git push
-alias gr='git revert HEAD'                  #gr:            Git revert HEAD
-
 
 #===============Evaluation Stuff=================#
 

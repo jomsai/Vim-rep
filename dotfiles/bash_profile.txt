@@ -22,6 +22,13 @@
 #export PS1="\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
 PS1="\[$(tput bold)\]\[$(tput setaf 2)\]\t \[$(tput setaf 6)\][\u \[$(tput setaf 3)\]\W \[$(tput setaf 6)\]]\[$(tput setaf 5)\]=[ $?! ]\[$(tput setaf 6)\]>\\$ \[$(tput sgr0)\]"
 
+
+
+alias fhere="find . -name "
+
+
+
+
 PATH=/opt/pkg/bin/vim:$PATH  #Where Vim 7.4 is
 PATH=/Library/Frameworks/Python.framework/Versions/3.5/bin/:$PATH   #Where Py3 is
 VISUAL=/opt/local/bin/vim; export VISUAL
