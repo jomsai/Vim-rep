@@ -101,6 +101,8 @@ alias mkgz='tar -cvzf'
 
 #==================Github Aliases================#
 alias ga='git add -A'                       #ga:    Git add all files
+alias gb='git branch'
+alias gcob='git checkout -b'
 alias gs='git status'                       #gs:    Git status
 alias gc='git commit -m'                    #gc:    Git commit w/ message
 alias gpu='git pull'                        #gpu:   Git pull
@@ -108,6 +110,7 @@ alias gp='git push'                         #gp:    Git push
 alias gr='git revert HEAD'                  #gr:    Git revert HEAD
 alias gd="git diff --color"					#gd:	Git diff in color
 alias glog='git log'
+alias gco='git checkout'
 #alias gt="git today --since='1 days agos'"	#gt:	Git last 24 hours
 #alias gl="git log --pretty=format:'%h %ad | %s [%an]' --graph --since='30 days agos' --color"
 
@@ -117,6 +120,8 @@ alias glog='git log'
 #alias g:rollback="git reset --hard HEAD~1"
 #alias gb="git reset --soft HEAD~1"
 
+# https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
+source ~/git-completion.bash   # need the file from URL above in ~
 #==================Networking====================#
 alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)'
 alias ping3='ping -c3 -s1 8.8.8.8'
