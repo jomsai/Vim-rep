@@ -14,7 +14,6 @@ export HISTSIZE=10000
 export HISTCONTROL=erasedups:ignoredups:ignorespace
 #export DISPLAY
 
-
 #=!!!!!!=====Need more shopt dircolors here======#
 
 #====My PS1 from Kirsle Online PS1 generator=====#
@@ -23,15 +22,16 @@ PS1="\[$(tput bold)\]\[$(tput setaf 3)\]\t\[$(tput setaf 2)\][\[$(tput setaf 4)\
 #====================Aliases=====================#
 #======================ls========================#
 #==Set ls then others should call same options===#
-alias ls='ls -XhailcF --color=auto'
-alias ll="ls -lv --group-directories-first"
+#====t=time=r=reverse=u=dict=d=dir=n=#notname====#
+alias ls='ls -hailFX --color=auto'
+alias ll='ls -lv --group-directories-first'
 alias lss='ls | less'  # ls+less
 alias lsn='ls -n'  # UID PID instead of names
 alias lsrev='ls -r'  #reverse alphabetical sort
 alias lsize='ls -S'   #Sort by file size
 alias lmod='ls -tlc'  # Sort by Mod Time, New 1st
 alias lswc='ls | wc -l'  # This ls has many lines?
-alias ld='ls -d */'   # only Dirs
+alias ld='ls -d */'   # only Dirs try ls -d .
 alias l.='ls -dAFh .[^.]*'  # ls only Dotfiles
 alias lst='ls -hFtal | grep $(date +%Y-%m-%d)' #ls Today
 
@@ -112,7 +112,8 @@ alias gr='git revert HEAD'                  #gr:    Git revert HEAD
 alias gd="git diff --color"					#gd:	Git diff in color
 alias glog='git log'
 alias gco='git checkout'
-alias gk='gitk --all&' alias gx='gitx --all'
+alias gk='gitk --all&'
+alias gx='gitx --all'
 #alias gt="git today --since='1 days agos'"	#gt:	Git last 24 hours
 #alias gl="git log --pretty=format:'%h %ad | %s [%an]' --graph --since='30 days agos' --color"
 
@@ -130,6 +131,7 @@ alias ping3='ping -c3 -s1 8.8.8.8'
 alias fastping='ping -c 100 -s.2'
 alias nface="ip -s link | grep 2: | cut -d ' ' -f2" #Linux
 #alias nface="  netstat -r | grep default | awk '{print $8}'" #Linux
+alias os='uname -r'
 alias intip="ifconfig | grep Bcast | cut -c 21-34"
 alias extip="curl icanhazip.com"
 alias extip2="dig +short myip.opendns.com @resolver1.opendns.com"
@@ -192,7 +194,6 @@ alias nowtime=now
 alias nowdate='date +"%d-%m-%Y"'
 # bc format example -Remeber to install bc
 alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)'
-alias os='ip route'
 
 alias sha1='openssl dgst -sha1 '
 alias sha256='openssl dgst -sha256 '

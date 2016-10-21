@@ -20,9 +20,9 @@
 # Working COMBO 3 color 16 & 256 with exit code in 2nd Color
 #export PS1="\033[107;38;5;199m \]\t \u \033[0;107;32m \w  \033[33;48;5;52m [ \$?! ]==>$NC$ "
 #export PS1="\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
-PS1="\[$(tput bold)\]\[$(tput setaf 2)\]\t \[$(tput setaf 6)\][\u \[$(tput setaf 3)\]\W \[$(tput setaf 6)\]]\[$(tput setaf 5)\]=[ $?! ]\[$(tput setaf 6)\]>\\$ \[$(tput sgr0)\]"
+#PS1="\[$(tput bold)\]\[$(tput setaf 2)\]\t \[$(tput setaf 6)\][\u \[$(tput setaf 3)\]\W \[$(tput setaf 6)\]]\[$(tput setaf 5)\]=[ $?! ]\[$(tput setaf 6)\]>\\$ \[$(tput sgr0)\]"
 
-
+PS1="\[$(tput bold)\]\[$(tput setaf 3)\]\t\[$(tput setaf 2)\][\[$(tput setaf 4)\] \u \[$(tput setaf 1)\]]==> \[$(tput setaf 3)\]\h \[$(tput setaf 6)\] \W ]\[$(tput bold)\]\[$(tput setaf 2)\][ $?! ]\[$(tput setaf 4)\][[>\[$(tput setaf 1)\]\\$ \[$(tput sgr0)\]"
 
 alias fhere="find . -name "
 
