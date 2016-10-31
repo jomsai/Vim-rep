@@ -2,7 +2,7 @@
 ##======================Prompt===========================##
 PS1="[$(tput bold)\]\[$(tput setaf 3)\]\t";
 PS1+="\[$(tput setaf 2)\][\[$(tput setaf 4)\] \u ";
-PS1+="\[$(tput setaf 1)\]]==> ";
+PS1+="\[$(tput setaf 1)\]]$(__git_ps1 " (%s)")]==> ";
 PS1+="\[$(tput setaf 3)\]\h ";
 PS1+="\[$(tput setaf 6)\] \W ]";
 PS1+="\[$(tput bold)\]\[$(tput setaf 2)\][ $?! ]";
