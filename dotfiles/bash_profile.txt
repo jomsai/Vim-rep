@@ -1,32 +1,17 @@
-#My Bash Profile dotfile
-#export PS1="\033[0;46m\]<\s-\v$\[\033[0m\]"
-#export PS1="\u@\h\w $ "
-#echo PS1 ---> Output was [\u@\h \W]\$
-#export PS1="\033[0;41m\][>\t  \u@\h \W  [[->\$\[\033[0m\]"
-#export PS1="\[\033[0;41m\][>\t  \u@\h \W  [[->\$\[\033[0m\] "
-#export PS1="\033[37;40m\]]\t\u@\W -->$\[\033[0m\] "
-#export PS1="\033[36;40m \]\t \u  \W  [ \$?! ]==>$\[\033[0m\] "
-#export PS1="\033[33;104m \]\t \u  \W  [ \$?! ]==>$\[\033[0m\] "
-#export PS1="\033[92;44m \]\t \u  \W  [ \$?! ]==>$\[\033[0m\]"
-#export PS1="\033[34;41m \]\t \u  \W  [ \$?! ]==>$\[\033[0m\] "
-#export PS1=">\T][->\W:>>\u->>\$?!->-\\$\[$(tput sgr0)\]" #Online PS1 Generator
-#export PS1='\033[0;33m\]\u\[\033[0m\]@\[\033[0;32m\]\h\[\033[0m\]:\[\033[0;34m\]\w\[\033[0m\]\$ '
-#export PS1='\033[0;33m\]\u\[\033[0m\]@\[\033[0;32m\]\W\[\033[0m\]:\[ \$?! ]:\[\033[0;34m\]\w\[\033[0m\]\$ '
-#export PS1="\a\$"
-#export PS1="\A \h \$"
-#export PS1="\033[s\033[0;0H\033[0;41m\033[K\033[1;33m\t\033[0m\033[u\]<\u@\h \W>\$ "
-#export PS1="\u@\h [\$(ls | wc -l)]:\$ "  # ls | wc -l in prompt
-#export PS1="\033[36m\]\u\[\033[37m\]@\[\033[33;1m\]\w\[\033[m\]\[\033[32m\]\[\033[m\]\]$ "
-# Working COMBO 3 color 16 & 256 with exit code in 2nd Color
-#export PS1="\033[107;38;5;199m \]\t \u \033[0;107;32m \w  \033[33;48;5;52m [ \$?! ]==>$NC$ "
-#export PS1="\[\033[35m\]\t\[\033[m\]-\[\033[36m\]\u\[\033[m\]@\[\033[32m\]\h:\[\033[33;1m\]\w\[\033[m\]\$ "
-#PS1="\[$(tput bold)\]\[$(tput setaf 2)\]\t \[$(tput setaf 6)\][\u \[$(tput setaf 3)\]\W \[$(tput setaf 6)\]]\[$(tput setaf 5)\]=[ $?! ]\[$(tput setaf 6)\]>\\$ \[$(tput sgr0)\]"
-
-PS1="\[$(tput bold)\]\[$(tput setaf 3)\]\t\[$(tput setaf 2)\][\[$(tput setaf 4)\] \u \[$(tput setaf 1)\]]==> \[$(tput setaf 3)\]\h \[$(tput setaf 6)\] \W ]\[$(tput bold)\]\[$(tput setaf 2)\][ $?! ]\[$(tput setaf 4)\][[>\[$(tput setaf 1)\]\\$ \[$(tput sgr0)\]"
+##================MacOS .bash_profile====================##
+##======================Prompt===========================##
+PS1="[$(tput bold)\]\[$(tput setaf 3)\]\t";
+PS1+="\[$(tput setaf 2)\][\[$(tput setaf 4)\] \u ";
+PS1+="\[$(tput setaf 1)\]]==> ";
+PS1+="\[$(tput setaf 3)\]\h ";
+PS1+="\[$(tput setaf 6)\] \W ]";
+PS1+="\[$(tput bold)\]\[$(tput setaf 2)\][ $?! ]";
+PS1+="\[$(tput setaf 4)\][[>";
+PS1+="\[$(tput setaf 1)\]\\$ ";
+PS1+="\[$(tput sgr0)\]";
+export PS1;
 
 alias fhere="find . -name "
-
-
 
 
 PATH=/opt/pkg/bin/vim:$PATH  #Where Vim 7.4 is
@@ -53,7 +38,7 @@ alias l.='ls -d .* -G'
 alias lss='ls -al | less'
 alias lg='ls -al | grep ' #just add a term to search for
 alias lsn='ls -n'  # UID and PID not names
-alias lsz-a='ls -r'  # Rev Alphabetcial Name listing
+alias lsza='ls -r'  # Rev Alphabetcial Name listing
 alias lst='ls -ailhGtc'  # Sort by time
 alias lstr='ls -ctr'  # Sort Time but in reverse
 alias lswc='ls -al | wc -l'  # Items in DIR via ls with word count
@@ -64,6 +49,7 @@ alias less='less -FSRXc'  # Preferred 'less' implementation
 alias c='clear'
 alias ebp="$EDITOR ~/.bash_profile"  # Quick access to the file in Vim
 alias evmrc="$EDITOR ~/.vimrc"
+alias logdump='sudo find / -maxdepth 4 -type f -iname "*log" -print0 | xargs -0 ls -ltrh >> ~/Desktop/log_daily.txt && sudo tail -n7 /private/var/log/fsck_hfs.log'
 alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)'
 alias sha1='openssl dgst -sha1 '
 alias sha256='openssl dgst -sha256 '
@@ -91,6 +77,8 @@ alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 alias ipcfg="nface | xargs ipconfig getpacket"  #ARG before COMMAND with xargs
 alias rules='sudo pfctl -sa | less'
 ql () { qlmanage -p "$*" >& /dev/null; }  # Quicklook any file in Preview
+alias pkgin='sudo pkgin install'
+alias pkgfind='\pkgin avail | grep '
 alias path='echo -e ${PATH//:/\\n}'  # path: Echo all executable Paths
 alias psname="ps -o comm= -p $1"
 alias shopt='shopt'   # Show_options: display bash options settings
@@ -104,10 +92,9 @@ alias tdumpping="sudo tcpdump -nnvXXSs 1514 icmp -c200 -w ~/Desktop/tdumpping.pc
 alias yt="youtube-dl $1 > ~/Downloads/$1"
 
 alias spk='say "What the hell do you want from me"'
-alias so='source ~/.bash_profile && cp ~/.bash_profile ~/.bash_profile.bak && cp ~/.bash_profile ~/Vim-rep/dotfiles/bash_profile.txt'
+alias so='source ~/.bash_profile && cp ~/.bash_profile ~/.bash_profile.bak && cp ~/.bash_profile ~/Vim-rep/dotfiles/bash_profile.txt && echo "Yeah Baby!"'
 # To Source my .vimrc works but exits 1 due to Vundle ERR so next requires || 
-alias sovim='source .vimrc || cp .vimrc .vimrc.bak && cp .vimrc ~/Vim-rep/dotfiles/VIMRC.txt'
-alias vimcp='cp .vimrc .vimrc.bak && cp .vimrc ~/Desktop/VIMRC.txt'
+alias sovim='source .vimrc || cp .vimrc .vimrc.bak && cp .vimrc ~/Vim-rep/dotfiles/VIMRC.txt && echo "Whatttyyyaaaaa"'
 alias sotmux='tmux source-file ~/.tmux.conf && cp ~/.tmux.conf ~/.tmux.conf.bak && cp ~/.tmux.conf ~/Vim-rep/dotfiles/tmux.conf.txt'
 alias tmux3='tmux && tmux split-window -v -l 30 && tmux split-window -h'
 alias chrome="open -a \"Google Chrome\""
@@ -115,21 +102,21 @@ alias ax="chmod 700"  ## Make executable by me only
 alias cpwd='pwd|tr -d "\n"|pbcopy'
 alias flush="sudo killall -HUP mDNSResponder"
 alias cpu="iostat"
+alias top='htop'
 
 #====================Message Center==============#
 #== echo -e for ESC, \033 works > \e on MacOS====#
 #== quoting () work but also generate error
 echo -e "ALERT *\\*/ ${PURPLE}${WBG}MOTD${NC}"  #Message in Purple on Yellow
-#Needs work==>  echo -e "${CYAN}${WBG}BASH Version ${which --version} - for $USER${NC}"
+echo -e "${CYAN}${WBG}BASH Version $(which bash --version) - for $USER${NC}"
 echo -e "MOTD \033[107;38;5;199m Fuhgettaboutit \033[33;48;5;52m Semper fi ${NC}"
 echo -e "$GreenBrownBG Conf in 10 minutes NOT MANDATORY... Free Cookies! $NC"
 echo -e "${BlackYellowBG} Welcome to a new day! ${NC}"
-# tput SETAF style syntax for MOTD and quoting () work but also generate error
 echo -e "${bldgrn}Green tput ${bldmag}MOTD${txtrst}"
 echo "$bldgrn Help me I am out of Oreos! $txtrst"
 echo "${bldmag} Party at the Boss House 7PM! ${txtrst}"
 echo "${reverse} Reverse Current FGBG Text MOTD${txtrst}"
-printf '\e[38;5;222;48;5;238m  Hi  \e[m\n'
+printf '\e[38;5;222;48;5;238m  Hi  \e[0m\n'
 
 # Server will SHUTDOWN Message function using tput 6 or CYAN
 gohome()
@@ -413,6 +400,3 @@ PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
 export PATH
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
-
-
-

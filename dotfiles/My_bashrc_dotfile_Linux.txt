@@ -1,4 +1,4 @@
-#!/bin/bash
+
 #===============File .bashrc Intro===============#
 #========Paths Exports in .bash_profile==========#
 #==============Uncomment as needed===============#
@@ -31,8 +31,9 @@ alias lsrev='ls -r'  #reverse alphabetical sort
 alias lsize='ls -S'   #Sort by file size
 alias lmod='ls -tlc'  # Sort by Mod Time, New 1st
 alias lswc='ls | wc -l'  # This ls has many lines?
-alias ld='ls -d */'   # only Dirs try ls -d .
-alias l.='ls -dAFh .[^.]*'  # ls only Dotfiles
+alias ld='ls -d */'   # only DIR (try ls -dl . or ..)
+alias l.='\ls -dlAFh .[^.]*'  # ls only Dotfiles longform
+#alias l.='ls -dl .*  # Alternate l. DOTFILES longform
 alias lst='ls -hFtal | grep $(date +%Y-%m-%d)' #ls Today
 
 #======================cd========================#
@@ -154,6 +155,22 @@ alias iptlistout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers'
 alias iptlistfw='sudo /sbin/iptables -L FORWARD -n -v --line-numbers'
 alias firewall=iptlist
 
+alias iptstop='sudo service iptables stop'
+alias iptstart='sudo service iptables start'
+alias iptrestart='sudo service iptables restart'
+alias iptsave='sudo iptables-save > ~/Documents/IPTables'
+alias iptrestore='sudo iptables-restore -v ~/Documents/IPTables'
+
+#============Processes==System Services==========#
+alias reboot='sudo systemctl reboot' #All users get a warning
+alias poweroff='sudo systemctl poweroff' #All users get a warning
+alias halt='sudo systemctl halt' #All users get a warning
+alias sysctla='sudo systemctl list-units --all --state=active'
+alias sysctli='sudo systemctl list-units --all --state=inactive'
+alias sysctlall='sudo systemctl list-unit-files --all'
+
+alias top='htop'
+
 #===================VM Management================#
 #====cpu#==64bit=or=32==Intel=vmx=AMD=svm=etc====#
 alias cpuinfo='cat /proc/cpuinfo | grep --color -E "vmx|svm|lm"'
@@ -238,7 +255,6 @@ zipf () { zip -r "$1".zip "$1" ; }  # zipf:Create a ZIP archive of a folder
 extract () {
 	if [ -f $1 ] ; then
 		case $1 in
-			x
 			*.tar.bz2)   tar xjf $1     ;;
 			*.tar.gz)    tar xzf $1     ;;
 			*.bz2)       bunzip2 $1     ;;

@@ -1,0 +1,303 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1504
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;\csgray\c100000;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww23020\viewh17400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 # .bashrc\
+\
+# Source global definitions\
+if [ -f /etc/bashrc ]; then\
+	. /etc/bashrc\
+fi\
+\
+# Uncomment the following line if you don't like systemctl's auto-paging feature:\
+# export SYSTEMD_PAGER=\
+\
+# User specific aliases and functions\
+\
+#===============File .bashrc Intro===============#\
+\
+#====My PS1 from Kirsle Online PS1 generator=====#\
+PS1="\\[$(tput bold)\\]\\[$(tput setaf 3)\\]\\t\\[$(tput setaf 2)\\][\\[$(tput setaf 4)\\] \\u \\[$(tput setaf 1)\\]]==> \\[$(tput setaf 3)\\]\\h \\[$(tput setaf 6)\\] \\W ]\\[$(tput bold)\\]\\[$(tput setaf 2)\\][ $?! ]\\[$(tput setaf 4)\\][[>\\[$(tput setaf 1)\\]\\\\$ \\[$(tput sgr0)\\]"\
+\
+#====================Aliases=====================#\
+#======================ls========================#\
+#==Set ls then others should call same options===#\
+alias ls='ls -XhailcF --color=auto'\
+alias ll='ls -lv --group-directories-first'\
+alias lss='ls | less'  # ls+less\
+alias lsn='ls -n'  # UID PID instead of names\
+alias lsrev='ls -r'  #reverse alphabetical sort\
+alias lsize='ls -S'   #Sort by file size\
+alias lmod='ls -tlc'  # Sort by Mod Time, New 1st\
+alias lmodr='ls -tlcr' # Sort by Modification Time New Last\
+alias lswc='ls | wc -l'  # This ls has many lines?\
+alias ld='ls -d */'   # only Dirs\
+alias l.='\\ls -dAFhl .[^.]*'  # ls only Dotfiles\
+#alias l.='\\ls -dl .*'  # Alternate l. with l option\
+alias lst='ls -hFtal | grep $(date +%Y-%m-%d)' #ls Today\
+\
+#======================cd========================#\
+alias ..='cd ..'\
+alias ...='cd ../../'\
+alias ....='cd ../../../'\
+alias .....='cd ../../../../'\
+alias ......='cd ../../../../../'\
+\
+#==================Fixes for Sudo================#\
+# I prefer command | xargs sudo\
+# alias ll | sed "s/.*'\\(.*\\)'.*/\\1/g" | xargs sudo\
+alias sudo='sudo '\
+alias sbb='sudo $(fc -ln -1)'  # sudo !! shortcut\
+\
+#=============Apt-get & Dotfiles========#\
+#alias apt3='sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && echo "YYaawwwzzzaaa"'\
+alias dnfi='sudo dnf install --show-progress'\
+alias dnfupdate='sudo dnf update && sudo dnf upgrade'\
+alias so='source ~/.bashrc && cp ~/.bashrc ~/.bashrc.bak && cp ~/.bashrc ~/Desktop/BASHRC.txt && echo "Bashrc on the desktop"'\
+alias sotmux='source ~/.tmux.conf && cp ~/.tmux.conf ~/.tmux.conf.bak && cp ~/.tmux.conf ~/Desktop/TMUX.CONF.txt && echo "Gaaawdammm"'\
+alias sovim='source ~/.vimrc && cp ~/.vimrc ~/.vimrc.bak && cp ~/.vimrc ~/Desktop/VIMRC.txt && echo "Vimrc on the desktop"'\
+alias dnffind='sudo dnf update -y && apt-cache search'\
+alias dnfpkgfind='dnf pkgnames'\
+alias dnfall='sudo dnf search .'\
+\
+#===tmux Edit/Source/Backup/Split .tmux.conf=====#\
+alias sotmux='source ~/.tmux.conf && cp ~/.tmux.conf ~/.tmux.conf.bak && cp ~/.tmux.conf ~/Desktop/tmuxconf.txt && echo "TMUX on the desktop"'\
+alias tmuxv='tmux split-window -h -p 40'\
+alias tmuxh='tmux split-window -v -l 30'\
+\
+#=============Edit the Dotfiles==================#\
+alias ebrc='vim ~/.bashrc'\
+alias evrc='vim ~/.vimrc'\
+alias etmux='vim ~/.tmux.conf'\
+#=======Environemental Variables=================#\
+alias env='printenv'\
+alias env2='export -p'\
+alias path='echo -e $\{PATH//:/\\\\n\}'  # executable Paths\
+#=============Environemental Variables shopt=====#\
+alias shoptvar='shopt -p' # ShowALL & u=OFF, s=ON status\
+alias shopton='shopt -s'    # Show all s=ON\
+alias shoptoff='shopt -u'   # Show all u=OFF\
+#=Bash Options=shopt -s=set -u=unset options=====#\
+# -p=ListALLOptions -q=EXIT0 if set 1 if not=====#\
+#= -o=List all SET env Options that are set on===#\
+#shopt -s cdspell  #small spell autocorrects\
+shopt -s cdable_vars  # cd ls assumes DIR where ls is\
+shopt -s checkhash   # ls (does exist? yes ok do it)\
+shopt -s checkwinsize   #update winsize if needed\
+#shopt -s sourcepath  #Already Default enabled\
+shopt -s no_empty_cmd_completion\
+shopt -s extglob   # Needed for programmable completion\
+#histappend --try to list long commands on 1 line\
+# Disable options: # No shell warn incoming mail\
+shopt -u mailwarn\
+unset MAILCHECK\
+#====history related shopt options\
+shopt -s cmdhist #Saves all of a long cmd in history\
+shopt -s histappend histreedit histverify\
+PROMPT_COMMAND='history -a'\
+\
+#==============Archival & Packaging==============#\
+#=======Note: Also zipf & extract Functions======#\
+\
+alias mktar='tar -cvf'\
+alias mkbz2='tar -cvjf'\
+alias mkgz='tar -cvzf'\
+\
+#==================Github Aliases================#\
+alias ga='git add -A'                       #ga:    Git add all files\
+alias gb='git branch'\
+alias gcob='git checkout -b'\
+alias gf='git fetch'\
+alias gs='git status'                       #gs:    Git status\
+alias gc='git commit -m'                    #gc:    Git commit w/ message\
+alias gpu='git pull'                        #gpu:   Git pull\
+alias gp='git push'                         #gp:    Git push\
+alias gr='git revert HEAD'                  #gr:    Git revert HEAD\
+alias gd="git diff --color"					#gd:	Git diff in color\
+alias glog='git log'\
+alias gco='git checkout'\
+alias gk='gitk --all&'\
+alias gx='gitx --all'\
+\
+# Git aliases from https://gist.github.com/ald890/9089169\
+#alias g="git"\
+#alias g:rollback="git reset --hard HEAD~1"\
+#alias gb="git reset --soft HEAD~1"\
+\
+# https://github.com/git/git/blob/master/contrib/completion/git-completion.bash\
+#source ~/git-completion.bash   # need the file from URL above in ~\
+#==================Networking====================#\
+alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)'\
+alias ping3='ping -c3 -s1 8.8.8.8'\
+alias fastping='ping -c 100 -s.2'\
+alias nface="ip -s link | grep 2: | cut -d ' ' -f2" #Linux\
+#alias nface="  netstat -r | grep default | awk '\{print $8\}'" #Linux\
+alias intip="ifconfig | grep Bcast | cut -c 21-34"\
+alias extip="curl icanhazip.com"\
+alias extip2="dig +short myip.opendns.com @resolver1.opendns.com"\
+alias os='uname -r'\
+alias routes='netstat -r'\
+alias tcp='netstat -anp tcp'\
+alias udp='netstat -anp udp'\
+alias ports="sudo lsof -i | grep LISTEN && netstat -an | grep LISTEN"  #ports: listen connections x2\
+alias listen='netstat -anp tcp | grep LISTEN'  # listen: All listen connections\
+alias sock='lsof -i'  #All open TCP/IP Sockets\
+alias loop='netstat -anp tcp | grep 127.0.0.1'  # Loopback interface tcp stats\
+alias tdump='sudo tcpdump -i 1 -c800 -ttt -w ~/Documents/tdump800'\
+\
+#===================IPTables=====================#\
+##======shortcut  for iptables with sudo=========#\
+alias ipt='sudo /sbin/iptables'\
+ \
+# display all rules #\
+alias iptlist='sudo /sbin/iptables -L -n -v --line-numbers'\
+alias iptlistin='sudo /sbin/iptables -L INPUT -n -v --line-numbers'\
+alias iptlistout='sudo /sbin/iptables -L OUTPUT -n -v --line-numbers'\
+alias iptlistfw='sudo /sbin/iptables -L FORWARD -n -v --line-numbers'\
+alias firewall=iptlist\
+alias iptstop='sudo service iptables stop'\
+alias iptstart='sudo service iptables start'\
+alias iptrestart='sudo service iptables restart'\
+\
+alias iptsave='sudo iptables-save > ~/Documents/IPTables'\
+alias iptrestore='sudo iptables-restore -v ~/Documents/IPTables'\
+\
+#===================System Services==============#\
+alias reboot='sudo systemctl reboot' #All users get a warning\
+alias poweroff='sudo systemctl poweroff' #All users get a warning\
+alias halt='sudo systemctl halt' #All users get a warning\
+alias sysctla='sudo systemctl list-units --all --state=active'\
+alias sysctli='sudo systemctl list-units --all --state=inactive'\
+alias sysctlall='sudo systemctl list-unit-files --all'\
+\
+\
+#===================VM Management================#\
+#====cpu#==64bit=or=32==Intel=vmx=AMD=svm=etc====#\
+alias cpuinfo='cat /proc/cpuinfo | grep --color -E "vmx|svm|lm"'\
+alias cpus='grep processor /proc/cpuinfo'\
+alias cpuspecs='head /proc/cpuinfo'\
+alias cpuram='free -m'\
+alias cpuswap='free -m'\
+alias vmsize='ls -Rh ~/VirtualBox\\ VMs/ | grep .vdi'\
+\
+#================Misc Aliases====================#\
+#==============Some safer Options================#\
+alias chown='chown --preserve-root'\
+alias chmod='chmod --preserve-root'\
+alias chgrp='chgrp --preserve-root'\
+alias cp='cp -i'\
+alias mv='mv -i'\
+alias ln='ln -i'\
+alias rm='rm -I --preserve-root' #Interactive > 3 files & nada under /\
+\
+#alias -- -="cd -" # Have no idea about this. Gotta know.\
+alias c='/usr/bin/clear'\
+alias diff='colordiff'\
+alias du='du -kh'\
+alias df='df -kTh'\
+\
+alias egrep='egrep --color=auto'\
+alias fgrep='fgrep --color=auto'\
+alias grep='grep --color=auto'\
+alias fhere="find . -name "\
+alias h='history'\
+alias j='jobs'\
+alias less='less -R --tabs=4' # colorful 'less', tab stops = 4\
+alias mkdir='mkdir -p -v'\
+alias mount='mount |column -t'\
+alias now='date +"%T"'\
+alias now='date +"%T"'\
+alias nowtime=now\
+alias nowdate='date +"%d-%m-%Y"'\
+# bc format example -Remeber to install bc\
+alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)'\
+\
+alias sha1='openssl dgst -sha1 '\
+alias sha256='openssl dgst -sha256 '\
+alias sha512='openssl dgst -sha512 '\
+\
+alias term_size='echo "Rows=$(tput lines) Cols=$(tput cols)"'\
+alias vi=vim\
+alias edit="$EDITOR"  # if not set then use vim in quotes\
+\
+alias yt="youtube-dl $1 > ~/Downloads/$1"\
+\
+#=============Functions & Scripts================#\
+\
+cd() \{ builtin cd "$@" && ls; \}   # cd then ls DIR\
+\
+# No more cd ../../../\
+up() \{\
+	local d=""\
+	limit=$1\
+	for ((i=1; i<=limit; i++))\
+		do\
+			d=$d/..\
+		done\
+	d=$(echo $d | sed 's/^\\///')\
+	if [ -z "$d" ]; then\
+		d=..\
+	fi\
+	cd $d\
+\}\
+\
+# Make sure these commands are done via root\
+# I have an alias for this already sudo included\
+# Maybe other commands can use this\
+if [ $UID -ne 0 ]; then\
+	alias reboot='sudo reboot'\
+	alias update='sudo apt-get upgrade'\
+fi\
+\
+zipf () \{ zip -r "$1".zip "$1" ; \}  # zipf:Create a ZIP archive of a folder\
+\
+# extract function for any Archive Compression Type\
+extract () \{\
+	if [ -f $1 ] ; then\
+		case $1 in\
+			*.tar.bz2)   tar xjf $1     ;;\
+			*.tar.gz)    tar xzf $1     ;;\
+			*.bz2)       bunzip2 $1     ;;\
+			*.rar)       unrar e $1     ;;\
+			*.gz)        gunzip $1      ;;\
+			*.tar)       tar xf $1      ;;\
+			*.tbz2)      tar xjf $1     ;;\
+			*.tgz)       tar xzf $1     ;;\
+			*.zip)       unzip $1       ;;\
+			*.Z)         uncompress $1  ;;\
+			*.7z)        7z x $1        ;;\
+			*)     	 echo "'$1' cannot be extracted via extract()" ;;\
+		esac\
+	else\
+						 echo "'$1' is not a valid file"\
+	fi\
+\}\
+\
+# Function to move to new DIR when created. cd - then toggles last 2 DIR\
+function mkdircd () \{ mkdir -p "$@" && eval cd "\\"\\$$#\\""; \}\
+# function to print nunbers down the screen as per $1 e.g. count 6\
+function count()\{ python -c "for num in xrange($1):print num";\}\
+\
+# Make your directories and files access rights sane. For EVAL.\
+#function sanitize() \{ chmod -R u=rwX,g=rX,o= "$@" ;\}\
+\
+# tput SETAF Text 8 color variables\
+txtund=$(tput sgr 0 1)  # Underline\
+txtbld=$(tput bold)   # Bold\
+bldred=$\{txtbld\}$(tput setaf 1) #  red\
+bldgrn=$\{txtbld\}$(tput setaf 2) #  green\
+bldyel=$\{txtbld\}$(tput setaf 3) #  yellow\
+bldblu=$\{txtbld\}$(tput setaf 4) #  blue\
+bldmag=$\{txtbld\}$(tput setaf 5) #  magenta\
+bldcyn=$\{txtbld\}$(tput setaf 6) #  cyan\
+bldwht=$\{txtbld\}$(tput setaf 7) #  white\
+reverse=$\{txtbld\}$(tput rev)    # reverse FGBG\
+txtrst=$(tput sgr0)             # Reset\
+info=$\{bldwht\}*$\{txtrst\}        # Feedback\
+pass=$\{bldblu\}*$\{txtrst\}\
+warn=$\{bldred\}*$\{txtrst\}\
+ques=$\{bldblu\}?$\{txtrst\}\
+}
