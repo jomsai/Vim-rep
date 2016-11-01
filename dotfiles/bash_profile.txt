@@ -61,7 +61,7 @@ alias sha512='openssl dgst -sha512 '
 alias h='history'
 alias hd="tail -n 35 /var/log/daily.out | grep /dev/disk1 | awk {'print \$5'}"  #Mac HD Avail Space
 alias j='jobs -l'
-alias p3='ping -c 3 -s 1'
+alias p3='ping -c 3 -s 1 8.8.8.8'
 alias p1='scutil -r ${intip} 8.8.8.8'  # simple ping reachable?
 alias fastping='ping -c 100 -s.2'
 alias dnsping="scutil --dns | tail -n1 | cut -c 14-26" #MacOS Reachable or Not Reachable
@@ -96,6 +96,7 @@ alias tdumpping="sudo tcpdump -nnvXXSs 1514 icmp -c200 -w ~/Desktop/tdumpping.pc
 alias yt="youtube-dl $1 > ~/Downloads/$1"
 
 alias spk='say "What the hell do you want from me"'
+alias spk2='say "after a while ya just see blonde brunette" && cmatrix'
 alias so='source ~/.bash_profile && cp ~/.bash_profile ~/.bash_profile.bak && cp ~/.bash_profile ~/Vim-rep/dotfiles/bash_profile.txt && echo "Yeah Baby!"'
 # To Source my .vimrc works but exits 1 due to Vundle ERR so next requires || 
 alias sovim='source .vimrc || cp .vimrc .vimrc.bak && cp .vimrc ~/Vim-rep/dotfiles/VIMRC.txt && echo "Whatttyyyaaaaa"'
