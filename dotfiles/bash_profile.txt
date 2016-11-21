@@ -53,6 +53,7 @@ alias less='less -FSRXc'  # Preferred 'less' implementation
 alias c='clear'
 alias ebp="$EDITOR ~/.bash_profile"  # Quick access to the file in Vim
 alias evmrc="$EDITOR ~/.vimrc"
+alias geoip='curl ipinfo.io/"$1"'
 alias logdump='sudo find / -maxdepth 4 -type f -iname "*log" -print0 | xargs -0 ls -ltrh >> ~/Desktop/log_daily.txt && sudo tail -n7 /private/var/log/fsck_hfs.log'
 alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)'
 alias sha1='openssl dgst -sha1 '
@@ -81,22 +82,22 @@ alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 alias ipcfg="nface | xargs ipconfig getpacket"  #ARG before COMMAND with xargs
 alias rules='sudo pfctl -sa | less'
 ql () { qlmanage -p "$*" >& /dev/null; }  # Quicklook any file in Preview
-alias pkgin='sudo pkgin install'
+alias pkginstall='sudo pkgin install'
 alias pkgfind='\pkgin avail | grep '
+alias pkglist='pkgin list'  # All local packages installed
 alias path='echo -e ${PATH//:/\\n}'  # path: Echo all executable Paths
 alias psname="ps -o comm= -p $1"
+alias read='cat README* && spk'
 alias shopt='shopt'   # Show_options: display bash options settings
 alias flushDNS='dscacheutil -flushcache' # flushDNS: Flush out the DNS Cache
 alias term_size='echo "Rows=$(tput lines) Cols=$(tput cols)"'
-#alias tdump="sudo tcpdump $nface >> ~/Desktop/tdump.txt" # TCPDUMP Active interface
-alias tdump="sudo tcpdump -i${nface} -nnvXXSs 1514 -c2000 -w ~/Desktop/tdump2k.pcap"
-alias tdumpping="sudo tcpdump -nnvXXSs 1514 icmp -c200 -w ~/Desktop/tdumpping.pcap"
-# tcpdump with 9 second timeout so no need for Ctrl-c Need Work
-#alias tdump="sudo timeout 9 bash -c tcpdump $nface >> ~/Desktop/tdump.txt" # TCPDUMP Active interface
-alias yt="youtube-dl $1 > ~/Downloads/$1"
+tdump () { sudo tcpdump -i $(nface) -IPnnvvveXXSs 1514 -c2000 -w /tmp/tdump2k.pcapng; }
+tdumpping () { sudo tcpdump -i $(nface) -IPennvXXSs 1514 icmp -c20 -w /tmp/tdumpping.pcapng; }
+
+alias yt="youtube-dl '$0'"
 
 alias spk='say "What the hell do you want from me"'
-alias spk2='say "after a while ya just see blonde brunette" && cmatrix'
+alias spk2='say "after a while ya just see blonde und brunette" && cmatrix'
 alias so='source ~/.bash_profile && cp ~/.bash_profile ~/.bash_profile.bak && cp ~/.bash_profile ~/Vim-rep/dotfiles/bash_profile.txt && echo "Yeah Baby!"'
 # To Source my .vimrc works but exits 1 due to Vundle ERR so next requires || 
 alias sovim='source .vimrc || cp .vimrc .vimrc.bak && cp .vimrc ~/Vim-rep/dotfiles/VIMRC.txt && echo "Whatttyyyaaaaa"'
@@ -114,7 +115,7 @@ alias top='htop'
 #== quoting () work but also generate error
 echo -e "ALERT *\\*/ ${PURPLE}${WBG}MOTD${NC}"  #Message in Purple on Yellow
 echo -e "${CYAN}${WBG}BASH Version $(which bash --version) - for $USER${NC}"
-echo -e "MOTD \033[107;38;5;199m Fuhgettaboutit \033[33;48;5;52m Semper fi ${NC}"
+echo -e "MOTD \033[107;38;5;199m Fuhgettaboutit \033[33;48;5;52m Semper fi $NC"
 echo -e "$GreenBrownBG Conf in 10 minutes NOT MANDATORY... Free Cookies! $NC"
 echo -e "${BlackYellowBG} Welcome to a new day! ${NC}"
 echo -e "${bldgrn}Green tput ${bldmag}MOTD${txtrst}"
