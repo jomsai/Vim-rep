@@ -27,6 +27,8 @@ VISUAL=/opt/local/bin/vim; export VISUAL
 EDITOR=/opt/local/bin/vim; export EDITOR
 PAGER=/usr/bin/less; export PAGER
 SHELL=/usr/local/bin/bash
+#HOST=RonMBP
+
 
 export HISTFILESIZE=20000
 export HISTSIZE=10000
@@ -108,6 +110,8 @@ alias p3='ping -c 3 -s 1 8.8.8.8'
 alias p1='scutil -r ${intip} 8.8.8.8'  # simple ping reachable?
 alias fastping='ping -c 100 -s.2'
 alias dnsping="scutil --dns | tail -n1 | cut -c 14-26" #MacOS Reachable or Not Reachable
+alias host='sysctl -a | grep hostname | cut -d ":" -f2 | cut -c 2-10'
+
 alias ipcfg="nface | xargs ipconfig getpacket"  #ARG before COMMAND with xargs
 alias routes='netstat -r'
 alias tcp='netstat -anp tcp'
@@ -141,6 +145,8 @@ alias memhogtop='\top -l 1 -o rsize | head -20'
 alias memhogps='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
 alias memswap='sysctl vm.swapusage | cut -d ":" -f2 | cut -c 2-62'
 alias psname="ps -o comm= -p $1"   # ARG is PID and will tell you the Name of the Process
+alias services='launchctl list'
+alias servicefind='launchctl list | grep'  #Needs 1 ARG like ssh-agent,
 alias top='htop'
 alias ttop='\top -R -F -s 10 -o rsize'  # Low Resource Top
 
@@ -185,6 +191,9 @@ tdumpping () { sudo tcpdump -i $(nface) -IPennvXXSs 1514 icmp -c20 -w /tmp/tdump
 function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}  #$sanitize file/DIR Permissions
 ##==================SSH=========================##
 alias server_name='ssh -v -l USERNAME IP ADDRESS'
+alias gitssh='ssh -T git@github.com'  # Must use git username & gets real USER from config file
+alias gitsshv='ssh -vT git@github.com'   # verbose option
+
 
 
 ##===========Package Manager====================##
