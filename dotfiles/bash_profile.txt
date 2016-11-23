@@ -13,10 +13,13 @@ export PS1;
 
 #PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
 
-source ~/.git-prompt.sh
-
-alias fhere="find . -name "
-
+##==================ENV=========================##
+alias env2='export -p'  #List of all Shell VAR declared
+alias env='printenv'   #Same as above via another command. Shows _ VAR
+alias bashv="/usr/local/bin/bash --version | grep darwin | cut -c 19-30"
+alias path='echo -e ${PATH//:/\\n}'  # path: Echo all executable Paths
+alias shopt='shopt'   # Show_options: display bash options settings
+alias term_size='echo "Rows=$(tput lines) Cols=$(tput cols)"'
 
 PATH=/opt/pkg/bin/vim:$PATH  #Where Vim 7.4 is
 PATH=/Library/Frameworks/Python.framework/Versions/3.5/bin/:$PATH   #Where Py3 is
@@ -25,18 +28,41 @@ EDITOR=/opt/local/bin/vim; export EDITOR
 PAGER=/usr/bin/less; export PAGER
 SHELL=/usr/local/bin/bash
 
-# Commands to fix sudo. I prefer command | xargs sudo
-# alias ll | sed "s/.*'\(.*\)'.*/\1/g" | xargs sudo  use when sudo needed
-alias sudo='sudo '
-alias sbb='sudo $(fc -ln -1)'  # sudo !! shortcut
-alias env2='export -p'  #List of all Shell VAR declared
-alias env='printenv'   #Same as above via another command. Shows _ VAR
-alias bashv="/usr/local/bin/bash --version | grep darwin | cut -c 19-30"
+export HISTFILESIZE=20000
+export HISTSIZE=10000
+export HISTCONTROL=erasedups:ignoredups:ignorespace
+shopt -s checkwinsize  #update winsize if needed
+shopt -s histappend   #try to list long commands on 1 line
+PROMPT_COMMAND='history -a'
+
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
+export TERM="xterm-color"
+export TERM="xterm-256color"
+##=============< cd >==< ls >==< less >=========##
+cd() { builtin cd "$@" && ls -FGlAhpi ; }
+# Function to move to new DIR when created. cd - then toggles last 2 DIR
 alias ..='cd ..'                # Go back 1 directory level
 alias ...='cd ../..'             # Go back 2 directory levels
 alias ....='cd ../../../'          # Go back 3 directory levels
 alias .....='cd ../../../../'       # Go back 4 directory levels
 alias ......='cd ../../../../../'    # Go back 5 directory levels
+
+# No more cd ../../../
+up() {
+	local d=""
+	limit=$1
+	for ((i=1; i<=limit; i++))
+		do
+			d=$d/..
+		done
+	d=$(echo $d | sed 's/^\///')
+	if [ -z "$d" ]; then
+		d=..
+	fi
+	cd $d
+}
+
 alias ls='ls -FGlAhpi'
 alias l.='ls -d .* -G'
 alias lss='ls -al | less'
@@ -48,24 +74,41 @@ alias lstr='ls -ctr'  # Sort Time but in reverse
 alias lswc='ls -al | wc -l'  # Items in DIR via ls with word count
 alias lsl='ls -lah@e -G | less'
 alias ld='ls -d */' # only Dirs
-#alias lst='ls -hFtal | grep $(date +%Y-%m-%d)' #ls Today
+alias ls.d='ls -ld `find . -maxdepth 1 -type d -o -type l`'  # Dot DIR Only
+
 alias less='less -FSRXc'  # Preferred 'less' implementation
-alias c='clear'
+##=========Edit Source Backup Dotfiles==========##
+alias so='source ~/.bash_profile && cp ~/.bash_profile ~/.bash_profile.bak && cp ~/.bash_profile ~/Vim-rep/dotfiles/bash_profile.txt && echo "Yeah Baby!"'
+# To Source my .vimrc works but exits 1 due to Vundle ERR so next requires || 
+alias sovim='source .vimrc || cp .vimrc .vimrc.bak && cp .vimrc ~/Vim-rep/dotfiles/VIMRC.txt && echo "Whatttyyyaaaaa"'
+alias sotmux='tmux source-file ~/.tmux.conf && cp ~/.tmux.conf ~/.tmux.conf.bak && cp ~/.tmux.conf ~/Vim-rep/dotfiles/tmux.conf.txt'
+alias tmux3='tmux && tmux split-window -v -l 30 && tmux split-window -h'
+
 alias ebp="$EDITOR ~/.bash_profile"  # Quick access to the file in Vim
 alias evmrc="$EDITOR ~/.vimrc"
-alias geoip='curl ipinfo.io/"$1"'
-alias logdump='sudo find / -maxdepth 4 -type f -iname "*log" -print0 | xargs -0 ls -ltrh >> ~/Desktop/log_daily.txt && sudo tail -n7 /private/var/log/fsck_hfs.log'
-alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)'
-alias sha1='openssl dgst -sha1 '
-alias sha256='openssl dgst -sha256 '
-alias sha512='openssl dgst -sha512 '
+##=================MISC=========================##
+alias c='clear'
+alias chrome="open -a \"Google Chrome\""
+alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 alias h='history'
-alias hd="tail -n 35 /var/log/daily.out | grep /dev/disk1 | awk {'print \$5'}"  #Mac HD Avail Space
 alias j='jobs -l'
+alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)'
+alias catread='cat ./README'
+alias spk1='say "What the hell do you want from me"'
+alias spk2='say "after a while ya just see blonde und brunette" && cmatrix'
+alias cpwd='pwd|tr -d "\n"|pbcopy'
+alias yt="youtube-dl '$0'"
+#alias ckgy='vlc rtsp://newcap-RedDeer-CKGY.wm.llnwd.net/newcap_RedDeer-CKGY' # Country Radio?
+
+count() { python -c "for num in xrange($1):print num" ; }  #count0-ARG down screen
+psman() { man -t "${1}" | open -f -a /Applications/Preview.app/ ; }  #Open ManPage in Preview
+ql () { qlmanage -p "$*" >& /dev/null; }  # Quicklook any file in Preview
+##================Networking====================##
 alias p3='ping -c 3 -s 1 8.8.8.8'
 alias p1='scutil -r ${intip} 8.8.8.8'  # simple ping reachable?
 alias fastping='ping -c 100 -s.2'
 alias dnsping="scutil --dns | tail -n1 | cut -c 14-26" #MacOS Reachable or Not Reachable
+alias ipcfg="nface | xargs ipconfig getpacket"  #ARG before COMMAND with xargs
 alias routes='netstat -r'
 alias tcp='netstat -anp tcp'
 alias udp='netstat -anp udp'
@@ -78,39 +121,96 @@ alias intip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0
 alias intips="ifconfig $nface | grep inet | cut -d ' ' -f2"  #inet4 & inet6 intIP
 alias extip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias myip="curl icanhazip.com"  #site curl ip.appspot.com is unreliable 
-alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
-alias ipcfg="nface | xargs ipconfig getpacket"  #ARG before COMMAND with xargs
+
+alias geoip='curl ipinfo.io/"$1"'
+# geoip2 () { read ip; curl ipinfo.io/$ip ; }  #Alternative to read in the IP
+##===============Processes======================##
+alias cpubootup='sysctl kern.boottime'
+alias cpuendian='sysctl hw.byteorder | cut -d ":" -f2 | cut -c 2-6 && printf " ==>Little Endian=1234"'
+alias cpucores='sysctl machdep.cpu.core_count'
+alias cpuhog='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
+alias cpumodel='sysctl machdep.cpu.brand_string | cut -d ":" -f2 | cut -c 2-44'
+alias cpustats='iostat'
+alias flush="sudo killall -HUP mDNSResponder"
+alias hd="tail -n 35 /var/log/daily.out | grep /dev/disk1 | awk {'print \$5'}"  #Mac HD Avail Space
+myps() { ps $@ -u $USER -o pid,%cpu,%mem,start,time,bsdtime,command ; }
+findPid () { lsof -t -c c "$@" ; }
+alias memHogsTop='top -l 1 -o rsize | head -20'
+alias memHogsPs='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
+alias memswap='sysctl vm.swapusage | cut -d ":" -f2 | cut -c 2-62'
+alias psname="ps -o comm= -p $1"
+alias top='htop'
+alias ttop='top -R -F -s 10 -o rsize'  # Low Resource Top
+
+#    Hosts file info
+ii()
+{
+	echo -e "\n${BlackYellowBG}You are logged on ${USER}${GREEN}" ; dig | tail -n 4
+	printf "${CYAN}ACTIVE Interface on my Mac==> " ; nface
+	printf "Public facing IP Address ==> " ; extip
+	printf "IP Reachable or not? ==> " ; scutil -r ${intip} 8.8.8.8
+	printf "My Internal IP==> " ; ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'
+	echo -e "\n${GreenBrownBG}Additionnal information:" ; uname -a | xargs -n 7
+	echo -e "\n${PURPLE}Users logged on:" ; w
+	echo -e "\n${BROWN}Machine stats :" ; uptime
+	echo -e "\n${GREEN}CPU Stats: " ; iostat
+	echo -e "\n${CYAN}Disk Usage:" ; df -h
+	printf "\n${GreenBrownBG}DNS Configuration:" ; scutil --dns | head -n 12
+	printf "${CYAN}Current date : $NC" ; date
+	echo
+}
+
+##===================Search=====================##
+alias fhere="find . -name "
+alias ff=find . -name $1
+
+spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; } #Mac spotlight metadata search
+##==================Security====================##
+alias ax="chmod 700"  ## Make executable by me only
+alias flushDNS='dscacheutil -flushcache' # flushDNS: Flush out the DNS Cache
+alias logdump='sudo find / -maxdepth 4 -type f -iname "*log" -print0 | xargs -0 ls -ltrh >> /tmp/log_daily.txt && sudo tail -n7 /private/var/log/fsck_hfs.log'
+alias nixrtkt='sudo ./chkrootkit'
 alias rules='sudo pfctl -sa | less'
-ql () { qlmanage -p "$*" >& /dev/null; }  # Quicklook any file in Preview
+alias sha1='openssl dgst -sha1 '
+alias sha256='openssl dgst -sha256 '
+alias sha512='openssl dgst -sha512 '
+alias sudo='sudo '
+alias sbb='sudo $(fc -ln -1)'  # sudo !! shortcut
+# tcpdump aliases use -I to turn on Monitor Mode only for WiFi Interface
+tdump () { sudo tcpdump -i $(nface) -PnnvvveXXSs 1514 -c2000 -w /tmp/tdump2k.pcapng ; }
+tdumpwifi () { sudo tcpdump -i $(nface) -IPnnvvveXXSs 1514 -c2000 -w /tmp/tdump2k.pcapng ; }
+tdumpping () { sudo tcpdump -i $(nface) -IPennvXXSs 1514 icmp -c20 -w /tmp/tdumpping.pcapng ; }
+function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}  #$sanitize file/DIR Permissions
+##==================SSH=========================##
+alias server_name='ssh -v -l USERNAME IP ADDRESS'
+
+
+##===========Package Manager====================##
 alias pkginstall='sudo pkgin install'
 alias pkgfind='\pkgin avail | grep '
 alias pkglist='pkgin list'  # All local packages installed
-alias path='echo -e ${PATH//:/\\n}'  # path: Echo all executable Paths
-alias psname="ps -o comm= -p $1"
-alias read='cat README* && spk'
-alias shopt='shopt'   # Show_options: display bash options settings
-alias flushDNS='dscacheutil -flushcache' # flushDNS: Flush out the DNS Cache
-alias term_size='echo "Rows=$(tput lines) Cols=$(tput cols)"'
-tdump () { sudo tcpdump -i $(nface) -IPnnvvveXXSs 1514 -c2000 -w /tmp/tdump2k.pcapng; }
-tdumpping () { sudo tcpdump -i $(nface) -IPennvXXSs 1514 icmp -c20 -w /tmp/tdumpping.pcapng; }
 
-alias yt="youtube-dl '$0'"
+##================Github========================##
+source ~/.git-prompt.sh
 
-alias spk='say "What the hell do you want from me"'
-alias spk2='say "after a while ya just see blonde und brunette" && cmatrix'
-alias so='source ~/.bash_profile && cp ~/.bash_profile ~/.bash_profile.bak && cp ~/.bash_profile ~/Vim-rep/dotfiles/bash_profile.txt && echo "Yeah Baby!"'
-# To Source my .vimrc works but exits 1 due to Vundle ERR so next requires || 
-alias sovim='source .vimrc || cp .vimrc .vimrc.bak && cp .vimrc ~/Vim-rep/dotfiles/VIMRC.txt && echo "Whatttyyyaaaaa"'
-alias sotmux='tmux source-file ~/.tmux.conf && cp ~/.tmux.conf ~/.tmux.conf.bak && cp ~/.tmux.conf ~/Vim-rep/dotfiles/tmux.conf.txt'
-alias tmux3='tmux && tmux split-window -v -l 30 && tmux split-window -h'
-alias chrome="open -a \"Google Chrome\""
-alias ax="chmod 700"  ## Make executable by me only
-alias cpwd='pwd|tr -d "\n"|pbcopy'
-alias flush="sudo killall -HUP mDNSResponder"
-alias cpu="iostat"
-alias top='htop'
+alias ga='git add -A'                   	#ga:            Git add all files
+alias gs='git status'                       	#gs:            Git status
+alias gc='git commit -m'                   	#gc:            Git commit w/ message
+alias gf='git fetch'
+alias gpu='git pull'                        	#gpu:           Git pull
+alias gp='git push'                         	#gp:            Git push
+alias gr='git revert HEAD'                  	#gr:            Git revert HEAD
+alias gd="git diff --color"			#gd:	Git diff in color
+alias gt="git today --since='1 day ago'"	#gt:	Git last 24 hours
+alias gl="git log --pretty=format:'%h %ad | %s [%an]' --graph --since='30 days ago' --color"
+alias gogit='cd ~/Vim-rep && gs'
+alias gk='gitk --all&'
+alias gx='gitx --all'
+# NOTE: hist alias in .gitconfig used as git hist gives a pretty=format history
+# https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
+source ~/git-completion.bash   # need the file from URL above in ~
 
-#====================Message Center==============#
+##===============Message Center=================##
 #== echo -e for ESC, \033 works > \e on MacOS====#
 #== quoting () work but also generate error
 echo -e "ALERT *\\*/ ${PURPLE}${WBG}MOTD${NC}"  #Message in Purple on Yellow
@@ -129,20 +229,12 @@ gohome()
 {
 	tput setaf 6; echo "The Server will SHUTDOWN in 15 minutes so SAVE and go home"
 }
-#==============END Message Center===============#
-
-cd() { builtin cd "$@" && ls ; }
-
-# Type psman <cmd> and Opens Man Page in Preview.app
-psman()
-{
-man -t "${1}" | open -f -a /Applications/Preview.app/
-}
-
-# Function to move to new DIR when created. cd - then toggles last 2 DIR
-function mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\""; }
-# function to print nunbers down the screen as per $1 e.g. count 6
-function count(){ python -c "for num in xrange($1):print num";}
+##============END Message Center================##
+##============Archive Aliases Functions=========##
+alias mktar='tar -cvf'
+alias mkbz2='tar -cvjf'
+alias mkgz='tar -cvzf'
+zipf () { zip -r "$1".zip "$1" ; }  # zipf:Create a ZIP archive of a folder
 
 # extract function for any Archive Compression Type
 extract () {
@@ -166,71 +258,9 @@ extract () {
         fi
 	}
 
-#========Archive Aliases
-alias mktar='tar -cvf'
-alias mkbz2='tar -cvjf'
-alias mkgz='tar -cvzf'
-#========
-
-#    Hosts file info
-ii()
-{
-	echo -e "\n${BlackYellowBG}You are logged on ${USER}${GREEN}" ; dig | tail -n 4
-	printf "${CYAN}ACTIVE Interface on my Mac==> " ; nface
-	printf "Public facing IP Address ==> " ; extip
-	printf "IP Reachable or not? ==> " ; scutil -r ${intip} 8.8.8.8
-	printf "My Internal IP==> " ; ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'
-	echo -e "\n${GreenBrownBG}Additionnal information:" ; uname -a | xargs -n 7
-	echo -e "\n${PURPLE}Users logged on:" ; w
-	echo -e "\n${BROWN}Machine stats :" ; uptime
-	echo -e "\n${GREEN}CPU Stats: " ; iostat
-	echo -e "\n${CYAN}Disk Usage:" ; df -h
-	printf "\n${GreenBrownBG}DNS Configuration:" ; scutil --dns | head -n 12
-	printf "${CYAN}Current date : $NC" ; date
-	echo
-}
-
-# No more cd ../../../
-up() {
-	local d=""
-	limit=$1
-	for ((i=1; i<=limit; i++))
-		do
-			d=$d/..
-		done
-	d=$(echo $d | sed 's/^\///')
-	if [ -z "$d" ]; then
-		d=..
-	fi
-	cd $d
-}
-
-# My USER Processes
-myps() { ps $@ -u $USER -o pid,%cpu,%mem,start,time,bsdtime,command ; }
-findPid () { lsof -t -c c "$@" ; }
-#   memHogsTop, memHogsPs:  Find memory hogs
-#   -----------------------------------------------------
-alias memHogsTop='top -l 1 -o rsize | head -20'
-alias memHogsPs='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
-#   cpuHogs:  Find CPU hogs
-#   -----------------------------------------------------
-alias cpu_hogs='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
-alias ttop='top -R -F -s 10 -o rsize'  # Low Resource Top
-
-zipf () { zip -r "$1".zip "$1" ; }  # zipf:Create a ZIP archive of a folder
-spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; } #Mac spotlight metadata search
-
-# Make your directories and files access rights sane. For EVAL.
-#function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
-
-#====Colors MISC====
-
+##=================Colors MISC==================##
 #colors below=>osxdaily.com/2012/02/21/add-color-to-the-terminal-in-mac-os-x/
 # 2 Color choices to Terminal NOW it works great!
-export CLICOLOR=1
-export LSCOLORS=GxFxCxDxBxegedabagaced
-export TERM="xterm-color"
-export TERM="xterm-256color"
 
 # Simple Color Settings
 BLACK='\033[0;30m'  #0;30=Lt,1;32=Dk
@@ -261,12 +291,8 @@ PBG='\033[45m'
 CBG='\033[46m'
 WBG='\033[47m'
 
-
-#Samples function for 256 COLOR formatting
-print256colors()
-{
-printf '\e[48;5;%dm ' {0..255}; printf '\e[0m \n'
-}
+print8fgcolors() { printf '\e[%sm▒' {30..37} 0; echo ; }
+print8bgcolors() { printf '\e[%sm ' {40..47} 0; echo ; }
 
 # This function echoes 8 COLORS and codes to check your display
 print8colors()
@@ -281,7 +307,6 @@ print8colors()
 	echo -e "\033[0;36;47m Cyan     \033[0m 0;36m \t\033[1;36;40m Dark Cyan  \033[0m 1;36m"
 	echo -e "\033[0;37;47m LightGray\033[0m 0;37m \t\033[1;37;40m White      \033[0m 1;37m"
 }
-
 
 # 16 COLOR Function --NOTE can crash terminator
 print16colors()
@@ -300,9 +325,10 @@ done
 exit 0
 }
 
+#Samples function for 256 COLOR formatting
+print256colors() { printf '\e[48;5;%dm ' {0..255}; printf '\e[0m \n' ; }
 
-# 256 COLOR function #2
-# color_256_function_for_loop_tput.sh
+# 256 COLOR function2 with for loop and tput
 print256colors2()
 {
 color()
@@ -321,16 +347,9 @@ color {232..255}
 }
 
 # 16 million COLOR Test Function that works
-print16millcolors()
-{
-	fb=3;r=255;g=1;b=1;printf '\033[0;%s8;2;%s;%s;%sm▒▒▒ ' "$fb" "$r" "$g" "$b"
-}
-
+print16millcolors() { fb=3;r=255;g=1;b=1;printf '\033[0;%s8;2;%s;%s;%sm▒▒▒ ' "$fb" "$r" "$g" "$b" ; }
 # OK 16 Million COLORS also but does not work
-#print16millcolors2()
-#{
-#	for r in {200..255..5}; do fb=4;g=1;b=1;printf '\033[0;%s8;2;%s;%s;%sm   ' "$fb" "$r" "$g" "$b"; done; echo	
-#}
+print16millcolors2() { for r in {200..255..5}; do fb=4;g=1;b=1;printf '\033[0;%s8;2;%s;%s;%sm    ' "$fb" "$r" "$g" "$b"; done ; }
 
 # Mixed Colors -BOLD element1 Easy to  REV FGBG change 1 to 7
 WhiteGrayBG='\033[1;47;88m'
@@ -368,41 +387,15 @@ pass=${bldblu}*${txtrst}
 warn=${bldred}*${txtrst}
 ques=${bldblu}?${txtrst}
 
-#=================Git aliases===================================#
-alias ga='git add -A'                   	#ga:            Git add all files
-alias gs='git status'                       	#gs:            Git status
-alias gc='git commit -m'                   	#gc:            Git commit w/ message
-alias gf='git fetch'
-alias gpu='git pull'                        	#gpu:           Git pull
-alias gp='git push'                         	#gp:            Git push
-alias gr='git revert HEAD'                  	#gr:            Git revert HEAD
-alias gd="git diff --color"			#gd:	Git diff in color
-alias gt="git today --since='1 day ago'"	#gt:	Git last 24 hours
-alias gl="git log --pretty=format:'%h %ad | %s [%an]' --graph --since='30 days ago' --color"
-alias gogit='cd ~/Vim-rep && gs'
-alias gk='gitk --all&'
-alias gx='gitx --all'
-# NOTE: hist alias in .gitconfig used as git hist gives a pretty=format history
-# https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
-source ~/git-completion.bash   # need the file from URL above in ~
-
-#===============================================================#
-export CURL_CA_BUNDLE=~/.ssh/cacert.pem
-
-export HISTFILESIZE=20000
-export HISTSIZE=10000
-export HISTCONTROL=erasedups:ignoredups:ignorespace
-shopt -s checkwinsize  #update winsize if needed
-shopt -s histappend   #try to list long commands on 1 line
-PROMPT_COMMAND='history -a'
-
-
-# Things to remember
-# Sample Prompts syntax "\033[fg;bgm\] symbolic \[\033[0m\]"
-#  mkdir dirname && cd $_   #  makes dir=dirname and cds to it
+##=====Settings To Be AT END of the Dotfile=====##
+##=============Things to remember===============##
+# Sample color off/on SYNTAX "\033[fg;bgm\] symbolic \[\033[0m\]"
+# Many make DIR then cd into them on the net but not needed as already builtin
+# mkdir dirname && cd $_
+# mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\"" ; }
 # Setting PATH for Python 3.5
 # The original version is saved in .bash_profile.pysave
+export CURL_CA_BUNDLE=~/.ssh/cacert.pem
 PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
 export PATH
-
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
