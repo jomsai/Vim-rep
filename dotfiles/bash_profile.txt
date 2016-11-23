@@ -121,11 +121,11 @@ alias intip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0
 alias intips="ifconfig $nface | grep inet | cut -d ' ' -f2"  #inet4 & inet6 intIP
 alias extip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias myip="curl icanhazip.com"  #site curl ip.appspot.com is unreliable 
-
+alias macch='sudo macchanger -r en4'
 alias geoip='curl ipinfo.io/"$1"'
 # geoip2 () { read ip; curl ipinfo.io/$ip ; }  #Alternative to read in the IP
 ##===============Processes======================##
-alias cpubootup='sysctl kern.boottime'
+alias cpuboot='sysctl kern.boottime | cut -d "}" -f2 | cut -c 2-26'
 alias cpuendian='sysctl hw.byteorder | cut -d ":" -f2 | cut -c 2-6 && printf " ==>Little Endian=1234"'
 alias cpucores='sysctl machdep.cpu.core_count'
 alias cpuhog='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
@@ -133,14 +133,16 @@ alias cpumodel='sysctl machdep.cpu.brand_string | cut -d ":" -f2 | cut -c 2-44'
 alias cpustats='iostat'
 alias flush="sudo killall -HUP mDNSResponder"
 alias hd="tail -n 35 /var/log/daily.out | grep /dev/disk1 | awk {'print \$5'}"  #Mac HD Avail Space
+alias homedirsize='du -chd 1 | grep total'  # Size Home DIR in GB
+
 myps() { ps $@ -u $USER -o pid,%cpu,%mem,start,time,bsdtime,command ; }
 findPid () { lsof -t -c c "$@" ; }
-alias memHogsTop='top -l 1 -o rsize | head -20'
-alias memHogsPs='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
+alias memhogtop='\top -l 1 -o rsize | head -20'
+alias memhogps='ps wwaxm -o pid,stat,vsize,rss,time,command | head -10'
 alias memswap='sysctl vm.swapusage | cut -d ":" -f2 | cut -c 2-62'
-alias psname="ps -o comm= -p $1"
+alias psname="ps -o comm= -p $1"   # ARG is PID and will tell you the Name of the Process
 alias top='htop'
-alias ttop='top -R -F -s 10 -o rsize'  # Low Resource Top
+alias ttop='\top -R -F -s 10 -o rsize'  # Low Resource Top
 
 #    Hosts file info
 ii()
