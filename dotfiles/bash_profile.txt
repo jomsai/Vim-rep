@@ -29,7 +29,6 @@ PAGER=/usr/bin/less; export PAGER
 SHELL=/usr/local/bin/bash
 #HOST=RonMBP
 
-
 export HISTFILESIZE=20000
 export HISTSIZE=10000
 export HISTCONTROL=erasedups:ignoredups:ignorespace
