@@ -127,6 +127,17 @@ alias myip="curl icanhazip.com"  #site curl ip.appspot.com is unreliable
 alias macch='sudo macchanger -r en4'
 alias geoip='curl ipinfo.io/"$1"'
 # geoip2 () { read ip; curl ipinfo.io/$ip ; }  #Alternative to read in the IP
+##===============SSH Aliases====================##
+alias server_name='ssh -v -l USERNAME IP ADDRESS'
+alias gitssh='ssh -T git@github.com'  # Must use git username & gets real USER from config file
+alias gitsshv='ssh -vT git@github.com'   # verbose option
+alias sshgit='ssh -p 443 -i ~/.ssh/id_rsa_jomsai git@github.com'
+alias sshpid='ps -e | grep ssh-agent | cut -d " " -f1'  #PID of ssh service so I can whack it
+#alias sshpid='ps -e | grep ssh-agent | cut -d " " -f1 && sudo killall ssh-agent && '  #Need a restart method
+alias sshscp='sudo scp ~/.ssh/id_rsa_jomsai.pub switch@192.168.64.5:/home/switch'
+alias scpfile='sudo scp -i ~/.ssh/id_rsa_jomsai "$1" switch@192.168.64.5:/home/switch'
+alias sshswitch='ssh -i ~/.ssh/id_rsa_jomsai switch@192.168.64.5'
+
 ##===============Processes======================##
 alias cpuboot='sysctl kern.boottime | cut -d "}" -f2 | cut -c 2-26'
 alias cpuendian='sysctl hw.byteorder | cut -d ":" -f2 | cut -c 2-6 && printf " ==>Little Endian=1234"'
@@ -135,6 +146,7 @@ alias cpuhog='ps wwaxr -o pid,stat,%cpu,time,command | head -10'
 alias cpumodel='sysctl machdep.cpu.brand_string | cut -d ":" -f2 | cut -c 2-44'
 alias cpustats='iostat'
 alias flush="sudo killall -HUP mDNSResponder"
+alias free='/opt/pkg/bin/free'  #Kid get yaself a system
 alias hd="tail -n 35 /var/log/daily.out | grep /dev/disk1 | awk {'print \$5'}"  #Mac HD Avail Space
 alias homedirsize='du -chd 1 | grep total'  # Size Home DIR in GB
 
@@ -188,12 +200,6 @@ tdump () { sudo tcpdump -i $(nface) -PnnvvveXXSs 1514 -c2000 -w /tmp/tdump2k.pca
 tdumpwifi () { sudo tcpdump -i $(nface) -IPnnvvveXXSs 1514 -c2000 -w /tmp/tdump2k.pcapng ; }
 tdumpping () { sudo tcpdump -i $(nface) -IPennvXXSs 1514 icmp -c20 -w /tmp/tdumpping.pcapng ; }
 function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}  #$sanitize file/DIR Permissions
-##==================SSH=========================##
-alias server_name='ssh -v -l USERNAME IP ADDRESS'
-alias gitssh='ssh -T git@github.com'  # Must use git username & gets real USER from config file
-alias gitsshv='ssh -vT git@github.com'   # verbose option
-
-
 
 ##===========Package Manager====================##
 alias pkginstall='sudo pkgin install'
@@ -405,6 +411,17 @@ ques=${bldblu}?${txtrst}
 # mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\"" ; }
 # Setting PATH for Python 3.5
 # The original version is saved in .bash_profile.pysave
+
+#GPG for SSH Key Handshake
+[ -f ~/.gpg-agent-info ] && source ~/.gpg-agent-info
+if [ -S "${GPG_AGENT_INFO%%:*}" ]; then
+	export GPG_AGENT_INFO
+	export SSH_AUTH_SOCK
+	export SSH_AGENT_PID
+else
+       	eval $( gpg-agent --daemon --write-env-file ~/.gpg-agent-info )
+fi
+
 export CURL_CA_BUNDLE=~/.ssh/cacert.pem
 PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
 export PATH
