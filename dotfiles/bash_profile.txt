@@ -13,6 +13,9 @@ export PS1;
 
 #PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
 
+SEP=##=============================================##
+
+
 ##==================ENV=========================##
 alias env2='export -p'  #List of all Shell VAR declared
 alias env='printenv'   #Same as above via another command. Shows _ VAR
@@ -129,15 +132,17 @@ alias geoip='curl ipinfo.io/"$1"'
 # geoip2 () { read ip; curl ipinfo.io/$ip ; }  #Alternative to read in the IP
 ##===============SSH Aliases====================##
 alias server_name='ssh -v -l USERNAME IP ADDRESS'
-alias gitssh='ssh -T git@github.com'  # Must use git username & gets real USER from config file
-alias gitsshv='ssh -vT git@github.com'   # verbose option
-alias sshgit='ssh -T -p 443 -i ~/.ssh/id_rsa_jomsai git@github.com'  #-T stops pseudoterminal warning
+alias sshagent='ls /System/Library/LaunchAgents | grep ssh'
+alias sshgit='ssh -T -i ~/.ssh/id_rsa git@github.com'  #-T stops pseudoterminal warning
+alias sshkeys='ssh-keygen -lv -f ~/.ssh/id_rsa.pub && ssh-add -l'
+alias sshstartkey='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_rsa && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"'
 alias sshkeychainadd='/usr/bin/ssh-add -K' # 1 ARG identity key
 alias sshpid='ps -e | grep ssh-agent | cut -d " " -f1'  #PID of ssh service so I can whack it
 #alias sshpid='ps -e | grep ssh-agent | cut -d " " -f1 && sudo killall ssh-agent && '  #Need a restart method
-alias sshscp='sudo scp ~/.ssh/id_rsa_jomsai.pub switch@192.168.64.5:/home/switch'
-alias scpfile='sudo scp -i ~/.ssh/id_rsa_jomsai "$1" switch@192.168.64.5:/home/switch'
-alias sshswitch='ssh -i ~/.ssh/id_rsa_jomsai switch@192.168.64.5'
+alias sshscpswitch='scp ~/.ssh/id_rsa.pub switch@192.168.64.5:/home/switch'
+alias sshscppedro='scp ~/.ssh/id_rsa.pub pedro@192.168.1.3:/home/pedro'
+alias sshswitch='ssh -i ~/.ssh/id_rsa switch@192.168.64.5'
+alias sshpedro='ssh -i ~/.ssh/id_rsa pedro@192.168.1.3'
 
 ##===============Processes======================##
 alias cpuboot='sysctl kern.boottime | cut -d "}" -f2 | cut -c 2-26'
@@ -226,6 +231,20 @@ alias gx='gitx --all'
 # NOTE: hist alias in .gitconfig used as git hist gives a pretty=format history
 # https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
 source ~/git-completion.bash   # need the file from URL above in ~
+
+
+
+
+alias dversion='docker --version && docker-compose --version && docker-machine --version && docker version'
+
+
+
+
+
+
+
+
+
 
 ##===============Message Center=================##
 #== echo -e for ESC, \033 works > \e on MacOS====#
@@ -412,16 +431,6 @@ ques=${bldblu}?${txtrst}
 # mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\"" ; }
 # Setting PATH for Python 3.5
 # The original version is saved in .bash_profile.pysave
-
-#GPG for SSH Key Handshake
-[ -f ~/.gpg-agent-info ] && source ~/.gpg-agent-info
-if [ -S "${GPG_AGENT_INFO%%:*}" ]; then
-	export GPG_AGENT_INFO
-	export SSH_AUTH_SOCK
-	export SSH_AGENT_PID
-else
-       	eval $( gpg-agent --daemon --write-env-file ~/.gpg-agent-info )
-fi
 
 export CURL_CA_BUNDLE=~/.ssh/cacert.pem
 PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
