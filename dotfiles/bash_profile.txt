@@ -11,11 +11,7 @@ PS1+="\[$(tput setaf 1)\]\\$ ";
 PS1+="\[$(tput sgr0)\]";
 export PS1;
 
-#PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
-
-SEP=##=============================================##
-
-
+SEP="##===========================##"
 ##==================ENV=========================##
 alias env2='export -p'  #List of all Shell VAR declared
 alias env='printenv'   #Same as above via another command. Shows _ VAR
@@ -83,9 +79,8 @@ alias ls.d='ls -ld `find . -maxdepth 1 -type d -o -type l`'  # Dot DIR Only
 alias less='less -FSRXc'  # Preferred 'less' implementation
 ##=========Edit Source Backup Dotfiles==========##
 alias so='source ~/.bash_profile && cp ~/.bash_profile ~/.bash_profile.bak && cp ~/.bash_profile ~/Vim-rep/dotfiles/bash_profile.txt && echo "Yeah Baby!"'
-# To Source my .vimrc works but exits 1 due to Vundle ERR so next requires || 
-alias sovim='source .vimrc || cp .vimrc .vimrc.bak && cp .vimrc ~/Vim-rep/dotfiles/VIMRC.txt && echo "Whatttyyyaaaaa"'
-alias sotmux='tmux source-file ~/.tmux.conf && cp ~/.tmux.conf ~/.tmux.conf.bak && cp ~/.tmux.conf ~/Vim-rep/dotfiles/tmux.conf.txt'
+alias sovim='source .vimrc || \cp ~/.vimrc ~/.vimrc.bak && \cp ~/.vimrc ~/Vim-rep/dotfiles/VIMRC.txt && echo "Whatttyyyaaaaa"'
+alias sotmux='\cp ~/.tmux.conf ~/.tmux.conf.bak && cp ~/.tmux.conf ~/Vim-rep/dotfiles/tmux.conf.txt'
 alias tmux3='tmux && tmux split-window -v -l 30 && tmux split-window -h'
 
 alias ebp="$EDITOR ~/.bash_profile"  # Quick access to the file in Vim
@@ -101,9 +96,7 @@ alias catread='cat ./README'
 alias spk1='say "What the hell do you want from me"'
 alias spk2='say "after a while ya just see blonde und brunette" && cmatrix'
 alias cpwd='pwd|tr -d "\n"|pbcopy'
-alias yt="youtube-dl '$0'"
-#alias ckgy='vlc rtsp://newcap-RedDeer-CKGY.wm.llnwd.net/newcap_RedDeer-CKGY' # Country Radio?
-
+function yt() { youtube-dl -f mp4 $@ ; }
 count() { python -c "for num in xrange($1):print num" ; }  #count0-ARG down screen
 psman() { man -t "${1}" | open -f -a /Applications/Preview.app/ ; }  #Open ManPage in Preview
 ql () { qlmanage -p "$*" >& /dev/null; }  # Quicklook any file in Preview
@@ -113,7 +106,6 @@ alias p1='scutil -r ${intip} 8.8.8.8'  # simple ping reachable?
 alias fastping='ping -c 100 -s.2'
 alias dnsping="scutil --dns | tail -n1 | cut -c 14-26" #MacOS Reachable or Not Reachable
 alias host='sysctl -a | grep hostname | cut -d ":" -f2 | cut -c 2-10'
-
 alias ipcfg="nface | xargs ipconfig getpacket"  #ARG before COMMAND with xargs
 alias routes='netstat -r'
 alias tcp='netstat -anp tcp'
@@ -138,12 +130,10 @@ alias sshkeys='ssh-keygen -lv -f ~/.ssh/id_rsa.pub && ssh-add -l'
 alias sshstartkey='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_rsa && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"'
 alias sshkeychainadd='/usr/bin/ssh-add -K' # 1 ARG identity key
 alias sshpid='ps -e | grep ssh-agent | cut -d " " -f1'  #PID of ssh service so I can whack it
-#alias sshpid='ps -e | grep ssh-agent | cut -d " " -f1 && sudo killall ssh-agent && '  #Need a restart method
 alias sshscpswitch='scp ~/.ssh/id_rsa.pub switch@192.168.64.5:/home/switch'
 alias sshscppedro='scp ~/.ssh/id_rsa.pub pedro@192.168.1.3:/home/pedro'
 alias sshswitch='ssh -i ~/.ssh/id_rsa switch@192.168.64.5'
 alias sshpedro='ssh -i ~/.ssh/id_rsa pedro@192.168.1.3'
-
 ##===============Processes======================##
 alias cpuboot='sysctl kern.boottime | cut -d "}" -f2 | cut -c 2-26'
 alias cpuendian='sysctl hw.byteorder | cut -d ":" -f2 | cut -c 2-6 && printf " ==>Little Endian=1234"'
@@ -164,7 +154,6 @@ alias memswap='sysctl vm.swapusage | cut -d ":" -f2 | cut -c 2-62'
 alias psname="ps -o comm= -p $1"   # ARG is PID and will tell you the Name of the Process
 alias services='launchctl list'
 alias servicefind='launchctl list | grep'  #Needs 1 ARG like ssh-agent,
-alias top='htop'
 alias ttop='\top -R -F -s 10 -o rsize'  # Low Resource Top
 
 #    Hosts file info
@@ -187,7 +176,7 @@ ii()
 
 ##===================Search=====================##
 alias fhere="find . -name "
-alias ff=find . -name $1
+alias ff='find . -name $1'
 
 spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; } #Mac spotlight metadata search
 ##==================Security====================##
@@ -211,6 +200,7 @@ function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}  #$sanitize file/DIR Permis
 alias pkginstall='sudo pkgin install'
 alias pkgfind='\pkgin avail | grep '
 alias pkglist='pkgin list'  # All local packages installed
+alias pkgupdate='sudo pkgin full-upgrade'
 
 ##================Github========================##
 source ~/.git-prompt.sh
@@ -232,33 +222,20 @@ alias gx='gitx --all'
 # https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
 source ~/git-completion.bash   # need the file from URL above in ~
 
-
-
-
 alias dversion='docker --version && docker-compose --version && docker-machine --version && docker version'
-
-
-
-
-
-
-
-
-
-
 ##===============Message Center=================##
 #== echo -e for ESC, \033 works > \e on MacOS====#
 #== quoting () work but also generate error
-echo -e "ALERT *\\*/ ${PURPLE}${WBG}MOTD${NC}"  #Message in Purple on Yellow
-echo -e "${CYAN}${WBG}BASH Version $(which bash --version) - for $USER${NC}"
-echo -e "MOTD \033[107;38;5;199m Fuhgettaboutit \033[33;48;5;52m Semper fi $NC"
-echo -e "$GreenBrownBG Conf in 10 minutes NOT MANDATORY... Free Cookies! $NC"
-echo -e "${BlackYellowBG} Welcome to a new day! ${NC}"
-echo -e "${bldgrn}Green tput ${bldmag}MOTD${txtrst}"
-echo "$bldgrn Help me I am out of Oreos! $txtrst"
-echo "${bldmag} Party at the Boss House 7PM! ${txtrst}"
-echo "${reverse} Reverse Current FGBG Text MOTD${txtrst}"
-printf '\e[38;5;222;48;5;238m  Hi  \e[0m\n'
+#echo -e "ALERT *\\*/ ${PURPLE}${WBG}MOTD${NC}"  #Message in Purple on Yellow
+#echo -e "${CYAN}${WBG}BASH Version $(which bash --version) - for $USER${NC}"
+#echo -e "MOTD \033[107;38;5;199m Fuhgettaboutit \033[33;48;5;52m Semper fi $NC"
+#echo -e "$GreenBrownBG Conf in 10 minutes NOT MANDATORY... Free Cookies! $NC"
+#echo -e "${BlackYellowBG} Welcome to a new day! ${NC}"
+#echo -e "${bldgrn}Green tput ${bldmag}MOTD${txtrst}"
+#echo "$bldgrn Help me I am out of Oreos! $txtrst"
+#echo "${bldmag} Party at the Boss House 7PM! ${txtrst}"
+#echo "${reverse} Reverse Current FGBG Text MOTD${txtrst}"
+#printf '\e[38;5;222;48;5;238m  Hi  \e[0m\n'
 
 # Server will SHUTDOWN Message function using tput 6 or CYAN
 gohome()
@@ -431,6 +408,9 @@ ques=${bldblu}?${txtrst}
 # mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\"" ; }
 # Setting PATH for Python 3.5
 # The original version is saved in .bash_profile.pysave
+# Remove a file ARG1 by its inode
+#alias rminode='find . -inum "$1" -exec rm {} \;'
+#rminode () { find . -inum "$1" -exec rm {} + ; }
 
 export CURL_CA_BUNDLE=~/.ssh/cacert.pem
 PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
