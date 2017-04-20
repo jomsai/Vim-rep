@@ -1,0 +1,370 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+##=============BEGIM My PERSONAL SETTINGS=======##
+##=================My Aliases===================##
+##================Centos RPM Aliases============##
+##===============Yum Package Manager============##
+alias yumupdate='sudo yum update -y'  # No ARG needed
+alias yuminstall='sudo yum install -y'  # needs 1 ARG
+alias yumfind='sudo yum list | grep' # needs 1 ARG
+alias yuminfo='sudo yum info'  # needs 1 ARG
+alias yumlocalpackages='yum list installed > ~/Documents/yum_packages_installed.txt'
+
+##==================FirewallD Rules=============##
+
+alias fwls='sudo firewall-cmd --list-all-zones'
+alias fwreload='sudo firewall-cmd --reload'
+alias fwmyzone='sudo firewall-cmd --zone=dmz --list-all'
+alias fwdmz='sudo iptables -t filter -vnL | grep _dmz_'
+alias fwstate='sudo firewall-cmd --state && sudo systemctl status firewalld && sudo firewall-cmd --zone=dmz --list-all'
+alias fwdefault='sudo firewall-cmd --get-default-zone && echo "Default ABOVE Active BELOW" && sudo firewall-cmd --get-active-zones'
+alias fwzoneon='sudo firewall-cmd --get-active-zones && sudo firewall-cmd --list-all --zone='
+alias fwservices='sudo firewall-cmd --get-services | xargs -n 1'
+alias fwchzone='sudo firewall-cmd --set-default-zone='
+alias fwactivezone='sudo firewall-cmd --get-active-zones'
+
+##=================Fail2ban Aliases=============##
+
+alias f2bsshlog='sudo cat /var/log/secure | grep "Failed password"'
+alias f2bblocks='sudo iptables -L -n'
+alias f2bjail='sudo fail2ban-client status'
+alias f2bunbanip='sudo fail2ban-client set sshd unbanip' # needs 1 IP ARG
+alias f2blog='sudo tail -n 40 /var/log/fail2ban.log'
+alias f2blog2='sudo tail -n 40 /var/log/secure'
+alias f2bstate='sudo systemctl status fail2ban && echo"$(tput setaf 3)F2B Reloaded$(tput sgr0)"'
+alias f2bstate2='sudo fail2ban-client status'
+
+##==================IPTABLES Rules==============##
+alias iptlist='sudo iptables -nL'
+
+
+##===================SELINUX====================##
+alias selogs='sudo sealert -a /var/log/audit/audit.log'  #GUI tool parses the logfile
+alias sesvc='sudo semanage port -l | grep'  #ARG=service
+alias sestatus='sudo sestatus && sudo semanage user -l && sudo sealert -a /var/log/audit/audit.log'
+
+
+##=============RKHunter Aliases=================##
+
+alias rkcheck='sudo rkhunter -c'
+alias rkcron='sudo rkhunter --cronjob > /tmp/RKHUNTERLOG.txt' #No color, no keypresses, to a file
+alias rklog='sudo cat /var/log/rkhunter/rkhunter.log'
+alias rklogexport='sudo cat /var/log/rkhunter/rkhunter.log > ~/Desktop/RKHUNTERLOG.txt'
+alias rkupdate='sudo rkhunter --update'
+alias rkversion='sudo rkhunter -V && sudo rkhunter --versioncheck'
+alias rktests='sudo rkhunter --list rootkits && sudo rkhunter --list tests'
+
+#===============File .bashrc Intro===============#
+
+#====My PS1 from Kirsle Online PS1 generator=====#
+#PS1="\[$(tput bold)\]\[$(tput setaf 5)\]\t\[$(tput setaf 2)\][\[$(tput setaf 4)\] \u \[$(tput setaf 1)\]]==> \[$(tput setaf 3)\]\h \[$(tput setaf 6)\] \W ]\[$(tput bold)\]\[$(tput setaf 2)\][ $?! ]\[$(tput setaf 4)\][[>\[$(tput setaf 1)\]\\$ \[$(tput sgr0)\]"
+
+
+PS1="\[$(tput bold)\]\[$(tput setaf 5)\]\t\[$(tput setaf 2)\][\[$(tput setaf 6)\] \u@\[$(tput setaf 3)\]\h \[$(tput setaf 6)\] \W ]\[$(tput bold)\]\[$(tput setaf 2)\][ $?! ]\[$(tput setaf 4)\][[>\[$(tput setaf 1)\]\\$ \[$(tput sgr0)\]"
+#====================Aliases=====================#
+#======================ls========================#
+#==Set ls then others should call same options===#
+alias ls='ls -XhailcF --color=auto'
+alias ll='ls -lv --group-directories-first'
+alias lss='ls | less'  # ls+less
+alias ln='ls -n'  # UID PID instead of names
+alias lr='ls -r'  #reverse alphabetical sort
+alias lsize='ls -S'   #Sort by file size
+alias lmod='ls -tlc'  # Sort by Mod Time, New 1st
+alias lmodr='ls -tlcr' # Sort by Modification Time New Last
+alias lswc='ls | wc -l'  # This ls has how many lines?
+alias ld='ls -d */'   # only Dirs
+alias l.='ls -dAFh .[^.]*'  # ls only Dotfiles
+alias lst='ls -hFtal | grep $(date +%Y-%m-%d)' #ls Today
+alias lz='ls -Z'  #SELinux Security Context ls
+
+#======================cd========================#
+alias ..='cd ..'
+alias ...='cd ../../'
+alias ....='cd ../../../'
+alias .....='cd ../../../../'
+alias ......='cd ../../../../../'
+
+#==================Fixes for Sudo================#
+# I prefer command | xargs sudo
+# alias ll | sed "s/.*'\(.*\)'.*/\1/g" | xargs sudo
+alias sudo='sudo '
+alias sbb='sudo $(fc -ln -1)'  # sudo !! shortcut
+
+#==================Yum & Dotfiles================#
+
+#===tmux Edit/Source/Backup/Split .tmux.conf=====#
+alias so='source ~/.bash_profile && \cp ~/.bashrc ~/.bashrc.bak && \cp ~/.bashrc ~/Documents/BASHRC_C7D.txt && echo "Yep BASHRC Saved!!!!"'
+alias sotmux='source ~/.tmux.conf && \cp ~/.tmux.conf ~/.tmux.conf.bak && \cp ~/.tmux.conf ~/Documents/TMUX_C7D.conf.txt && echo "TMUX Awesome!"'
+alias tmuxv='tmux split-window -h -p 40'
+alias tmuxh='tmux split-window -v -l 30'
+alias tmuxhh='tmux split-window -h -p 50'
+alias sovim='source ~/.vimrc && \cp ~/.vimrc ~/.vimrc.bak && \cp ~/.vimrc ~/Documents/VIMRC_C7D.txt && echo "VIMRC Saved!"'
+#=============Edit the Dotfiles==================#
+alias ebrc='vim ~/.bashrc'
+alias evrc='vim ~/.vimrc'
+alias etmux='vim ~/.tmux.conf'
+#=======Environemental Variables=================#
+alias env='printenv'
+alias env2='export -p'
+alias path='echo -e ${PATH//:/\\n}'  # executable Paths
+#=============Environemental Variables shopt=====#
+alias shoptvar='shopt -p' # ShowALL & u=OFF, s=ON status
+alias shopton='shopt -s'    # Show all s=ON
+alias shoptoff='shopt -u'   # Show all u=OFF
+#=Bash Options=shopt -s=set -u=unset options=====#
+# -p=ListALLOptions -q=EXIT0 if set 1 if not=====#
+#= -o=List all SET env Options that are set on===#
+#shopt -s cdspell  #small spell autocorrects
+shopt -s cdable_vars  # cd ls assumes DIR where ls is
+shopt -s checkhash   # ls (does exist? yes ok do it)
+shopt -s checkwinsize   #update winsize if needed
+#shopt -s sourcepath  #Already Default enabled
+shopt -s no_empty_cmd_completion
+shopt -s extglob   # Needed for programmable completion
+#histappend --try to list long commands on 1 line
+# Disable options: # No shell warn incoming mail
+shopt -u mailwarn
+unset MAILCHECK
+#====history related shopt options
+shopt -s cmdhist #Saves all of a long cmd in history
+shopt -s histappend histreedit histverify
+PROMPT_COMMAND='history -a'
+
+#==============Archival & Packaging==============#
+#=======Note: Also zipf & extract Functions======#
+
+alias mktar='tar -cvf'
+alias mkbz2='tar -cvjf'
+alias mkgz='tar -cvzf'
+
+#==================Github Aliases================#
+alias ga='git add -A'                       #ga:    Git add all files
+alias gb='git branch'
+alias gcob='git checkout -b'
+alias gf='git fetch'
+alias gs='git status'                       #gs:    Git status
+alias gc='git commit -m'                    #gc:    Git commit w/ message
+alias gpu='git pull'                        #gpu:   Git pull
+alias gp='git push'                         #gp:    Git push
+alias gr='git revert HEAD'                  #gr:    Git revert HEAD
+alias gd="git diff --color"					#gd:	Git diff in color
+alias glog='git log'
+alias gco='git checkout'
+alias gk='gitk --all&'
+alias gx='gitx --all'
+
+# Git aliases from https://gist.github.com/ald890/9089169
+#alias g="git"
+#alias g:rollback="git reset --hard HEAD~1"
+#alias gb="git reset --soft HEAD~1"
+
+# https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
+#source ~/git-completion.bash   # need the file from URL above in ~
+#==================Networking====================#
+alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)'
+alias ping3='ping -c3 -s1 8.8.8.8'
+alias fastping='ping -c 100 -s.2'
+#alias nface="ip -s link | grep 2: | cut -d ' ' -f2" #Linux
+#alias nface2="ip addr | grep 'state UP' | gawk '{print $2}' | sed -e 's/://'"
+alias nface="ip addr | grep 'state UP' | cut -d ' ' -f2 | sed -e 's/://'"
+alias nface3="netstat -r | grep default | awk '{print $8}'" #Linux
+#alias intip='ifconfig | head -n 2 | grep inet | cut -c 14-24'
+alias intip="ip addr | grep 192.168.1.255 | cut -d '/' -f1 | cut -c 10-25"
+alias extip="curl icanhazip.com"
+alias extip2="dig +short myip.opendns.com @resolver1.opendns.com"
+alias os='uname -r'
+alias routes='netstat -r'
+alias tcp='netstat -anp tcp'
+alias udp='netstat -anp udp'
+alias ports="sudo lsof -i | grep LISTEN && netstat -an | grep LISTEN"  #ports: listen connections x2
+alias listen='netstat -anp tcp | grep LISTEN'  # listen: All listen connections
+alias sock='lsof -i'  #All open TCP/IP Sockets
+alias loop='netstat -anp tcp | grep 127.0.0.1'  # Loopback interface tcp stats
+alias tdump='sudo tcpdump -i 1 -c800 -ttt -w ~/Documents/tdump800'
+uuid() { nmcli c | grep ethernet | awk '{print $2}' ; }
+
+alias cdext4='cd /run/media/pedro/8d8dd6fb-5eb8-4f43-a764-fd2e96b2e607'
+alias cdntfs='cd /run/media/pedro/NTFS'
+
+alias sshreload='sudo systemctl status sshd && sudo systemctl stop sshd && sudo systemctl start sshd && echo "SSH Reloaded"'
+alias sshstatus='sudo systemctl status sshd'
+alias sshcork='ssh -i ~/.ssh/id_rsa cork@192.168.1.2 -v'
+alias sshgit='ssh -Tv git@github.com'
+alias sshdepend='sudo systemctl list-dependencies sshd'
+alias sshswitch='ssh -i ~/.ssh/id_rsa switch@192.168.64.5 -v'
+alias sshkey='ssh-add -l'  # Either no ID or shows active fingerprint
+alias sshenv='ssh-agent -s'
+alias sshstartkey='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_rsa && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"'
+alias sshkeychainadd='/usr/bin/ssh-add -k ~/.ssh/id_rsa'  #Need passphrase ready & adds key ID to the keychain
+alias sshdeleteremotekey='ssh-keygen -R'  #Needs 1 ARG for remote IP
+alias sshfingerprint='sudo ssh-keygen -lv -f ~/.ssh/id_rsa.pub'
+alias sshdebug='sudo /usr/sbin/sshd -d'
+
+
+
+#===================System Services==============#
+alias reboot='sudo systemctl reboot' #All users get a warning
+alias poweroff='sudo systemctl poweroff' #All users get a warning
+alias halt='sudo systemctl halt' #All users get a warning
+alias sysctla='sudo systemctl list-units --all --state=active'
+alias sysctli='sudo systemctl list-units --all --state=inactive'
+alias sysctlall='sudo systemctl list-unit-files --all'
+alias sysctl='sudo systemctl status'
+alias sysreload='sudo systemctl reload'
+alias syson='sudo systemctl start'
+alias sysoff='sudo systemctl stop'
+
+#==================Virus Scanning================#
+alias vscan='sudo clamscan'
+alias vdb='sudo freshclam'
+alias vhelp='clamscan --help'
+alias vdownloads='sudo clamscan -r --bell -i ~/Downloads -l /var/log/clamscan.log'
+alias vroot='sudo clamscan -ri / -l /var/log/clamscan.log'
+alias vhome='sudo clamscan -ri ~ -l /var/log/clamscan.log'
+alias vlog='sudo tail -n 40 /var/log/clamscan.log > ~/Desktop/ClamLOG.txt'
+
+#===================VM Management================#
+#====cpu#==64bit=or=32==Intel=vmx=AMD=svm=etc====#
+alias cpuinfo='cat /proc/cpuinfo | grep --color -E "vmx|svm|lm"'
+alias cpus='grep processor /proc/cpuinfo'
+alias cpuspecs='head /proc/cpuinfo'
+alias cpuram='free -m'
+alias cpuswap='free -m'
+alias vmsize='ls -Rh ~/VirtualBox\ VMs/ | grep .vdi'
+
+#================Misc Aliases====================#
+#==============Some safer Options================#
+alias chown='chown --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chgrp='chgrp --preserve-root'
+alias cp='cp -i'
+alias mv='mv -i'
+alias ln='ln -i'
+alias rm='rm -I --preserve-root' #Interactive > 3 files & nada under /
+
+#alias -- -="cd -" # Have no idea about this. Gotta know.
+alias c='/usr/bin/clear'
+alias diff='colordiff'
+alias du='du -kh'
+alias df='df -kTh'
+
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias grep='grep --color=auto'
+alias fhere="find . -name "
+alias h='history'
+alias j='jobs'
+alias less='less -R --tabs=4' # colorful 'less', tab stops = 4
+alias mkdir='mkdir -p -v'
+alias mount='mount |column -t'
+alias now='date +"%T"'
+alias now='date +"%T"'
+alias nowtime=now
+alias nowdate='date +"%d-%m-%Y"'
+# bc format example -Remeber to install bc
+alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)'
+
+alias python3='/usr/bin/python3.5'
+
+alias SEPARATOR='##=====================/\========================##'
+alias sha1='openssl dgst -sha1 '
+alias sha256='openssl dgst -sha256 '
+alias sha512='openssl dgst -sha512 '
+
+alias term_size='echo "Rows=$(tput lines) Cols=$(tput cols)"'
+alias vi=vim
+alias edit="$EDITOR"  # if not set then use vim in quotes
+
+alias yt="youtube-dl $1 > ~/Downloads/$1"
+
+##=================Docker=======================##
+alias dimg='sudo systemctl status docker && echo "$(tput setaf 3)##================Docker Status and Current Docker Images===============##$(tput sgr0)" && sudo docker images'
+alias dkali='sudo docker run -i -t b0d9d7dfbd0a /bin/bash'
+
+
+#=============Functions & Scripts================#
+
+cd() { builtin cd "$@" && ls; }   # cd then ls DIR
+
+# No more cd ../../../
+up() {
+	local d=""
+	limit=$1
+	for ((i=1; i<=limit; i++))
+		do
+			d=$d/..
+		done
+	d=$(echo $d | sed 's/^\///')
+	if [ -z "$d" ]; then
+		d=..
+	fi
+	cd $d
+}
+
+# Make sure these commands are done via root
+# I have an alias for this already sudo included
+# Maybe other commands can use this
+if [ $UID -ne 0 ]; then
+	alias reboot='sudo reboot'
+	alias update='sudo apt-get upgrade'
+fi
+
+zipf () { zip -r "$1".zip "$1" ; }  # zipf:Create a ZIP archive of a folder
+
+# extract function for any Archive Compression Type
+extract () {
+	if [ -f $1 ] ; then
+		case $1 in
+			*.tar.bz2)   tar xjf $1     ;;
+			*.tar.gz)    tar xzf $1     ;;
+			*.bz2)       bunzip2 $1     ;;
+			*.rar)       unrar e $1     ;;
+			*.gz)        gunzip $1      ;;
+			*.tar)       tar xf $1      ;;
+			*.tbz2)      tar xjf $1     ;;
+			*.tgz)       tar xzf $1     ;;
+			*.zip)       unzip $1       ;;
+			*.Z)         uncompress $1  ;;
+			*.7z)        7z x $1        ;;
+			*)     	 echo "'$1' cannot be extracted via extract()" ;;
+		esac
+	else
+						 echo "'$1' is not a valid file"
+	fi
+}
+
+# Function to move to new DIR when created. cd - then toggles last 2 DIR
+function mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\""; }
+# function to print nunbers down the screen as per $1 e.g. count 6
+function count(){ python -c "for num in xrange($1):print num";}
+
+# Make your directories and files access rights sane. For EVAL.
+#function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
+
+# tput SETAF Text 8 color variables
+txtund=$(tput sgr 0 1)  # Underline
+txtbld=$(tput bold)   # Bold
+bldred=${txtbld}$(tput setaf 1) #  red
+bldgrn=${txtbld}$(tput setaf 2) #  green
+bldyel=${txtbld}$(tput setaf 3) #  yellow
+bldblu=${txtbld}$(tput setaf 4) #  blue
+bldmag=${txtbld}$(tput setaf 5) #  magenta
+bldcyn=${txtbld}$(tput setaf 6) #  cyan
+bldwht=${txtbld}$(tput setaf 7) #  white
+reverse=${txtbld}$(tput rev)    # reverse FGBG
+txtrst=$(tput sgr0)             # Reset
+info=${bldwht}*${txtrst}        # Feedback
+pass=${bldblu}*${txtrst}
+warn=${bldred}*${txtrst}
+ques=${bldblu}?${txtrst}
+##============END My PERSONAL SETTINGS==========##

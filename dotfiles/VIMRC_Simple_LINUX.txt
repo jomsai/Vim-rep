@@ -1,0 +1,35 @@
+set nocompatible
+set number
+set ruler
+set showcmd
+set magic
+set wildmenu
+set shell=bash
+set term=xterm-256color
+set t_Co=256
+set autochdir
+
+set showmatch
+set autoindent
+set smartindent
+set tabstop=8
+set softtabstop=4
+set expandtab
+set smarttab
+set shiftwidth=4
+set laststatus=2
+
+set ignorecase
+set smartcase
+
+set hlsearch
+set incsearch
+
+set synmaxcol=2048
+set scrolloff=5
+set sidescroll=1
+set nostartofline
+set confirm
+
+set visualbell
+set t_vb
