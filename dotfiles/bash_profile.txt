@@ -12,19 +12,19 @@ PS1+="\[$(tput sgr0)\]";
 export PS1;
 
 SEP=##=============================================##
-##==================ENV=========================##
+##=====================ENV=========================##
 alias env2='export -p'  #List of all Shell VAR declared
 alias env='printenv'   #Same as above via another command. Shows _ VAR
-alias bashv="/usr/local/bin/bash --version | grep darwin | cut -c 19-30"
+alias bashv="/usr/local/bin/bash --version | grep darwin | cut -c 19-35"
 alias path='echo -e ${PATH//:/\\n}'  # path: Echo all executable Paths
 alias shopt='shopt'   # Show_options: display bash options settings
 alias term_size='echo "Rows=$(tput lines) Cols=$(tput cols)"'
 
-PATH=/opt/pkg/bin/vim:$PATH  #Where Vim 8.0 is
-PATH=/Library/Frameworks/Python.framework/Versions/3.5/bin/:$PATH   #Where Py3 is
-VISUAL=/opt/pkg/bin/vim; export VISUAL
-VIM=/opt/pkg/bin/vim
-EDITOR=/opt/pkg/bin/vim; export EDITOR
+PATH=/usr/local/Cellar/vim/*/bin:$PATH  #Where Vim 8.0 is
+PATH=/usr/local/bin/python3:$PATH   #Where Py3 is
+VISUAL=/usr/local/Cellar/vim/*/bin; export VISUAL
+VIM=/usr/local/Cellar/vim/*/bin
+EDITOR=/usr/local/Cellar/vim/*/bin; export EDITOR
 PAGER=/usr/bin/less; export PAGER
 SHELL=/usr/local/bin/bash
 
@@ -75,7 +75,6 @@ alias lswc='ls -al | wc -l'  # Items in DIR via ls with word count
 alias lsl='ls -lah@e -G | less'
 alias ld='ls -d */' # only Dirs
 alias ls.d='ls -ld `find . -maxdepth 1 -type d -o -type l`'  # Dot DIR Only
-
 alias less='less -FSRXc'  # Preferred 'less' implementation
 ##=========Edit Source Backup Dotfiles==========##
 alias so='source ~/.bash_profile && \cp ~/.bash_profile ~/.bash_profile.bak && \cp ~/.bash_profile ~/Vim-rep/dotfiles/bash_profile.txt && echo "Yeah Baby!"'
@@ -83,7 +82,7 @@ alias so='source ~/.bash_profile && \cp ~/.bash_profile ~/.bash_profile.bak && \
 alias sovim='source .vimrc || \cp ~/.vimrc ~/.vimrc.bak && \cp ~/.vimrc ~/Vim-rep/dotfiles/VIMRC.txt && echo "Whatttyyyaaaaa"'
 alias sotmux='\cp ~/.tmux.conf ~/.tmux.conf.bak && cp ~/.tmux.conf ~/Vim-rep/dotfiles/tmux.conf.txt'
 alias tmux3='tmux && tmux split-window -v -l 30 && tmux split-window -h'
-
+alias tmuxhh='tmux split-window -hn-p 50'
 alias ebp="vim ~/.bash_profile"  # Quick access to the file in Vim
 alias evmrc="vim ~/.vimrc"
 ##=================MISC=========================##
@@ -97,7 +96,7 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias mkdir='mkdir -p'
 mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\"" ; }
-alias pi='echo $(echo "scale=90; 4*a(1)" | bc -l)'
+alias pi='echo $(echo "scale=70; 4*a(1)" | bc -l)'
 alias catread='cat ./README'
 alias spk1='say "What the hell do you want from me"'
 alias spk2='say "after a while ya just see blonde und brunette" && cmatrix'
@@ -210,13 +209,13 @@ tdumpwifi () { sudo tcpdump -i $(nface) -IPnnvvveXXSs 1514 -c2000 -w /tmp/tdump2
 tdumpping () { sudo tcpdump -i $(nface) -IPennvXXSs 1514 icmp -c20 -w /tmp/tdumpping.pcapng ; }
 function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}  #$sanitize file/DIR Permissions
 
-##===========Package Manager====================##
-alias pkginstall='sudo pkgin install'
-alias pkgfind='\pkgin avail | grep '
-alias pkglocal='pkgin list'  # All local packages installed
-alias pkgrepo='pkgin avail > /Users/ron/Documents/pkgin_installed.txt'
-alias pkgupdate='pkgin full-upgrade'
-alias pkgsearch='pkgin search' # ARG1=search term
+##===========Pkgsrc Package Manager=============##
+#alias pkginstall='sudo pkgin install'
+#alias pkgfind='sudo \pkgin avail | grep '
+#alias pkglocal='pkgin list'  # All local packages installed
+#alias pkgrepo='sudo pkgin avail > /Users/ron/Documents/pkgin_installed.txt'
+#alias pkgupdate='sudo pkgin -y update && sudo pkgin -y full-upgrade'
+#alias pkgsearch='sudo pkgin search' # ARG1=search term
 
 ##================Github========================##
 #source ~/.git-prompt.sh
@@ -240,17 +239,17 @@ source ~/git-completion.bash   # need the file from URL above in ~
 alias dversion='docker --version && docker-compose --version && docker-machine --version && docker version'
 ##===============Message Center=================##
 #== echo -e for ESC, \033 works > \e on MacOS====#
-#== quoting () work but also generate error
-echo -e "ALERT *\\*/ ${PURPLE}${WBG}MOTD${NC}"  #Message in Purple on Yellow
+#== quoting () works but also generate error
+#echo -e "ALERT *\\*/ ${PURPLE}${WBG}MOTD${NC}"  #Message in Purple on Yellow
 echo -e "${CYAN}${WBG}BASH Version $(which bash --version) - for $USER${NC}"
-echo -e "MOTD \033[107;38;5;199m Fuhgettaboutit \033[33;48;5;52m Semper fi $NC"
-echo -e "$GreenBrownBG Conf in 10 minutes NOT MANDATORY... Free Cookies! $NC"
-echo -e "${BlackYellowBG} Welcome to a new day! ${NC}"
-echo -e "${bldgrn}Green tput ${bldmag}MOTD${txtrst}"
-echo "$bldgrn Help me I am out of Oreos! $txtrst"
-echo "${bldmag} Party at the Boss House 7PM! ${txtrst}"
-echo "${reverse} Reverse Current FGBG Text MOTD${txtrst}"
-printf '\e[38;5;222;48;5;238m  Hi  \e[0m\n'
+#echo -e "MOTD \033[107;38;5;199m Fuhgettaboutit \033[33;48;5;52m Semper fi $NC"
+#echo -e "$GreenBrownBG Conf in 10 minutes NOT MANDATORY... Free Cookies! $NC"
+#echo -e "${BlackYellowBG} Welcome to a new day! ${NC}"
+#echo -e "${bldgrn}Green tput ${bldmag}MOTD${txtrst}"
+#echo "$bldgrn Help me I am out of Oreos! $txtrst"
+#echo "${bldmag} Party at the Boss House 7PM! ${txtrst}"
+#echo "${reverse} Reverse Current FGBG Text MOTD${txtrst}"
+#printf '\e[38;5;222;48;5;238m  Hi  \e[0m\n'
 
 # Server will SHUTDOWN Message function using tput 6 or CYAN
 gohome()
@@ -426,12 +425,8 @@ ques=${bldblu}?${txtrst}
 #rminode () { find . -inum "$1" -exec rm {} + ; }
 
 export CURL_CA_BUNDLE=/etc/ssl/cert.pem
-PATH="/Library/Frameworks/Python.framework/Versions/3.5/bin:${PATH}"
-export PATH
-#test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
-# Git autocompletion & prompt [ Next 34 lines]
-#source ~/.git-completion.sh
+# Git autocompletion & prompt
+source ~/.git-completion.sh
 #source ~/.git-prompt.sh
-#PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w $(__git_ps1 "(%s)")$ '
 #PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
