@@ -133,7 +133,7 @@ alias geoip='curl ipinfo.io/"$1"'
 ##===============SSH Aliases====================##
 alias server_name='ssh -v -l USERNAME IP ADDRESS'
 alias sshagent='ls /System/Library/LaunchAgents | grep ssh'
-alias sshgit='ssh -T -i ~/.ssh/id_rsa git@github.com'  #-T stops pseudoterminal warning
+alias sshgit='ssh -T -i ~/.ssh/github_rsa git@github.com'  #-T stops pseudoterminal warning
 alias sshkeys='ssh-keygen -lv -f ~/.ssh/id_rsa.pub && ssh-add -l'
 alias sshstartkey='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_rsa && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"'
 alias sshkeychainadd='/usr/bin/ssh-add -K' # 1 ARG identity key
@@ -189,7 +189,7 @@ ii()
 
 ##===================Search=====================##
 alias fhere="find . -name "
-alias ff=find . -name $1
+alias ff='find . -name $1'
 
 spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; } #Mac spotlight metadata search
 ##==================Security====================##
@@ -218,15 +218,14 @@ function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}  #$sanitize file/DIR Permis
 #alias pkgsearch='sudo pkgin search' # ARG1=search term
 
 ##================Github========================##
-#source ~/.git-prompt.sh
-alias ga='git add -A'                   	#ga:            Git add all files
-alias gs='git status'                       	#gs:            Git status
-alias gc='git commit -m'                   	#gc:            Git commit w/ message
+alias ga='git add -A'  #ga: Git add all files
+alias gs='git status'  #gs: Git status
+alias gc='git commit -m'  #gc: Git commit w/ message
 alias gf='git fetch'
-alias gpu='git pull'                        	#gpu:           Git pull
-alias gp='git push'                         	#gp:            Git push
-alias gr='git revert HEAD'                  	#gr:            Git revert HEAD
-alias gd="git diff --color"			#gd:	Git diff in color
+alias gpu='git pull'  #gpu: Git pull
+alias gp='git push'  #gp: Git push
+alias gr='git revert HEAD'  #gr: Git revert HEAD
+alias gd="git diff --color"	#gd: Git diff in color
 alias gt="git today --since='1 day ago'"	#gt:	Git last 24 hours
 alias gl="git log --pretty=format:'%h %ad | %s [%an]' --graph --since='30 days ago' --color"
 alias gogit='cd ~/Vim-rep && gs'
@@ -234,7 +233,14 @@ alias gk='gitk --all&'
 alias gx='gitx --all'
 # NOTE: hist alias in .gitconfig used as git hist gives a pretty=format history
 # https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
-source ~/git-completion.bash   # need the file from URL above in ~
+alias gitjustify='git remote set-url origin git@github.com:jomsai/Vim-rep.git' #Stops git push asking for password 
+
+#ssh://git@github.com/jomsai/Vim-rep.git
+#https://github.com/jomsai/Vim-rep.git
+#git config credential.helper store
+
+
+
 
 alias dversion='docker --version && docker-compose --version && docker-machine --version && docker version'
 ##===============Message Center=================##
@@ -427,6 +433,6 @@ ques=${bldblu}?${txtrst}
 export CURL_CA_BUNDLE=/etc/ssl/cert.pem
 
 # Git autocompletion & prompt
-source ~/.git-completion.sh
+source ~/.git-completion.bash
 #source ~/.git-prompt.sh
 #PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
