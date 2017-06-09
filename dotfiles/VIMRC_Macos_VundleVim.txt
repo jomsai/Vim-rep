@@ -1,0 +1,243 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" Vundle Plugin Manager setup starts here
+set rtp+=~/.vim/bundle/Vundle.vim  " Set RTP from REL path to include Vundle & initialize
+call vundle#begin()  " Add all Plugins you want installed between vundle#begin/end.
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'tpope/vim-fugitive'  " vim-fugitive plugin for  Git
+Plugin 'tpope/vim-commentary'  " Comment Uncomment code with gc
+"Plugin 'yuratomo/gmail.vim'  " Gmail inside Vim no need for elinks
+"Plugin 'git://github.com/Shougo/vimproc.git'
+Plugin 'Syntastic'  " Syntastic for Vim Syntax Hilighting
+Plugin 'flazz/vim-colorschemes' " Color Schemes that work great!
+Plugin 'powerline/fonts'
+Plugin 'tmux-plugins/vim-tmux'
+Plugin 'christoomey/vim-tmux-navigator'
+"Plugin 'vim-airline/vim-airline'
+"Plugin 'vim-airline/vim-airline-themes'
+call vundle#end()  " required & No Plugins past this line
+filetype plugin indent on  " required
+" To ignore plugin indent changes, instead use: filetype plugin on
+
+" Brief Vundle help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+" see :h vundle for more details or wiki for FAQ
+
+" Vim-Airline stuff
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#left_sep = ' '
+"let g:airline#extensions#tabline#left_alt_sep = '|'
+"let g:airline_powerline_fonts = 1
+
+"let &path = $path . 'c:\Program files\git\bin'  " Gmail PATH for gmail.vim
+" source ~/.mascpar  " Gmail.vim line
+
+syntax on
+syntax enable
+set encoding=utf-8 nobomb
+set nomodeline
+set clipboard=unnamed
+set wildmode=longest,list  " Bash-style tab completion At command line, complete longest common string, then list alternatives
+set wildmenu
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip  " MacOSX/Linux- Some file types not to search with
+
+" Turn off save swaps wipes out history counts! Undo OK
+"set noswapfile  " No swap files
+"set nowritebackup
+"set nobackup
+set viminfo='0,f0,%  " If no ARG won't use the file at all
+set history=1000  " Need to confirm this with backups off! 
+set undolevels=200  " Confirm this 
+" set updatecount=100  " switch every 100 chars
+
+set laststatus=2  " Always show a status line even if only 1 window
+set ignorecase  " Default to using case insensitive searches
+set smartcase  " if search has Capital letter be sensitive to that
+set smarttab  " Handle tabs more intelligently
+set hlsearch  " Highlight searches by default
+set incsearch  " Incrementally search while typing a /regex
+set ruler
+set magic
+
+"2 line number commands, see  http://vim.wikia.com/wiki/Display_line_numbers 
+set number " Show line numbers 
+" set relativenumber  " Display line number relative to cursor
+" set numberwidth=5
+
+" Enable folding -Eval or use Plugin-tmhedberg/SimpylFold
+"set foldmethod=indent
+"set foldlevel=99
+"nnoremap <space> za   " Remap to spacebar from za
+
+" Some Column stuff I need to evaluate
+set cul  " highlight current cursorline (cul)
+"hi CursorLine term=none cterm=none ctermbg=3  " adjust color
+"set colorcolumn=81  " 80-column line
+" set textwidth=80  "Show where 80 CHAR ends
+"set colorcolumn=+1
+" highlight! link ColorColumn CursorColumn " 1st time to see this link notation
+set cuc  " cursorcolumn (cuc) enabled
+
+set synmaxcol=2048  " Syntax coloring too-long lines is slow????
+set showmode
+set showmatch  " Show matching brackets
+set showcmd " Display incomplete command low R corner Vim window as I type
+set scrolloff=5  " when scrolling, keep cursor 5 lines away from screen border
+set sidescroll=1  " Also for side scrolling
+set sidescrolloff=15
+set nostartofline  " Cursor movement doesn't auto go to BOL
+set shortmess+=a  " Use [+]/[RO]/[w] for modified/readonly/written
+set confirm  " Y-N-C prompt if closing with unsaved changes
+set autochdir  " Change to DIR of the file you just opened say you used a filepath
+
+set term=xterm-256color  "Some color schemes need these 2 lines
+set t_Co=256
+
+set mouse-=a   " Disable mouse
+set mousehide  " Hide mouse after chars typed
+
+set noerrorbells  " No noise I hope no CLUNK!
+set vb t_vb= " disable any beeps or flashes on error
+set visualbell  " Use visual bell instead of beeping when doing something wrong
+" set novisualbell  " No blinking
+
+set backspace=2  " Delete (backspace) Key works on Mac OS X
+
+" Looking for a way to open a shell console when only Vim windows open
+set ttyfast  " we have a fast terminal
+set shell=bash
+
+set fileformats=unix,dos,mac  " support all three newline formats
+
+" Set , as mapleader & Open my .vimrc auto in V split
+let mapleader = "," " remains in effect in Bash so switched off
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>  " Hit ,ev to edit-vert .vimrc
+nnoremap <leader>sv :source $MYVIMRC<cr>  " Hit ,sv to quick so .vimrc
+
+set splitbelow
+set splitright
+
+" split screen navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Run Commands that require interactive Shell
+" nnoremap <Leader>r :RunInInteractiveShell<space>
+
+" Flazz Color Choices
+" colorscheme wombat
+" colorscheme molokai
+" colorscheme elflord
+" colorscheme zenburn
+" colorscheme morning
+" colorscheme desert
+" colorscheme evening
+" colorscheme pablo
+" colorscheme desert256
+" colorscheme breeze
+" colorscheme morning
+" colorscheme darkblue
+" colorscheme gothic
+" colorscheme aqua
+" colorscheme earth
+" colorscheme slate
+" colorscheme torte
+" colorscheme murphy
+" colorscheme koehler
+" colorscheme relaxedgreen
+" colorscheme darkblack
+" colorscheme chocolateliquor
+" colorscheme less
+" colorscheme impact
+" colorscheme motus
+" colorscheme freya
+" colorscheme black_angus
+" colorscheme badwolf
+"colorscheme jellybeans
+" colorscheme laederon
+" colorscheme bubblegum
+" colorscheme ubaryd
+" colorscheme tomorrow
+" colorscheme base16
+" colorscheme murmur
+" colorscheme sol
+" colorscheme papercolor
+" colorscheme distinguished
+" colorscheme behelit
+" colorscheme dark
+" colorscheme durant
+" colorscheme hybridline
+" colorscheme hybrid
+" colorscheme kalisi
+" colorscheme luna
+" colorscheme monochrome
+" colorscheme raven
+" colorscheme simple
+" colorscheme term
+" colorscheme understated
+" colorscheme ir_black
+" colorscheme peaksea
+
+colorscheme inkpot
+" colorscheme kolor
+" colorscheme railscasts
+" colorscheme candycode " nice scheme & less busy with no cursorline
+
+" Netrw Settings!
+" let g:netrw_preview=1  " open previews 0=horiz 1=vert & works with alto
+" let g:netrw_browse_split=1  "Default=0Horiz, =1Vert, =2Tab =3Window
+" let g:netrw_alto=1  " Opens files to the right
+" let g:netrw_winsize=30  " Netrw Window xx% of Whole Window
+let g:netrw_liststyle=0  " 0=ThinList 1=LongList,2=WideList 3=Tree
+let g:netrw_fastbrowse=0  "0=Slow -many refreshes, 1=Med, 2=Fast
+let g:netrw_keepdir=0  "Default=1 to make cwd immune from browse
+" let g:netrw_retmap=1  " Default=0 Mouse mappings I do not want
+let g:netrw_silent=1  " NETRW messages arrive silently=1 or otherwise=2
+" let g:netrw_special_syntax=1  " fg bg cterm effects poss. Eval. this
+let g:netrw_banner=0  " no banner
+
+" Syntastic recommmends these settings as a first until used to it
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" Python support to the EOF
+let python_highlight_all=1
+" Python tabs and indentation
+au BufRead,BufNewFile *.py,*.pyw	set tabstop=4
+au BufRead,BufNewFile *.py,*pyw 	set shiftwidth=4
+au BufRead,BufNewFile *.py,*.pyw	set expandtab
+au BufRead,BufNewFile *.py,*pyw		set softtabstop=4
+au BufRead,BufNewFile *.py,*.pyw	set textwidth=79
+au BufRead,BufNewFile *.py,*.pyw	set autoindent
+au BufRead,BufNewFile *.py,*.pyw	set fileformat=unix
+" Python workflow script not working
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+" js html css indents
+au BufNewFile,BufRead *.js, *.html, *.css set tabstop=2 set softtabstop=2 set shiftwidth=2
+
+"python with virtualenv support
+"py << EOF
+"import os
+"import sys
+"if 'VIRTUAL_ENV' in os.environ:
+"	project_base_dir = os.environ['VIRTUAL_ENV']
+"	activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+"	execfile(activate_this, dict(__file__ = activate_this))
+"EOF
+
+" Load up virtualenv's vimrc if it exists
+"if filereadable($VIRTUAL_ENV . '/.vimrc')
+"	source $VIRTUAL_ENV/.vimrc
+"endif
+

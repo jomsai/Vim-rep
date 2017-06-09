@@ -1,5 +1,5 @@
 ##================MacOS .bash_profile====================##
-##======================Prompt===========================##
+##=====================Prompt===========================##
 PS1="[$(tput bold)\]\[$(tput setaf 3)\]\t";
 PS1+="\[$(tput setaf 2)\][\[$(tput setaf 4)\] \u ";
 PS1+="\[$(tput setaf 1)\]]==> ";
@@ -20,13 +20,24 @@ alias path='echo -e ${PATH//:/\\n}'  # path: Echo all executable Paths
 alias shopt='shopt'   # Show_options: display bash options settings
 alias term_size='echo "Rows=$(tput lines) Cols=$(tput cols)"'
 
-#PATH=/usr/local/Cellar/vim/*/bin:$PATH  #Where Vim 8.0 is
-#PATH=/usr/local/bin/python3:$PATH   #Where Py3 is
-#VISUAL=/usr/local/Cellar/vim/*/bin; export VISUAL
-#VIM=/usr/local/Cellar/vim/*/bin
-#EDITOR=/usr/local/Cellar/vim/*/bin; export EDITOR
+PATH=$HOME/bin:$PATH
+VIM=/usr/local/bin/vim
+#VIM=/usr/local/Cellar/vim/*/bin/vim
+#PATH=/usr/local/Cellar/vim/*/bin/vim:$PATH  #Where Vim 8.0 is
+PATH=/usr/local/bin/vim:$PATH  #Where Vim 8.0 is
+PATH=/usr/local/bin/python3:$PATH   #Where Py3 is
+PATH=/usr/local/Cellar/gcc/6.3.0_1/bin/gcc-6:$PATH   #If needed for linter-gcc in Atom Editor
+#VIM=/usr/bin/vim
+VISUAL=/usr/local/bin/vim; export VISUAL
+#VISUAL=/usr/bin/vim; export VISUAL
+EDITOR=/usr/local/bin/vim; export EDITOR
+#EDITOR=/usr/bin/vim; export EDITOR
 PAGER=/usr/bin/less; export PAGER
 SHELL=/usr/local/bin/bash
+
+alias vi=vim
+export VIMINIT='source $MYVIMRC'
+export MYVIMRC='~/.vimrc'
 
 export HISTFILESIZE=50000
 export HISTSIZE=30000
@@ -82,9 +93,10 @@ alias so='source ~/.bash_profile && \cp ~/.bash_profile ~/.bash_profile.bak && \
 alias sovim='source .vimrc || \cp ~/.vimrc ~/.vimrc.bak && \cp ~/.vimrc ~/Vim-rep/dotfiles/VIMRC.txt && echo "Whatttyyyaaaaa"'
 alias sotmux='\cp ~/.tmux.conf ~/.tmux.conf.bak && cp ~/.tmux.conf ~/Vim-rep/dotfiles/tmux.conf.txt'
 alias tmux3='tmux && tmux split-window -v -l 30 && tmux split-window -h'
-alias tmuxhh='tmux split-window -hn-p 50'
+alias tmuxhh='tmux split-window -h -p 50'
 alias ebp="vim ~/.bash_profile"  # Quick access to the file in Vim
 alias evmrc="vim ~/.vimrc"
+alias etmux='vim ~/.tmux.conf' 
 ##=================MISC=========================##
 alias c='clear'
 alias chrome="open -a \"Google Chrome\""
@@ -92,7 +104,7 @@ alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
 alias wipefree='sudo diskutil secureErase freespace 0' # ARG1=PathToExtHD e.g. /Volumes/xxx\ Ext\ Drive
 alias h='history'
 alias j='jobs -l'
-alias rm='rm -i'
+alias rm='rm -iP' # -i is interactive -P is wipe 3 times 1s then 0s then 1s
 alias cp='cp -i'
 alias mv='mv -i'
 alias mkdir='mkdir -p'
@@ -102,7 +114,7 @@ alias catread='cat ./README'
 alias spk1='say "What the hell do you want from me"'
 alias spk2='say "after a while ya just see blonde und brunette" && cmatrix'
 alias cpwd='pwd|tr -d "\n"|pbcopy'
-function yt() { youtube-dl -f mp4 "$1" --playlist-items "$2" ; }
+function yt() { sudo youtube-dl -U && youtube-dl -cit -f mp4 "$1" ; }
 #alias ckgy='vlc rtsp://newcap-RedDeer-CKGY.wm.llnwd.net/newcap_RedDeer-CKGY' # Country Radio?
 ##=======Random Functions for PW generation (2 are Linux Only)=======##
 randpw() { openssl rand -base64 20 ; }
@@ -146,7 +158,7 @@ alias sshkeychainadd='/usr/bin/ssh-add -K ~/.ssh/id_ed25519' # ARG1 identity key
 alias sshpid='ps -e | grep ssh-agent | cut -d " " -f1'  #PID of ssh service so I can whack it
 #alias sshpid='ps -e | grep ssh-agent | cut -d " " -f1 && sudo killall ssh-agent && '  #Need a restart method
 alias sshasus='ssh -vvi ~/.ssh/id_ed25519_asus root@192.168.1.1'
-alias sshaws='ssh -i "My_AWS_Key.pem" ec2-user@ec2-52-40-84-94.us-west-2.compute.amazonaws.com'
+alias sshaws='ssh -i ~/.ssh/My_AWS_Key.pem ubuntu@52.89.202.27'
 
 ##===============Processes======================##
 alias cpuboot='sysctl kern.boottime | cut -d "}" -f2 | cut -c 2-26'
@@ -194,6 +206,7 @@ ii()
 ##===================Search=====================##
 alias fhere="find . -name"
 alias ff='find . -name $1'
+alias findinode='sudo find . -inum' # Needs ARG1=inode number
 
 spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; } #Mac spotlight metadata search
 ##==================Security====================##
