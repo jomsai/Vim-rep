@@ -12,6 +12,7 @@ PS1+="\[$(tput sgr0)\]";
 export PS1;
 
 SEP=##=============================================##
+alias todo="echo $2 \`date +%FT%R\` >> ~/Desktop/todo.log"
 ##=====================ENV=========================##
 alias env2='export -p'  #List of all Shell VAR declared
 alias env='printenv'   #Same as above via another command. Shows _ VAR
@@ -39,12 +40,17 @@ alias vi=vim
 export VIMINIT='source $MYVIMRC'
 export MYVIMRC='~/.vimrc'
 
+#set -o history
 export HISTFILESIZE=50000
 export HISTSIZE=30000
 export HISTCONTROL=erasedups:ignoredups:ignorespace
+#export HISTCONTROL=
+#export HISTIGNORE=
+#export HISTFILE=~/.bash_history_forensic
+#export HISTTIMEFORMAT="%F-%R "  # Forensic useful timestamp
 shopt -s checkwinsize  #update winsize if needed
 shopt -s histappend   #try to list long commands on 1 line
-PROMPT_COMMAND='history -a'
+#PROMPT_COMMAND='history -a'
 
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
@@ -117,7 +123,7 @@ alias cpwd='pwd|tr -d "\n"|pbcopy'
 function yt() { sudo youtube-dl -U && youtube-dl -cit -f mp4 "$1" ; }
 #alias ckgy='vlc rtsp://newcap-RedDeer-CKGY.wm.llnwd.net/newcap_RedDeer-CKGY' # Country Radio?
 ##=======Random Functions for PW generation (2 are Linux Only)=======##
-randpw() { openssl rand -base64 20 ; }
+randpw() { openssl rand -base64 45 ; }
 randpw2(){ </dev/urandom tr -dc '12345!@#_$-%qwertQWERTasdfgASDFGzxcvbZXCVB' | head -c14; echo "";}
 randpw3(){ < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16};echo;}
 
@@ -151,6 +157,8 @@ alias geoip='curl ipinfo.io/"$1"'
 ##===============SSH Aliases====================##
 alias server_name='ssh -v -l USERNAME IP ADDRESS'
 alias sshagent='ls /System/Library/LaunchAgents | grep ssh'
+alias sshrsakey='ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa_mozilla_$(date +%Y-%m-%d) -C "Mozilla key for $USER"'
+alias sshed255key='ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_mozilla_$(date +%Y-%m-%d) -C "Mozilla key for $USER"'
 alias sshgit='ssh -T -i ~/.ssh/github_rsa git@github.com'  #-T stops pseudoterminal warning
 alias sshkeys='ssh-keygen -lv -f ~/.ssh/id_rsa.pub && ssh-add -l'
 alias sshstartkey='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_ed25519 && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"'
@@ -158,8 +166,17 @@ alias sshkeychainadd='/usr/bin/ssh-add -K ~/.ssh/id_ed25519' # ARG1 identity key
 alias sshpid='ps -e | grep ssh-agent | cut -d " " -f1'  #PID of ssh service so I can whack it
 #alias sshpid='ps -e | grep ssh-agent | cut -d " " -f1 && sudo killall ssh-agent && '  #Need a restart method
 alias sshasus='ssh -vvi ~/.ssh/id_ed25519_asus root@192.168.1.1'
-alias sshaws='ssh -i ~/.ssh/My_AWS_Key.pem ubuntu@52.89.202.27'
+alias sshaws='ssh -i ~/.ssh/My_AWS_Key.pem admin@ec2-34-210-202-230.us-west-2.compute.amazonaws.com'
+alias sshfedora='ssh -i id_rsa jus@192.168.1.115 -vv'
+alias sshfedora2='ssh -i id_ed25519 jus@192.168.1.115 -vv'
+function sshciphers() { 
+	ssh -Q cipher && echo $SEP
+	ssh -Q cipher-auth && echo $SEP
+	ssh -Q mac && echo $SEP
+	ssh -Q kex && echo $SEP
+	ssh -Q key && echo "##====>The END====##";
 
+  }
 ##===============Processes======================##
 alias cpuboot='sysctl kern.boottime | cut -d "}" -f2 | cut -c 2-26'
 alias cpuendian='sysctl hw.byteorder | cut -d ":" -f2 | cut -c 2-6 && printf " ==>Little Endian=1234"'
@@ -189,13 +206,13 @@ alias ttop='\top -R -F -s 10 -o rsize'  # Low Resource Top
 ii()
 {
 	echo -e "\n${BlackYellowBG}You are logged on ${USER}${GREEN}" ; dig | tail -n 4
-	printf "${CYAN}ACTIVE Interface on my Mac==> " ; nface
+	printf "${CYAN}ACTIVE Interface on my Mac==> " ;  nface
 	printf "Public facing IP Address ==> " ; extip
 	printf "IP Reachable or not? ==> " ; scutil -r ${intip} 8.8.8.8
 	printf "My Internal IP==> " ; ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'
 	echo -e "\n${GreenBrownBG}Additionnal information:" ; uname -a | xargs -n 7
 	echo -e "\n${PURPLE}Users logged on:" ; w
-	echo -e "\n${BROWN}Machine stats :" ; uptime
+	printf "\n${BROWN}Machine stats :" ; uptime
 	echo -e "\n${GREEN}CPU Stats: " ; iostat
 	echo -e "\n${CYAN}Disk Usage:" ; df -h
 	printf "\n${GreenBrownBG}DNS Configuration:" ; scutil --dns | head -n 12

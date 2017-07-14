@@ -6,13 +6,13 @@ source ~/.bashrc
 #==============Uncomment as needed===============#
 PATH=$PATH:$HOME/bin
 BASH_ENV=$HOME/.bashrc
-USERNAME="soak"
+USERNAME=“coz”
 export USERNAME BASH_ENV PATH
 VISUAL=/usr/bin/vim; export VISUAL
 EDITOR=/usr/bin/vim; export EDITOR
 PAGER=/usr/bin/less; export PAGER
 SHELL=/bin/bash
 export CURL_CA_BUNDLE=/home/$USER/cacert.pem 
-export HISTFILESIZE=20000
-export HISTSIZE=10000
+export HISTFILESIZE=50000
+export HISTSIZE=30000
 export HISTCONTROL=erasedups:ignoredups:ignorespace

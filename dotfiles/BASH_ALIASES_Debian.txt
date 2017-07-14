@@ -219,7 +219,6 @@ alias ufwlogrules='sudo ufw show logging-rules'
 alias ufwreset='sudo ufw reset' # Back to default settings
 alias ufwapps='sudo ufw app list'  #List info on all open services 
 alias ufwappinfo='sudo ufw app info' #List info on specific open service
-
 ##================Fail2ban Aliases=============##
 alias f2bsshlog='sudo cat /var/log/auth.log | grep "Failed password"'
 alias f2bblocks='sudo iptables -L -n'
