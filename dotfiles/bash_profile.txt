@@ -149,8 +149,9 @@ alias loop='netstat -anp tcp | grep 127.0.0.1'  # Loopback interface tcp stats
 alias nface="scutil --nwi | grep interfaces: | cut -c 21-23"  #LINUX  netstat -r | grep default | awk '{print $8}'
 alias intip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
 alias intips="ifconfig $nface | grep inet | cut -d ' ' -f2"  #inet4 & inet6 intIP
-alias extip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias myip="curl icanhazip.com"  #site curl ip.appspot.com is unreliable 
+alias extip='curl ifconfig.io'
+alias extip2="dig +short myip.opendns.com @resolver1.opendns.com"
+alias extip3="curl icanhazip.com"  #site curl ip.appspot.com is unreliable 
 alias macch='sudo macchanger -r en4'
 alias geoip='curl ipinfo.io/"$1"'
 # geoip2 () { read ip; curl ipinfo.io/$ip ; }  #Alternative to read in the IP
@@ -473,7 +474,19 @@ ques=${bldblu}?${txtrst}
 
 export CURL_CA_BUNDLE=/etc/ssl/cert.pem
 
+##OpesnSSL encrypt Message Fx takes <name>.txt file ARG anywhere & places .dat file on Desktop & dencit decrypts to Desktop
+function encit() { openssl enc -aes-256-cbc -in $@ -out ~/Desktop/$@.dat; }
+function dencit() { openssl enc -aes-256-cbc -d -in ~/Desktop/$@.dat > ~/Desktop/$@; }
+alias osslprivkey='openssl genrsa -out private.pem $@' #ARG1=BinSize e.g. 2048
+alias osslparse='openssl asn1parse -in $@' #ARG1=.pem file made by osslkey
+alias osslpubkey='openssl rsa -in private.pem -outform PEM -pubout -out public.pem'
+alias osslkeys='openssl genrsa -out private.pem 4096 && openssl rsa -in private.pem -outform PEM -pubout -out public.pem' #4096bit PEM Key Pair
+
+alias cryptin='ccrypt -e $@' # ARG= any file
+alias cryptout='ccrypt -d $@' # ARG= any file.cpt encrypted file
+
 # Git autocompletion & prompt
 source ~/.git-completion.bash
 #source ~/.git-prompt.sh
 #PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+export PATH="/usr/local/sbin:$PATH"
