@@ -12,7 +12,6 @@ PS1+="\[$(tput sgr0)\]";
 export PS1;
 
 SEP=##=============================================##
-alias todo="echo $2 \`date +%FT%R\` >> ~/Desktop/todo.log"
 ##=====================ENV=========================##
 alias env2='export -p'  #List of all Shell VAR declared
 alias env='printenv'   #Same as above via another command. Shows _ VAR
@@ -96,8 +95,8 @@ alias less='less -FSRXc'  # Preferred 'less' implementation
 ##=========Edit Source Backup Dotfiles==========##
 alias so='source ~/.bash_profile && \cp ~/.bash_profile ~/.bash_profile.bak && \cp ~/.bash_profile ~/Vim-rep/dotfiles/bash_profile.txt && echo "Yeah Baby!"'
 # To Source my .vimrc works but exits 1 due to Vundle ERR so next requires || 
-alias sovim='source .vimrc || \cp ~/.vimrc ~/.vimrc.bak && \cp ~/.vimrc ~/Vim-rep/dotfiles/VIMRC.txt && echo "Whatttyyyaaaaa"'
-alias sotmux='\cp ~/.tmux.conf ~/.tmux.conf.bak && cp ~/.tmux.conf ~/Vim-rep/dotfiles/tmux.conf.txt'
+alias sovim='\cp ~/.vimrc ~/.vimrc.bak && \cp ~/.vimrc ~/Vim-rep/dotfiles/VIMRC.txt && echo "Whatttyyyaaaaa"'
+alias sotmux='\cp ~/.tmux.conf ~/.tmux.conf.bak && \cp ~/.tmux.conf ~/Vim-rep/dotfiles/tmux.conf.txt'
 alias tmux3='tmux && tmux split-window -v -l 30 && tmux split-window -h'
 alias tmuxhh='tmux split-window -h -p 50'
 alias ebp="vim ~/.bash_profile"  # Quick access to the file in Vim
@@ -122,6 +121,8 @@ alias spk2='say "after a while ya just see blonde und brunette" && cmatrix'
 alias cpwd='pwd|tr -d "\n"|pbcopy'
 function yt() { sudo youtube-dl -U && youtube-dl -cit -f mp4 "$1" ; }
 #alias ckgy='vlc rtsp://newcap-RedDeer-CKGY.wm.llnwd.net/newcap_RedDeer-CKGY' # Country Radio?
+alias macupdate='sudo softwareupdate --install --all'
+alias todo="echo $2 \`date +%FT%R\` >> ~/Documents/todo.log"
 ##=======Random Functions for PW generation (2 are Linux Only)=======##
 randpw() { openssl rand -base64 45 ; }
 randpw2(){ </dev/urandom tr -dc '12345!@#_$-%qwertQWERTasdfgASDFGzxcvbZXCVB' | head -c14; echo "";}
@@ -154,7 +155,7 @@ alias extip2="dig +short myip.opendns.com @resolver1.opendns.com"
 alias extip3="curl icanhazip.com"  #site curl ip.appspot.com is unreliable 
 alias macch='sudo macchanger -r en4'
 alias geoip='curl ipinfo.io/"$1"'
-# geoip2 () { read ip; curl ipinfo.io/$ip ; }  #Alternative to read in the IP
+#geoip2() { read ip; curl ipinfo.io/$ip; }  #Alternative to read in the IP
 ##===============SSH Aliases====================##
 alias server_name='ssh -v -l USERNAME IP ADDRESS'
 alias sshagent='ls /System/Library/LaunchAgents | grep ssh'
@@ -177,7 +178,7 @@ function sshciphers() {
 	ssh -Q kex && echo $SEP
 	ssh -Q key && echo "##====>The END====##";
 
-  }
+}
 ##===============Processes======================##
 alias cpuboot='sysctl kern.boottime | cut -d "}" -f2 | cut -c 2-26'
 alias cpuendian='sysctl hw.byteorder | cut -d ":" -f2 | cut -c 2-6 && printf " ==>Little Endian=1234"'
@@ -206,18 +207,18 @@ alias ttop='\top -R -F -s 10 -o rsize'  # Low Resource Top
 #    Hosts file info
 ii()
 {
-	echo -e "\n${BlackYellowBG}You are logged on ${USER}${GREEN}" ; dig | tail -n 4
+	printf "${BlackYellowBG}You are logged on ${USER}${GREEN}" ; dig | tail -n4
+	printf "${CYAN}Current date : $NC" ; date
+	printf "${BROWN}Machine stats :" ; uptime
 	printf "${CYAN}ACTIVE Interface on my Mac==> " ;  nface
 	printf "Public facing IP Address ==> " ; extip
 	printf "IP Reachable or not? ==> " ; scutil -r ${intip} 8.8.8.8
 	printf "My Internal IP==> " ; ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'
+	printf "${GreenBrownBG}DNS Configuration:" ; scutil --dns | head -n 12
 	echo -e "\n${GreenBrownBG}Additionnal information:" ; uname -a | xargs -n 7
 	echo -e "\n${PURPLE}Users logged on:" ; w
-	printf "\n${BROWN}Machine stats :" ; uptime
 	echo -e "\n${GREEN}CPU Stats: " ; iostat
-	echo -e "\n${CYAN}Disk Usage:" ; df -h
-	printf "\n${GreenBrownBG}DNS Configuration:" ; scutil --dns | head -n 12
-	printf "${CYAN}Current date : $NC" ; date
+	echo -e "\n${CYAN}Disk Usage:" ; df -h $HOME
 	echo
 }
 
@@ -231,7 +232,7 @@ spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; } #Mac spotlight metadata 
 alias ax="chmod 700"  ## Make executable by me only
 alias flushDNS='dscacheutil -flushcache' # flushDNS: Flush out the DNS Cache
 alias logdump='sudo find / -maxdepth 4 -type f -iname "*log" -print0 | xargs -0 ls -ltrh >> /tmp/log_daily.txt && sudo tail -n7 /private/var/log/fsck_hfs.log'
-# function logknock2() { log show --predicate 'eventMessage contains "OBJECTIVE-SEE ERROR"' --info ; }
+function logknock2() { log show --predicate 'eventMessage contains "OBJECTIVE-SEE ERROR"' --info ; }
 alias nixrtkt='sudo ./chkrootkit'
 alias rules='sudo pfctl -sa | less'
 alias sha1='openssl dgst -sha1 '
@@ -247,6 +248,17 @@ alias permapps='sudo find /Applications -iname "*\.app" -type d -perm -2 -ls' # 
 alias permpublic='sudo find /System -type d -perm -2 -ls | grep -v "Public/Drop Box"' # Make sure Public DIR not WWriteable
 alias permcache='sudo find /Library -type d -perm -2 -ls | grep -v Caches' # Make sure Lib/Cache not WWriteable
 alias keychaininfo='security show-keychain-info'  # Lock-on-sleep and a timeout should be there
+
+##OpesnSSL encrypt Message Fx takes <name>.txt file ARG anywhere & places .dat file on Desktop & dencit decrypts to Desktop
+function encit() { openssl enc -aes-256-cbc -in $@ -out ~/Desktop/$@.dat; }
+function dencit() { openssl enc -aes-256-cbc -d -in ~/Desktop/$@.dat > ~/Desktop/$@; }
+alias osslprivkey='openssl genrsa -out private.pem $@' #ARG1=BinSize e.g. 2048
+alias osslparse='openssl asn1parse -in $@' #ARG1=.pem file made by osslkey
+alias osslpubkey='openssl rsa -in private.pem -outform PEM -pubout -out public.pem'
+alias osslkeys='openssl genrsa -out private.pem 4096 && openssl rsa -in private.pem -outform PEM -pubout -out public.pem' #4096bit PEM Key Pair
+
+alias cryptin='ccrypt -e $@' # ARG= any file
+alias cryptout='ccrypt -d $@' # ARG= any file.cpt encrypted file
 
 # tcpdump aliases use -I to turn on Monitor Mode only for WiFi Interface
 tdump () { sudo tcpdump -i $(nface) -PnnvvveXXSs 1514 -c2000 -w /tmp/tdump2k.pcapng ; }
@@ -331,7 +343,7 @@ extract () {
         else
              echo "'$1' is not a valid file"
         fi
-	}
+}
 
 ##=================Colors MISC==================##
 #colors below=>osxdaily.com/2012/02/21/add-color-to-the-terminal-in-mac-os-x/
@@ -464,6 +476,9 @@ ques=${bldblu}?${txtrst}
 
 ##=====Settings To Be AT END of the Dotfile=====##
 ##=============Things to remember===============##
+#alias yubiauth='sudo sed '5 i "auth       required       /usr/local/lib/security/pam_yubico.so mode=challenge-response" /etc/pam.d/authorization' # Put on 5th line before
+#alias yubiscreensaver='sudo sed '4 i "auth       required       /usr/local/lib/security/pam_yubico.so mode=challenge-response" /etc/pam.d/screensaver' # Put on 4th line
+#alias yubisudo="sudo sed '1 i auth       sufficient     pam_yubico.so mode=challenge-response debug' /etc/pam.d/sudo"  #Must be on line 1 of the sudo file 
 # Sample color off/on SYNTAX "\033[fg;bgm\] symbolic \[\033[0m\]"
 #2 Many make DIR then cd into them on the net but not needed as already builtin
 # Setting PATH for Python 3.5
@@ -471,19 +486,10 @@ ques=${bldblu}?${txtrst}
 # Remove a file ARG1 by its inode
 #alias rminode='find . -inum "$1" -exec rm {} \;'
 #rminode () { find . -inum "$1" -exec rm {} + ; }
+# Make an ISO OS File an isohybrid
+#  hdiutil convert -format UDRW -o /path/to/target.img /path/to/source.iso
 
 export CURL_CA_BUNDLE=/etc/ssl/cert.pem
-
-##OpesnSSL encrypt Message Fx takes <name>.txt file ARG anywhere & places .dat file on Desktop & dencit decrypts to Desktop
-function encit() { openssl enc -aes-256-cbc -in $@ -out ~/Desktop/$@.dat; }
-function dencit() { openssl enc -aes-256-cbc -d -in ~/Desktop/$@.dat > ~/Desktop/$@; }
-alias osslprivkey='openssl genrsa -out private.pem $@' #ARG1=BinSize e.g. 2048
-alias osslparse='openssl asn1parse -in $@' #ARG1=.pem file made by osslkey
-alias osslpubkey='openssl rsa -in private.pem -outform PEM -pubout -out public.pem'
-alias osslkeys='openssl genrsa -out private.pem 4096 && openssl rsa -in private.pem -outform PEM -pubout -out public.pem' #4096bit PEM Key Pair
-
-alias cryptin='ccrypt -e $@' # ARG= any file
-alias cryptout='ccrypt -d $@' # ARG= any file.cpt encrypted file
 
 # Git autocompletion & prompt
 source ~/.git-completion.bash

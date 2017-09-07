@@ -1,14 +1,29 @@
-##=============BEGIM My PERSONAL SETTINGS=======##
-## .bashrc
-
-#====My PS1 from Kirsle Online PS1 generator=====#
+##===================My Aliases================##
+#==============File .bashrc Intro===============#
+#====My PS1 from Kirsle Online PS1 generator====#
 #PS1="\[$(tput bold)\]\[$(tput setaf 5)\]\t\[$(tput setaf 2)\][\[$(tput setaf 4)\] \u \[$(tput setaf 1)\]]==> \[$(tput setaf 3)\]\h \[$(tput setaf 6)\] \W ]\[$(tput bold)\]\[$(tput setaf 2)\][ $?! ]\[$(tput setaf 4)\][[>\[$(tput setaf 1)\]\\$ \[$(tput sgr0)\]"
 
 PS1="\[$(tput bold)\]\[$(tput setaf 5)\]\t\[$(tput setaf 2)\][\[$(tput setaf 6)\] \u@\[$(tput setaf 3)\]\h \[$(tput setaf 6)\] \W ]\[$(tput bold)\]\[$(tput setaf 2)\][ $?! ]\[$(tput setaf 4)\][[>\[$(tput setaf 1)\]\\$ \[$(tput sgr0)\]"
-
-#======================ls========================#
-#==Set ls then others should call same options===#
+##===============Apt Package Manager===========##
+alias apt3='sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y && echo "Yawzaa!"'
+alias sai='sudo apt-get update -y && sudo apt-get upgrade -y && sudo apt-get install'
+alias sau='sudo apt-get upgrade' #needs a package ARG to upgrade the package
+alias aptfind='sudo apt-cache search'
+alias aptdepends='sudo apt-cache depends' # Needs 1 package ARG & lists all its dependencies
+alias aptverify='sudo dpkg --verify'  #Needs a package ARG
+#=============Edit the Dotfiles================##
+alias ebrc='vim $HOME/.bash_aliases'
+alias evrc='vim $HOME/.vimrc'
+alias etmux='vim $HOME/.tmux.conf'
+alias so='source $HOME/.bash_profile && \cp $HOME/.bash_aliases $HOME/.bash_aliases.bak && echo "Yep Dotfile Saved!!!!"'
+alias sotmux='\cp $HOME/.tmux.conf $HOME/.tmux.conf.bak && echo "TMUX Awesome!"'
+alias tmuxv='tmux split-window -h -p 40'
+alias tmuxh='tmux split-window -v -l 30'
+alias tmuxhh='tmux split-window -h -p 50'
+alias sovim='source $HOME/.vimrc && \cp $HOME/.vimrc $HOME/.vimrc.bak && echo "VIMRC Saved!"'
+##=======Set LS as primary for L* commands======##
 alias ls='ls -hailcF --color=auto'
+alias lf='\ls -hilF --color=auto'
 alias ll='ls -lv --group-directories-first'
 alias lss='ls | less'  # ls+less
 alias ln='ls -n'  # UID PID instead of names
@@ -24,7 +39,8 @@ alias l.='ls -dAFh .[^.]*'  # ls only Dotfiles
 alias lst='ls -hFtal | grep $(date +%Y-%m-%d)' #ls Today
 alias lu='ls -l /dev/disk/by-uuid'
 alias lz='ls -Z'  #SELinux Security Context ls
-#======================cd========================#
+alias v='vdir -ih --color'
+#======================cd======================##
 cd() { builtin cd "$@" && ls; }   # cd then ls DIR
 alias -- -="cd -" # Have no idea about this. Gotta know.
 alias ..='cd ..'
@@ -32,30 +48,14 @@ alias ...='cd ../../'
 alias .3='cd ../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../../'
-#==================Fixes for Sudo================#
+##=================Fixes for Sudo===============##
 # I prefer command | xargs sudo
 # alias ll | sed "s/.*'\(.*\)'.*/\1/g" | xargs sudo
 alias sudo='sudo '
 alias sbb='sudo $(fc -ln -1)'  # sudo !! shortcut
-#===tmux Edit/Source/Backup/Split .tmux.conf=====#
-alias so='source ~/.bash_profile && \cp ~/.bashrc ~/.bashrc.bak && \cp ~/.bashrc ~/Documents/BASHRC_C7D.txt && echo "Yep BASHRC Saved!!!!"'
-alias sotmux='source ~/.tmux.conf && \cp ~/.tmux.conf ~/.tmux.conf.bak && \cp ~/.tmux.conf ~/Documents/TMUX_C7D.conf.txt && echo "TMUX Awesome!"'
-alias tmuxv='tmux split-window -h -p 40'
-alias tmuxh='tmux split-window -v -l 30'
-alias tmuxhh='tmux split-window -h -p 50'
-alias sovim='source ~/.vimrc && \cp ~/.vimrc ~/.vimrc.bak && \cp ~/.vimrc ~/Documents/VIMRC_C7D.txt && echo "VIMRC Saved!"'
-##===============Yum Package Manager============##
-alias yumupdate='sudo yum update -y && sudo yum upgrade -y && echo "Slimy!"'  # No ARG needed
-alias yuminstall='sudo yum install -y'  # needs 1 ARG
-alias yumfind='sudo yum list | grep' # needs 1 ARG
-alias yuminfo='sudo yum info'  # needs 1 ARG
-alias yumlocalpackages='yum list installed > ~/Documents/yum_packages_installed.txt'
-alias yumrepos='yum repolist'
-#=============Edit the Dotfiles==================#
-alias ebrc='vim ~/.bashrc'
-alias evrc='vim ~/.vimrc'
-alias etmux='vim ~/.tmux.conf'
-#=======Environemental Variables=================#
+alias sutop='sudo /bin/su -' #Ubuntu way to root prompt
+alias sushi='sudo bash'
+##======Environemental Variables================##
 alias env='printenv'
 alias env2='export -p'
 alias path='echo -e ${PATH//:/\\n}'  # executable Paths
@@ -63,9 +63,9 @@ alias bashv='/bin/bash --version | grep bash | cut -d "," -f2 | cut -c 10-50'
 alias shoptvar='shopt -p' # ShowALL & u=OFF, s=ON status
 alias shopton='shopt -s'    # Show all s=ON
 alias shoptoff='shopt -u'   # Show all u=OFF
-#=Bash Options=shopt -s=set -u=unset options=====#
-# -p=ListALLOptions -q=EXIT0 if set 1 if not=====#
-#= -o=List all SET env Options that are set on===#
+#=Bash Options=shopt -s=set -u=unset options===##
+# -p=ListALLOptions -q=EXIT0 if set 1 if not===##
+#= -o=List all SET env Options that are set on=##
 #shopt -s cdspell  #small spell autocorrects
 shopt -s cdable_vars  # cd ls assumes DIR where ls is
 shopt -s checkhash   # ls (does exist? yes ok do it)
@@ -82,23 +82,28 @@ shopt -s cmdhist #Saves all of a long cmd in history
 shopt -s histappend histreedit histverify
 PROMPT_COMMAND='history -a'
 
-#==================Networking====================#
+##=================Networking===================##
 alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)'
 alias ping3='ping -c3 -s1 8.8.8.8'
 alias fastping='ping -c 100 -s.2'
 #alias nface="ip -s link | grep 2: | cut -d ' ' -f2" #Linux
 #alias nface2="ip addr | grep 'state UP' | gawk '{print $2}' | sed -e 's/://'"
 alias nface="ip addr | grep 'state UP' | cut -d ' ' -f2 | sed -e 's/://'"
-alias nface3="netstat -r | grep default | awk '{print $8}'" #Linux
+alias nfaceinfo='lshw -C network'
+alias ethinfo='sudo ethtool enp2s0'
 #alias intip='ifconfig | head -n 2 | grep inet | cut -c 14-24'
-alias intip="ip addr | grep 192.168.1.255 | cut -d '/' -f1 | cut -c 10-25"
+alias intip="ip addr | grep global | cut -d '/' -f1 | cut -c 10-22"
 alias extip="curl icanhazip.com"
 alias extip2="dig +short myip.opendns.com @resolver1.opendns.com"
-# type arch at CLI gets x86_64 (arc below x86-64) but where did that come from? Use arch
-#alias arc='hostnamectl | grep Architecture | cut -d ":" -f2 | cut -c 2-7' #x86-64
+alias extip3='curl ifconfig.io'
+alias gateway='sudo route -n'
+alias net='sudo arp -a && echo ${SEP} && sudo ip addr && echo ${SEP} && sudo ip route && echo ${SEP} && sudo ip neigh && echo ${SEP} && sudo ip maddr'
+alias nettop='sudo iftop -pPl'
+alias netstatd='sudo dstat -f' #See man dstat for all the single options instead of FULL -f here
 alias kernel='hostnamectl | grep Kernel | cut -d ":" -f2 | cut -c 2-35'
 alias kernelno='uname -r'
-alias os='hostnamectl | grep System | cut -d ":" -f2 | cut -c 2-27'
+alias lanports='sudo nmap -T4 -A -F -v 192.168.1.0/24 >> $HOME/Documents/LANPORTSCAN.txt'
+alias os='hostnamectl | grep System | cut -d ":" -f2 | cut -c 2-28'
 alias routes='netstat -r'
 alias tcp='netstat -anp tcp'
 alias udp='netstat -anp udp'
@@ -111,6 +116,7 @@ uuid() { nmcli c | grep ethernet | awk '{print $2}' ; }
 
 alias cdext4='cd /run/media/pedro/8d8dd6fb-5eb8-4f43-a764-fd2e96b2e607'
 alias cdntfs='cd /run/media/pedro/NTFS'
+alias mount='mount |column -t'
 
 alias sshreload='sudo systemctl status sshd && sudo systemctl stop sshd && sudo systemctl start sshd && echo "SSH Reloaded"'
 alias sshstatus='sudo systemctl status sshd'
@@ -126,11 +132,11 @@ alias sshdeleteremotekey='ssh-keygen -R'  #Needs 1 ARG for remote IP
 alias sshfingerprint='sudo ssh-keygen -lv -f ~/.ssh/id_rsa.pub'
 alias sshdebug='sudo /usr/sbin/sshd -d'
 alias sshcard='ssh card@192.168.1.68'
+alias sshlimit='sudo ufw limit 22 comment "SSH port rate limit"' #Throttle login attempts to 6/min
 
 ##===================Processes==================##
 alias psg='ps aux | grep -v grep | grep -i -e VSZ -e' #Needs 1 ARG to grep for
 alias psl='ps -aux | less'
-alias atop='sudo atop' #Must install it
 
 #===================System Services==============#
 alias reboot='sudo systemctl reboot' #All users get a warning
@@ -142,49 +148,145 @@ alias sysctlall='sudo systemctl list-unit-files --all'
 alias sysctlstatus='sudo systemctl status'
 alias sysctlreload='sudo systemctl reload'
 alias sysctlrestart='sudo systemctl restart'
-#alias sysctlnetwork='sudo systemctl restart NetworkManager && sudo systemctl status NetworkManager'
-alias sysctlnetwork='sudo systemctl restart network && sudo systemctl status network'
+alias sysctlnetwork='sudo systemctl restart NetworkManager'
 alias sysctlon='sudo systemctl start'
 alias sysctloff='sudo systemctl stop'
-##=============Iptables & FirewallD Rules=======##
-alias iptlist="echo IP4Rules && sudo iptables -nL --line-numbers && echo $SEP && echo IP6Rules && sudo ip6tables -nL --line-numbers"
-alias iptlistin='sudo /usr/sbin/iptables -L INPUT -n -v --line-numbers'
-alias iptlistout='sudo /usr/sbin/iptables -L OUTPUT -n -v --line-numbers'
-alias iptlistfw='sudo /usr/sbin/iptables -L FORWARD -n -v --line-numbers'
+##===================TCP Wrappers===============##
+# PROBLEM: 1 Just lists libwrap files not effected service so need prior lines
+alias tcpallowssh='sudo echo "sshd  :   192.168.1 192.168.64." >> /etc/hosts.allow'
+alias tcpdenyall='sudo echo "ALL   :   ALL" >> /etc/hosts.deny'
+alias tcpservices='ldd $(which {/usr/bin/*,/usr/sbin/*}) | grep libwrap'
+alias tcpservices2='ldd /{,usr/}{bin,sbin}/* | grep -B 50 libwrap | grep '^/''
+alias tcpdaemon='ldd $(which sshd) | grep libwrap' #Requires a file path eg /usr/sbin/sshd
+alias tcpstatus='sudo tcpdmatch sshd' #Requires a IP or domain ARG
+alias tcpconfig='sudo tcpdchk -v'
+alias tcplog='cat /var/log/auth.log | grep -i ip'
+##========Firewall Iptables or UFW==============##
+alias iptls='echo $SEP $bldcyn IP4Rules $rst && sudo iptables -vL && echo $SEP $bldcyn IP6Rules $rst && sudo ip6tables -vL'
+alias iptls2='echo IP4Rules && sudo iptables -nL --line-numbers && echo $SEP && echo IP6Rules && sudo ip6tables -nL --line-numbers'
+alias iptlsin='sudo iptables -L INPUT -n -v --line-numbers'
+alias iptlsout='sudo iptables -L OUTPUT -n -v --line-numbers'
+alias iptlsfw='sudo iptables -L FORWARD -n -v --line-numbers'
 alias iptmyrules='sudo iptables -S'
+
 alias iptflush='sudo iptables -t nat -F && sudo iptables -t mangle -F && sudo iptables -F && sudo iptables -X && echo "Flushed!"'
-alias ipt6drop='sudo ip6tables -P INPUT DROP && sudo ip6tables -P FORWARD DROP && sudo ip6tables -P OUTPUT DROP && echo "IPv6-out!"'
 alias iptdropall='sudo iptables -P INPUT DROP && sudo iptables -P FORWARD DROP && sudo iptables -P OUTPUT DROP && echo "All Chains Dropped"'
+alias ipt6flush='sudo ip6tables -t nat -F && sudo ip6tables -t mangle -F && sudo ip6tables -F && sudo ip6tables -X && echo "Flushed!"'
+alias ipt6dropall='sudo ip6tables -P INPUT DROP && sudo ip6tables -P FORWARD DROP && sudo ip6tables -P OUTPUT DROP && echo "IPv6-dropped!"'
+
 alias iptlo='sudo iptables -A INPUT -i lo -j ACCEPT'
 alias iptestablishedin='sudo iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT'
 alias iptestablishedout='sudo iptables -A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT'
-alias iptdnsp4p1='sudo iptables -A OUTPUT -o p4p1 -p udp -m udp --dport 53 -j ACCEPT'
-alias iptdnswlp3s0='sudo iptables -A OUTPUT -o wlp3s0 -p udp -m udp --dport 53 -j ACCEPT'
-alias ipthttpp4p1='sudo iptables -A OUTPUT -o p4p1 -p tcp -m tcp --dport 80 -m state --state NEW -j ACCEPT'
-alias ipthttpwlp3s0='sudo iptables -A OUTPUT -o wlp3s0 -p tcp -m tcp --dport 80 -m state --state NEW -j ACCEPT'
-alias ipthttpsp4p1='sudo iptables -A OUTPUT -o p4p1 -p tcp -m tcp --dport 443 -m state --state NEW -j ACCEPT'
-alias ipthttpswlp3s0='sudo iptables -A OUTPUT -o wlp3s0 -p tcp -m tcp --dport 443 -m state --state NEW -j ACCEPT'
+alias iptdnseth0='sudo iptables -A OUTPUT -o eth0 -p udp -m udp --dport 53 -j ACCEPT'
+alias ipthttpeth0='sudo iptables -A OUTPUT -o eth0 -p tcp -m tcp --dport 80 -m state --state NEW -j ACCEPT'
+alias ipthttpseth0='sudo iptables -A OUTPUT -o eth0 -p tcp -m tcp --dport 443 -m state --state NEW -j ACCEPT'
+alias iptsshineth0='sudo iptables -A INPUT -i eth0 -p tcp -s 192.168.1.0/24 --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT'
+alias iptsshouteth0='sudo iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT'
 alias iptrmoutrule='sudo iptables -D OUTPUT' #Needs #ARG for OUTPUT rule to remove
 alias iptrminrule='sudo iptables -D INPUT' #Needs #ARG for INPUT rule to remove
-
-alias iptsave='sudo /usr/sbin/iptables-save'
-alias ipt6save='sudo /usr/sbin/ip6tables-save'
-alias fwls='sudo firewall-cmd --list-all-zones'
-alias fwreload='sudo firewall-cmd --reload'
-alias fwmyzone='sudo firewall-cmd --zone=dmz --list-all'
-alias fwdmz='sudo iptables -t filter -vnL | grep _dmz_'
-alias fwstate='sudo firewall-cmd --state && sudo systemctl status firewalld && sudo firewall-cmd --zone=dmz --list-all'
-alias fwdefault='sudo firewall-cmd --get-default-zone && echo "Default ABOVE Active BELOW" && sudo firewall-cmd --get-active-zones'
-alias fwzoneon='sudo firewall-cmd --get-active-zones && sudo firewall-cmd --list-all --zone='
-alias fwservices='sudo firewall-cmd --get-services | xargs -n 1'
-alias fwchzone='sudo firewall-cmd --set-default-zone='
-alias fwactivezone='sudo firewall-cmd --get-active-zones'
-alias fwpanicoff='sudo firewall-cmd --panic-off' #Toggle IP-Traffic in emergency
-alias fwpanicon='sudo firewall-cmd --panic-on'  #Toggle IP-Traffic in emergency
-
-
+alias iptlimitssh='sudo iptables -A INPUT -p tcp --syn --dport 22 -m connlimit --connlimit-above 3 -j REJECT'
+alias iptdropinvalid='sudo iptables -A INPUT -m conntrack --ctstate INVALID -j DROP'
+alias iptlogon1='sudo iptables -N LOGGING && sudo iptables -A INPUT -j LOGGING'
+alias iptlogon2='sudo iptables -A LOGGING -m limit --limit 2/min -j LOG --log-prefix "IPTables Packet Dropped: " --log-level 7'
+alias iptlogon3='sudo iptables -A LOGGING -j DROP'
+#=====Debian8 Rule to make the rules persistent
+alias iptpersist='sudo apt-get install iptables iptables-persistent && sudo dpkg-reconfigure iptables-persistent && echo "PersistON!"'
+#=====Reload the current ruleset instead of a reboot
+alias iptpersistreload='sudo systemctl restart netfilter-persistent.service && sudo systemctl status netfilter-persistent.service'
+##================Fail2ban Aliases=============##
+alias f2bsshlog='sudo cat /var/log/auth.log | grep "Failed password"'
+alias f2bblocks='sudo iptables -L -n'
+alias f2bjail='sudo fail2ban-client status'
+alias f2bunbanip='sudo fail2ban-client set sshd unbanip' # needs 1 IP ARG
+alias f2blog='sudo tail -n 40 /var/log/fail2ban.log'
+alias f2blog2='sudo tail -n 40 /var/log/secure'
+alias f2bstatus='sudo systemctl status fail2ban'
+alias f2bstatus2='sudo fail2ban-client status'
+##====================AppArmor=================##
+alias armorstatus='sudo apparmor_status'
+alias armorstart=' sudo start apparmor'
+alias armorclear='sudo start apparmor ACTION=clear' # clear policy cache
+alias armorunload='sudo start apparmor ACTION=teardown' # unload all policy
+alias armorreload='sudo start apparmor ACTION=reload' # unload all policy
+alias armorforcereload='sudo start apparmor ACTION=force-reload'  # same as 'reload'
+alias armorenforce='sudo aa-enforce' #ARG=/path/to/app
+alias armorenforceall='sudo aa-enforce /etc/apparmor.d/*'
+alias armorcomplainadd='sudo aa-complain'  #ARG=/path/to/app
+alias armorcomplainall='sudo aa-complain /etc/apparmor.d/*'
+# 2 commnds to reload aa and unloading reloading the kernel
+alias armorkernelstop='sudo /etc/init.d/apparmor stop && sudo update-rc.d -f apparmor remove'
+alias armorkernelstart='sudo /etc/init.d/apparmor start && sudo update-rc.d apparmor defaults'
+alias armorlog2='sudo aa-logprof' #Interactive session
+alias armorlog='sudo cat /var/log/auth.log | grep armor'
+alias armorutil='sudo aa-logprof' #Reads logs & queries whether to allow or not
+##==================PAM Aliases=================##
+alias pamapps='ldd /{,usr/}{bin,sbin}/* | grep -B 5 libpam | grep '^/''
+alias pamstatus='ldd $(which $1) | grep libpam '  #Requires 1 APP ARG
+alias pammodules='ls /lib/*/security'
+alias pamlog='sudo cat /var/log/auth.log | grep pam'
+alias pamuserblocks='sudo pam_tally2 -u' #Query blocks of a -u=user
+alias pamunblockuser='sudo pam_tally2 -r -u' # -r=reset -u=user
+##=======Trojans Rootkits Viruses===============##
+alias rkupdate='sudo rkhunter --update'
+alias rkversion='sudo rkhunter --version && sudo rkhunter --versioncheck'
+alias rkdb='sudo rkhunter --propupd'
+alias rkchk='sudo rkhunter -c --enable all --disable none'
+alias rkchkrwo='sudo rkhunter -c --enable all --disable none --rwo'
+alias rkvalid='sudo rkhunter -C' # Check if setup OK after making /etc/rkhunter.conf changes
+alias rkcron='sudo rkhunter --cronjob > /tmp/RKHUNTERLOG.txt' #No color, no keypresses, to a file
+alias rklog='sudo cat /var/log/rkhunter.log'
+alias rklogexport='sudo cat /var/log/rkhunter/rkhunter.log > ~/Desktop/RKHUNTERLOG.txt'
+alias rktests='sudo rkhunter --list rootkits && sudo rkhunter --list tests'
+alias rkcheck2='sudo chkrootkit -e'
+alias unhideall='sudo unhide -m -d sys procall brute reverse'
+alias debsumschk='sudo debsums -a'
+alias debsumsreinstall='sudo apt-get install --reinstall $(dpkg -S $(debsums -c) | cut -d : -f 1 | sort -u)'
+#==================Virus Scanning================#
+alias clamscan='sudo clamscan'
+alias clamdb='sudo freshclam'
+alias clamhelp='clamscan --help'
+alias clamdb2='sudo killall freshclam && sudo freshclam' #if clamdb error svc used by other svc then do this
+alias clamdocuments='sudo clamscan -r --bell -i $HOME/Documents -l /var/log/clamscan.log'
+alias clamdownloads='sudo clamscan -r --bell -i $HOME/Downloads -l /var/log/clamscan.log'
+alias clamroot='sudo clamscan -ri / -l /var/log/clamscan.log'
+alias clamroot2='sudo clamscan -ri / | grep FOUND >> $HOME/Documents/CLAMROOT_Report.txt'
+alias clamhome='sudo clamscan -ri $HOME -l /var/log/clamscan.log'
+alias clamhome2='sudo clamscan -ri $HOME | grep FOUND >> $HOME/Documents/CLAMHOME_Report.txt'
+alias clammozilla='sudo clamscan -ri $HOME/.cache/mozilla/firefox/*.default/cache2/entries | grep FOUND >> $HOME/Documents/CLAMHOME_Report.txt'
+alias clamlog='sudo cat /var/log/clamscan.log > $HOME/Documents/ClamLOG.txt'
+alias clamfound='sudo cat /var/log/clamscan.log | grep -i found'
+alias clamlogdb='tail -n60 /var/log/clamav/freshclam.log'
+alias clamlogscan='sudo tail -n60 /var/log/clamscan.log'
+alias clamall='sudo clamscan -r --bell -i / | grep FOUND >> $HOME/Documents/CLAM_ALL.txt'
+alias clampid='ps aux | grep clamd && ps aux | grep fresh'
+alias clamps='ps ax | grep [c]lamd'
+alias clamreport='sudo clamscan -r /home | grep FOUND >> /path/to/save/report/file.txt'
+alias clamversion='clamdscan -V'
+alias clamtest='sudo clamscan ~/eicar.com.txt'
+##===================VyprVPN====================##
+alias vyprlogin='vyprvpn login'
+alias vyprlogout='vyprvpn logout'
+alias vyprserver='vyprvpn server set'
+alias vyprprotocol='vyprvpn protocol set'
+alias vypron='vyprvpn connect'
+alias vyproff='vyprvpn disconnect'
+alias vyprhelp='vyprvpn -h && echo -e $SEPARATOR'
+alias vyprversion='vyprvpn --version'
+alias vyprrefresh='vyprvpn --refresh'
+#===================VM Management================#
+alias virshbox='sudo virsh list --all' #List all Qemu OSes installed
+alias virshbox2='sudo virsh --connect qemu:///system list --all'
+alias virtgui='sudo virt-manager &' #Start virt-manager GUI App from CLI
+#====cpu#==64bit=or=32==Intel=vmx=AMD=svm=etc====#
+alias cpuinfo='cat /proc/cpuinfo | grep "model name" | uniq | cut -d ":" -f2 | cut -c 2-50'
+alias cpus='grep processor /proc/cpuinfo'
+alias cpuspecs='head /proc/cpuinfo'
+alias cpuvmspecs='egrep "(vmx|svm)" --color /proc/cpuinfo' #Intel uses vmx & AMD uses svm but either OK
+alias cpuram='free -mlt'
+alias cpuswap='free -mlt'
+alias vmsize='ls -Rh ~/VirtualBox\ VMs/ | grep .vdi'
 #================Misc Aliases====================#
-##================Safer Options=================##
+#==============Some safer Options================#
 alias chown='chown --preserve-root'
 alias chmod='chmod --preserve-root'
 alias chgrp='chgrp --preserve-root'
@@ -196,19 +298,28 @@ alias rm='rm -I --preserve-root' #Interactive > 3 files & nada under /
 alias c='/usr/bin/clear'
 alias diff='colordiff'
 alias du='du -ach'
+alias du2='ncdu'
 alias df='df -Tha'
+alias df2='pydf'
+alias dfhome='sudo df -ha $HOME; pydf'
+alias dfhere='sudo df -ha ./'
 
 alias aliasg='alias | grep'
 alias bc='bc -l'
 alias cacert='curl --remote-name --time-cond cacert.pem https://curl.haxx.se/ca/cacert.pem'
+alias chrome='/opt/google/chrome/chrome &'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias grep='grep --color=auto'
 alias fhere="find . -name "
 alias fs='sudo fsarchiver probe -v'
 alias h='history'
+alias histg="history | grep"
+alias header='curl -I'
+alias headerc='curl -I --compress'
 alias j='jobs'
 alias less='less -R --tabs=4' # colorful 'less', tab stops = 4
+alias logwatch='logwatch --detail 10 >> $HOME/Documents/logwatch.txt'
 alias mkdir='mkdir -p -v'
 function mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\""; }
 alias mount='mount |column -t'
@@ -216,115 +327,33 @@ alias now='date +"%T"'
 alias now='date +"%T"'
 alias nowtime=now
 alias nowdate='date +"%d-%m-%Y"'
-alias pi='echo $(echo "scale=30; 4*a(1)" | bc -l)' #Must install bc
-
+alias pi='echo $(echo "scale=60; 4*a(1)" | bc -l)' #Need to download bc 1st
+alias pwage='sudo chage --list' #Needs a user ARG
 alias python3='/usr/bin/python3.5'
 
+alias randpw="openssl rand -base64 44" #15 CHAR PW so remove the last CHAR
+alias randpw2="</dev/urandom tr -dc '12345!@#_$-%qwertQWERTasdfgASDFGzxcvbZXCVB' | head -c44; echo "" "
 alias sha1='openssl dgst -sha1 '
 alias sha256='openssl dgst -sha256 '
 alias sha512='openssl dgst -sha512 '
 
-alias term_size='echo "Rows=$(tput lines) Cols=$(tput cols)"'
-#alias timecheck='echo "Current TZ is ==> ${reverse}$(sudo cat /etc/timezone)${rst}" && sudo dpkg-reconfigure --frontend noninteractive tzdata'
+alias termsize='echo "Rows=$(tput lines) Cols=$(tput cols)"'
+alias timecheck='echo "Current TZ is ==> ${reverse}$(sudo cat /etc/timezone)${rst}" && sudo dpkg-reconfigure --frontend noninteractive tzdata'
 alias timezoneset='echo "Asia/Bangkok" | sudo tee /etc/timezone'
 alias timeset='sudo tlsdate -wv' #Download tlsdate. -v=verbose, -w=HTTPS option
-alias chrome='/opt/google/chrome/chrome'
-alias header='curl -I'
-alias headerc='curl -I --compress'
-
-alias wget='wget -c' # CONTinues if the download stalls
+alias timentpstatus='timedatectl'
 alias vi=vim
 alias edit="$EDITOR"  # if not set then use vim in quotes
 
 alias wdir='watch -p -n 10 "ls $@"' #Needs DIR ARG and use in 2 tmux splits
+alias wget="wget -c"  #won't quit with poor connection
 #alias yt="youtube-dl -f mp4"
 function yt() { youtube-dl -f mp4 $@ ; }
 function rminode () { find . -inum $@ -exec rm {} \; ; }
-#==============Archival & Packaging==============#
-##===============Archives & Packaging===========##
+##=Archival & Packaging & see zipf extract fxs=##
 alias mktar='tar -cvf'
 alias mkbz2='tar -cvjf'
-alias mkgz='tar -cvzf'
-
-#==================Virus Scanning================#
-alias clamscan='sudo clamscan'
-alias clamdb='sudo freshclam'
-alias clamhelp='clamscan --help'
-
-alias clamdocuments='sudo clamscan -r --bell -i ~/Documents -l /var/log/clamscan.log'
-alias clamdownloads='sudo clamscan -r --bell -i ~/Downloads -l /var/log/clamscan.log'
-alias clamroot='sudo clamscan -ri / -l /var/log/clamscan.log'
-alias clamhome='sudo clamscan -ri ~ -l /var/log/clamscan.log'
-alias clamlog='sudo tail -n 40 /var/log/clamscan.log > /home/$USER/Documents/ClamLOG.txt'
-alias clamlogdb='tail -n60 /var/log/clamav/freshclam.log'
-alias clamlogscan='sudo tail -n60 /var/log/clamscan.log'
-alias clamall='sudo clamscan -r --bell -i / | grep FOUND >> /home/$USER/Documents/CLAM_ALL.txt'
-alias clampid='ps aux | grep clamd && ps aux | grep fresh'
-alias clamversion='clamdscan -V'
-alias clamtest='sudo clamscan ~/eicar.com.txt'
-
-##=============RKHunter Aliases=================##
-alias rkcheck='sudo rkhunter -c'
-alias rkcron='sudo rkhunter --cronjob > /tmp/RKHUNTERLOG.txt' #No color, no keypresses, to a file
-alias rklog='sudo cat /var/log/rkhunter.log'
-alias rklogexport='sudo cat /var/log/rkhunter/rkhunter.log > ~/Desktop/RKHUNTERLOG.txt'
-alias rkupdate='sudo rkhunter --update'
-alias rkversion='sudo rkhunter -V && sudo rkhunter --versioncheck'
-alias rktests='sudo rkhunter --list rootkits && sudo rkhunter --list tests'
-##===================TCP Wrappers===============##
-# PROBLEM: Just lists libwrap files not the effected service so I need some prior lines
-alias tcpservices='ldd $(which {/usr/bin/*,/usr/sbin/*}) | grep libwrap'
-alias tcpservices2='ldd /{,usr/}{bin,sbin}/* | grep -B 50 libwrap | grep '^/''
-alias tcpdaemon='ldd $(which sshd) | grep libwrap' #Requires a file path eg /usr/sbin/sshd
-alias tcpstatus='tcpdmatch sshd' #Requires a IP or domain ARG
-alias tcplog="sudo cat /var/log/messages | grep 'DPT=22 '"
-alias tcpconfig='tcpdchk -v'
-
-#===================VM Management================#
-#====cpu#==64bit=or=32==Intel=vmx=AMD=svm=etc====#
-alias cpuinfo='cat /proc/cpuinfo | grep --color -E "vmx|svm|lm"'
-alias cpus='grep processor /proc/cpuinfo'
-alias cpuspecs='head /proc/cpuinfo'
-alias cpuram='free -mlt'
-alias cpuswap='free -mlt'
-alias vmsize='ls -Rh ~/VirtualBox\ VMs/ | grep .vdi'
-##================Fail2ban Aliases=============##
-alias f2bsshlog='sudo cat /var/log/secure | grep "Failed password"'
-alias f2bblocks='sudo iptables -L -n'
-alias f2bjail='sudo fail2ban-client status'
-alias f2bunbanip='sudo fail2ban-client set sshd unbanip' # needs 1 IP ARG
-alias f2blog='sudo tail -n 40 /var/log/fail2ban.log'
-alias f2blog2='sudo tail -n 40 /var/log/secure'
-alias f2bstatus='sudo systemctl status fail2ban'
-alias f2bstatus2='sudo fail2ban-client status'
-##==================PAM Aliases=================##
-alias pamapps='ldd /{,usr/}{bin,sbin}/* | grep -B 5 libpam | grep '^/''
-alias pamstatus='ldd $(which $1) | grep libpam '  #Requires 1 APP ARG
-alias pammodules='ls /lib/*/security'
-alias pamlog='cat /var/log/secure | grep pam'
-##===================SELINUX===================##
-alias seapp='sealert -b'  #Brings up the setroubleshooter app
-alias selogs='sudo sealert -a /var/log/audit/audit.log'  #GUI tool parses the logfile
-alias sesvc='sudo semanage port -l | grep'  #ARG=service
-alias sestatus='sudo sestatus && sudo semanage user -l && sudo sealert -a /var/log/audit/audit.log'
-##====================AppArmor=================##
-alias armorstatus='sudo apparmor_status'
-alias armorstart=' sudo start apparmor'
-alias armorclear='sudo start apparmor ACTION=clear' # clear policy cache
-alias armorunload='sudo start apparmor ACTION=teardown' # unload all policy
-alias armorreload='sudo start apparmor ACTION=reload' # unload all policy
-alias armorforcereload='sudo start apparmor ACTION=force-reload'  # same as 'reload'
-alias armorenforc='sudo aa-enforce' #ARG=/path/to/app
-alias armorenforceall='sudo aa-enforce /etc/apparmor.d/*'
-alias armorcomplainadd='sudo aa-complain'  #ARG=/path/to/app
-alias armorcomplainall='sudo aa-complain /etc/apparmor.d/*'
-# 2 commnds to reload aa and unloading reloading the kernel
-alias armorkernelstop='sudo /etc/init.d/apparmor stop && sudo update-rc.d -f apparmor remove'
-alias armorkernelstart='sudo /etc/init.d/apparmor start && sudo update-rc.d apparmor defaults'
-alias armorlog2='sudo aa-logprof' #Interactive session
-alias armorlog='sudo /var/log/audit/audit.log'
-alias armorutil='sudo aa-logprof' #Reads logs & queries whether to allow or not
-
+alias mkgz='tar -czvf'
 ##=====================Aide IDS=================##
 alias aidehelp='sudo aide -h'
 alias aideversion='sudo aide -v'
@@ -345,7 +374,7 @@ alias gc='git commit -m'                    #gc:    Git commit w/ message
 alias gpu='git pull'                        #gpu:   Git pull
 alias gp='git push'                         #gp:    Git push
 alias gr='git revert HEAD'                  #gr:    Git revert HEAD
-alias gd="git diff --color"                 #gd:    Git diff in color
+alias gd="git diff --color"					#gd:	Git diff in color
 alias glog='git log'
 alias gco='git checkout'
 alias gk='gitk --all&'
@@ -358,6 +387,7 @@ alias gx='gitx --all'
 
 # https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
 #source ~/git-completion.bash   # need the file from URL above in ~
+
 ##=================Docker=======================##
 alias docimg='sudo systemctl status docker && echo "$(tput setaf 3)##=====Docker Status and Current Docker Images=====##$(tput sgr0)" && sudo docker images'
 alias dockali='sudo docker run -i -t b0d9d7dfbd0a /bin/bash'
@@ -388,8 +418,7 @@ alias kalipersist4='mkdir -p /mnt/my_usb'
 alias kalipersist5='mount /dev/sdc3 /mnt/my_usb'
 alias kalipersist6='echo "/ union" > /mnt/my_usb/persistence.conf'
 alias kalipersist7='umount /dev/sdc3'
-##================Functions=====================##
-
+#=============Functions & Scripts================#
 # No more cd ../../../
 up() {
 	local d=""
@@ -405,13 +434,16 @@ up() {
 	cd $d
 }
 
-# Make sure these commands are done via root
+function histtop() {
+		history | awk '{CMD[$2]++;count++;}END { for (a in CMD)print CMD[a] " " CMD[a]/count*100 "% " a;}' | grep -v "./" | column -c3 -s " " -t | sort -nr | nl |  head -n10
+}
+
+# Commands that need root
 # I have an alias for this already sudo included
-# Maybe other commands can use this
-if [ $UID -ne 0 ]; then
-	alias reboot='sudo reboot'
-	alias update='sudo apt-get upgrade'
-fi
+#if [ $UID -ne 0 ]; then
+#	alias reboot='sudo reboot'
+#	alias update='sudo apt-get upgrade'
+#fi
 
 zipf () { zip -r "$1".zip "$1" ; }  # zipf:Create a ZIP archive of a folder
 
@@ -437,6 +469,8 @@ extract () {
 	fi
 }
 
+# Function to move to new DIR when created. cd - then toggles last 2 DIR
+function mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\""; }
 # function to print nunbers down the screen as per $1 e.g. count 6
 function count(){ python -c "for num in xrange($1):print num";}
 
@@ -444,6 +478,7 @@ function count(){ python -c "for num in xrange($1):print num";}
 #function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
 
 ##=================Colors MISC==================##
+
 # Simple Color Settings
 BLACK='\e[0;30m'  #0;30=Lt,1;32=Dk
 RED='\e[0;31m'  #0;31=Lt,1;31=Dk
@@ -482,6 +517,25 @@ export LESS_TERMCAP_so=$'\e[01;44;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[01;32m'
 
+# This function echoes 8 COLORS and codes to check your display
+print8colors()
+{
+	echo -e "\n\e[4;31mLight Colors\e[0m  \t\t\e[1;4;31mDark Colors\e[0m"
+	echo -e "\e[0;30;47m Black    \e[0m 0;30m \t\e[1;30;40m Dark Gray  \e[0m 1;30m"
+	echo -e "\e[0;31;47m Red      \e[0m 0;31m \t\e[1;31;40m Dark Red   \e[0m 1;31m"
+	echo -e "\e[0;32;47m Green    \e[0m 0;32m \t\e[1;32;40m Dark Green \e[0m 1;32m"
+	echo -e "\e[0;33;47m Brown    \e[0m 0;33m \t\e[1;33;40m Yellow     \e[0m 1;33m"
+	echo -e "\e[0;34;47m Blue     \e[0m 0;34m \t\e[1;34;40m Dark Blue  \e[0m 1;34m"
+	echo -e "\e[0;35;47m Magenta  \e[0m 0;35m \t\e[1;35;40m DarkMagenta\e[0m 1;35m"
+	echo -e "\e[0;36;47m Cyan     \e[0m 0;36m \t\e[1;36;40m Dark Cyan  \e[0m 1;36m"
+	echo -e "\e[0;37;47m LightGray\e[0m 0;37m \t\e[1;37;40m White      \e[0m 1;37m"
+}
+
+# 16 million COLOR Test Function that works
+print16millcolors() { fb=3;r=255;g=1;b=1;printf '\e[0;%s8;2;%s;%s;%sm▒▒▒ ' "$fb" "$r" "$g" "$b" ; }
+# OK 16 Million COLORS also but does not work
+print16millcolors2() { for r in {200..255..5}; do fb=4;g=1;b=1;printf '\e[0;%s8;2;%s;%s;%sm    ' "$fb" "$r" "$g" "$b"; done ; }
+
 # Mixed Colors -BOLD element1 Easy to  REV FGBG change 1 to 7
 WhiteGrayBG='\e[1;47;88m'
 GreenBrownBG='\e[1;100;92m'
@@ -504,24 +558,10 @@ bldcyn=${txtbld}$(tput setaf 6) #  cyan
 bldwht=${txtbld}$(tput setaf 7) #  white
 reverse=${txtbld}$(tput rev)    # reverse FGBG
 rst=$(tput sgr0)             # Reset
-info=${bldwht}*${rst}        # Feedback
-pass=${bldblu}*${rst}
-warn=${bldred}*${rst}
-ques=${bldblu}?${rst}
-
-# This function echoes 8 COLORS and codes to check your display
-print8colors()
-{
-    echo -e "\n\e[4;31mLight Colors\e[0m  \t\t\e[1;4;31mDark Colors\e[0m"
-    echo -e "\e[0;30;47m Black    \e[0m 0;30m \t\e[1;30;40m Dark Gray  \e[0m 1;30m"
-    echo -e "\e[0;31;47m Red      \e[0m 0;31m \t\e[1;31;40m Dark Red   \e[0m 1;31m"
-    echo -e "\e[0;32;47m Green    \e[0m 0;32m \t\e[1;32;40m Dark Green \e[0m 1;32m"
-    echo -e "\e[0;33;47m Brown    \e[0m 0;33m \t\e[1;33;40m Yellow     \e[0m 1;33m"
-    echo -e "\e[0;34;47m Blue     \e[0m 0;34m \t\e[1;34;40m Dark Blue  \e[0m 1;34m"
-    echo -e "\e[0;35;47m Magenta  \e[0m 0;35m \t\e[1;35;40m DarkMagenta\e[0m 1;35m"
-    echo -e "\e[0;36;47m Cyan     \e[0m 0;36m \t\e[1;36;40m Dark Cyan  \e[0m 1;36m"
-    echo -e "\e[0;37;47m LightGray\e[0m 0;37m \t\e[1;37;40m White      \e[0m 1;37m"
-}
+info=${bldwht}*${txtrst}        # Feedback
+pass=${bldblu}*${txtrst}
+warn=${bldred}*${txtrst}
+ques=${bldblu}?${txtrst}
 
 print8fgcolors() { printf '\e[%sm▒' {30..37} 0; echo ; }
 print8bgcolors() { printf '\e[%sm ' {40..47} 0; echo ; }
@@ -529,15 +569,15 @@ print8bgcolors() { printf '\e[%sm ' {40..47} 0; echo ; }
 # 16 COLOR Function --NOTE can crash terminator
 print16colors() {
 for clbg in {40..47} {100..107} 49 ; do
-    #Foreground
-    for clfg in {30..37} {90..97} 39 ; do
-        #Formatting
-        for attr in 0 1 2 4 5 7 ; do
-            #Print the result
-            echo -en "\e[${attr};${clbg};${clfg}m ^[${attr};${clbg};${clfg}m \e[0m"
-        done
-        echo #Newline
-    done
+	#Foreground
+	for clfg in {30..37} {90..97} 39 ; do
+		#Formatting
+		for attr in 0 1 2 4 5 7 ; do
+			#Print the result
+			echo -en "\e[${attr};${clbg};${clfg}m ^[${attr};${clbg};${clfg}m \e[0m"
+		done
+		echo #Newline
+	done
 done
 exit 0
 }
@@ -547,50 +587,43 @@ print256colors() { printf '\e[48;5;%dm ' {0..255}; printf '\e[0m \n' ; }
 # 256 COLOR function2 with for loop and tput
 print256colors2()
 {
-    color()
-    { 
-        for c; do
-            printf '\e[48;5;%dm%03d' $c $c
-                done
-                    printf '\e[0m \n'
-    }
-    IFS=$' \t\n'
-    color {0..15}
-    for ((i=0;i<6;i++)); do
-        color $(seq $((i*36+16)) $((i*36+51)))
-        done
-        color {232..255}
+	color()
+	{ 
+			for c; do
+						printf '\e[48;5;%dm%03d' $c $c
+								done
+										printf '\e[0m \n'
+	}
+	IFS=$' \t\n'
+	color {0..15}
+	for ((i=0;i<6;i++)); do
+			color $(seq $((i*36+16)) $((i*36+51)))
+			done
+			color {232..255}
 }
 
-# 16 million COLOR Test Function that works
-print16millcolors() { fb=3;r=255;g=1;b=1;printf '\e[0;%s8;2;%s;%s;%sm▒▒▒ ' "$fb" "$r" "$g" "$b" ; }
-# OK 16 Million COLORS also but does not work
-print16millcolors2() { for r in {200..255..5}; do fb=4;g=1;b=1;printf '\e[0;%s8;2;%s;%s;%sm    ' "$fb" "$r" "$g" "$b"; done ; }
+SEP="${bldyel}##===========/\===========##${rst}"
 ##===============Message Center=================##
 #== echo -e for ESC, \033 works > \e on MacOS====#
 #== quoting () work but also generate error
-echo -e "ALERT *\\*/ ${PURPLE}${WBG}MOTD${NC}"  #Message in Purple on Yellow
-#echo -e "${CYAN}${WBG}The Interface is ${BLINK}${bldyel}${RBG}$(nface)${CYAN}${WBG} - for $USER${NC}"
-echo -e "MOTD \e[107;38;5;199m Fuhgettaboutit \e[33;48;5;52m Semper fi $NC"
-echo -e "$GreenBrownBG Conf in 10 minutes NOT MANDATORY... Free Cookies! $NC"
-echo -e "${BlackYellowBG} Welcome to a new day! ${NC}"
-echo -e "${bldgrn}Green tput ${bldmag}MOTD${rst}"
-echo "$bldgrn Help me! I am out of Oreos! $rst"
-echo "${bldmag} PARTY! at the Boss House 7PM! ${rst}"
-echo "${reverse} Reverse Current FGBG Text MOTD ${rst}"
-printf '\e[38;5;222;48;5;238m   Hi   \e[0m\n'
-
+#echo -e "ALERT *\\*/ ${PURPLE}${WBG}MOTD${NC}"  #Message in Purple on Yellow
+#echo -e "${CYAN}${WBG}BASH Version $(which bash --version) - for $USER${NC}"
+#echo -e "MOTD \e[107;38;5;199m Fuhgettaboutit \e[33;48;5;52m Semper fi $NC"
+#echo -e "$GreenBrownBG Conf in 10 minutes NOT MANDATORY... Free Cookies! $NC"
+#echo -e "${BlackYellowBG} Welcome to a new day! ${NC}"
+#echo -e "${bldgrn}Green tput ${bldmag}MOTD${rst}"
+#echo "$bldgrn Help me I am out of Oreos! $rst"
+#echo "${bldmag} PARTY at the Boss House 7PM! ${rst}"
+#echo "${reverse} Reverse Current FGBG Text MOTD${rst}"
+#printf '\e[38;5;222;48;5;238m  Hi  \e[0m\n'
 # Server will SHUTDOWN Message function using tput 6 or CYAN
 gohome()
 {
-        tput setaf 6; echo "The Server will SHUTDOWN in 15 minutes so SAVE and go home"
+		tput setaf 6; echo "The Server will SHUTDOWN in 15 minutes so SAVE and go home"
 }
-
-SEP='${bldyel}##=========/\=========##${rst}'
+##============END Message Center================##
 ##============To Remember or Works in Progress==##
+# alias X then unalias X to set unset aliases
 #colors below=>osxdaily.com/2012/02/21/add-color-to-the-terminal-in-mac-os-x/
 # Backup a file with date eg cp file file.$(date "+%b_%d_%Y_%H.%M.%S")
-# Get latest curl certificate 
-# curl ca.pem curl --remote-name --time-cond cacert.pem https://curl.haxx.se/ca/cacert.pem
-#export CURL_CA_BUNDLE=~/.ssh/cacert.pem
 ##============END My PERSONAL SETTINGS==========##
