@@ -1,0 +1,177 @@
+##===============Forensic Bash_Profile===============##
+## Reference: http://www.pointsoftware.ch/en/howto-bash-audit-command-logger/
+
+#'history' options
+declare -rx HISTFILE="$HOME/.bash_history"
+declare -rx HISTSIZE=500000                                 #nbr of cmds in memory
+declare -rx HISTFILESIZE=500000                             #nbr of cmds on file
+declare -rx HISTCONTROL=""                                  #does not ignore spaces or duplicates
+declare -rx HISTIGNORE=""                                   #does not ignore patterns
+declare -rx HISTCMD                                         #history line number
+#history -r                                                 #to reload history from file if a prior HISTSIZE has truncated it
+if [ "${OSTYPE:0:7}" != "solaris" ] #following not working in solaris
+then
+if groups | grep -q root
+then
+  declare -x TMOUT=3600                                     #timeout for root's sessions
+  chattr +a "$HISTFILE"                                     #set append-only
+fi
+fi
+shopt -s histappend
+shopt -s cmdhist
+
+#history substitution ask for a confirmation
+shopt -s histverify
+
+# Need Timestamps, filepaths, logging but we will not use Bash History instead syslog
+
+#add timestamps in history - obsoleted with logger/syslog
+#'http://www.thegeekstuff.com/2008/08/15-examples-to-master-linux-command-line-history/#more-130'
+#declare -rx HISTTIMEFORMAT='%F %T '
+
+#Nicer PS1 prompt & color
+#'http://www.pixelbeat.org/docs/terminal_colours/#256'
+#'http://www.frexx.de/xterm-256-notes/'
+_backnone="\e[00m"
+_backblack="\e[40m"
+_backblue="\e[44m"
+_frontred_b="\e[01;31m"
+_frontgreen_b="\e[01;32m"
+_frontgrey_b="\e[01;37m"
+_frontgrey="\e[00;37m"
+_frontblue_b="\e[01;34m"
+PS1="\[${_backblue}${_frontgreen_b}\]\u@\h:\[${_backblack}${_frontblue_b}\]\w\\$\[${_backnone}${_frontgreen_b}\] "
+
+#enable forward search ('ctrl-s')
+#'http://ruslanspivak.com/2010/11/25/bash-history-incremental-search-forward/'
+if shopt -q login_shell && [ -t 0 ]
+then
+  stty -ixon
+fi
+
+# bash shortcuts
+#'http://www.techrepublic.com/article/master-the-linux-bash-command-line-with-these-10-shortcuts/5827311'
+#'http://www.hypexr.org/bash_tutorial.php'
+# ctrl-r                reverse search
+# ctrl-s                forward search
+# alt-. or esc-.        reuse 1st arg
+# ctrl-a                Move cursor to beginning of line
+# ctrl-e                Move cursor to end of line
+# meta-b                Move cursor back one word
+# meta-f                Move cursor forward one word
+# ctrl-w                Cut the last word
+# ctrl-u                Cut everything before the cursor
+# ctrl-k                Cut everything after the cursor
+# ctrl-y                Paste the last thing to be cut
+# ctrl-_                Undo
+#bash-history-cheat-sheet.pdf 'http://www.catonmat.net/download/bash-history-cheat-sheet.pdf'
+# Emacs Mode Shortcuts:
+# CTRL-p                Fetch the previous command from the history list.
+# CTRL-n                Fetch the next command from the history list.
+# CTRL-r                Search history backward (incremental search).
+# CTRL-s                Search history forward (incremental search).
+# Meta-p                Search backward using non-incremental search.
+# Meta-n                Search forward using non-incremental search.
+# Meta-<                Move to the first line in the history.
+# Meta->                Move to the end of the history list.
+# Vi Mode Shortcuts:
+# k                     Fetch the previous command from the history list.
+# j                     Fetch the next command from the history list.
+# /string or CTRL-r     Search history backward for a command matching string.
+# ?string or CTRL-s     Search history forward for a command matching string.
+# n                     Repeat search in the same direction as previous.
+# N                     Repeat search in the opposite direction as previous.
+# G                     Move to the N-th history line (for example, 15G)
+
+# Next keeps filenames/paths straight when you are su root su user switching
+#seek the oldest parent 'bash' process, to get $AUDIT_LOGINID and $AUDIT_LOGINUSER,
+#which may be different from $USER after 'su' or 'sudo' commands
+AUDIT_LOGINID=$$
+AUDIT_LOGINID2=$AUDIT_LOGINID
+while AUDIT_LOGINID2="$(awk '/PPid:/ {print $2}' /proc/$AUDIT_LOGINID2/status)" && [ "$AUDIT_LOGINID2" != "1" ]
+do
+  if [ "$(awk '/Name:/ {print $2}' /proc/$AUDIT_LOGINID2/status)" == "bash" ]
+  then
+    AUDIT_LOGINID="$AUDIT_LOGINID2"
+  fi
+done
+AUDIT_LOGINUSER=$(awk "/^Uid:/ {print \$2}" /proc/$AUDIT_LOGINID/status)
+AUDIT_LOGINUSER=$(awk -F":" "\$3 ~ /$AUDIT_LOGINUSER/ {print \$1}" /etc/passwd)
+#old: AUDIT_LOGINUSER=$(awk -F":" "/^[^:]*:[^:]*:$AUDIT_LOGINUSER:/ {print \$1}" /etc/passwd)
+#old: AUDIT_LOGINUSER=$(getent passwd $AUDIT_LOGINUSER | sed -e 's%:.*%%')"
+
+declare -rx AUDIT_LOGINUSER="$(who -mu | awk '{print $1}')"
+declare -rx AUDIT_LOGINPID="$(who -mu | awk '{print $6}')"
+declare -rx AUDIT_USER="$USER"                              #defined by pam during su/sudo
+declare -rx AUDIT_PID="$$"
+declare -rx AUDIT_TTY="$(who -mu | awk '{print $2}')"
+declare -rx AUDIT_SSH="$([ -n "$SSH_CONNECTION" ] && echo "$SSH_CONNECTION" | awk '{print $1":"$2"->"$3":"$4}')"
+declare -rx AUDIT_STR="[audit $AUDIT_LOGINUSER/$AUDIT_LOGINPID as $AUDIT_USER/$AUDIT_PID on $AUDIT_TTY/$AUDIT_SSH]"
+declare -x AUDIT_LASTHISTLINE=""                            #to avoid logging the same line twice
+declare -rx AUDIT_SYSLOG="1"
+
+#'http://jablonskis.org/2011/howto-log-bash-history-to-syslog/'
+declare -rx PROMPT_COMMAND='history -a >(tee -a ~/.bash_history | logger -p user.info -t "$AUDIT_STR $PWD")' #no subshell is used here, it would else duplicate execution!
+
+
+set +o functrace                                            #disable trap DEBUG inherited in functions, command substitutions or subshells, normally the default setting already
+shopt -s extglob                                            #enable extended pattern matching operators
+function AUDIT_DEBUG() {
+  if [ -z "$AUDIT_LASTHISTLINE" ]                           #initialization
+  then
+    local AUDIT_CMD="$(fc -l -1 -1)"                        #previous history command
+    AUDIT_LASTHISTLINE="${AUDIT_CMD%%+([^ 0-9])*}"
+  else
+    AUDIT_LASTHISTLINE="$AUDIT_HISTLINE"
+  fi
+  local AUDIT_CMD="$(history 1)"                            #current history command
+  AUDIT_HISTLINE="${AUDIT_CMD%%+([^ 0-9])*}"
+  if [ "${AUDIT_HISTLINE:-0}" -ne "${AUDIT_LASTHISTLINE:-0}" ] || [ "${AUDIT_HISTLINE:-0}" -eq "1" ]        #avoid logging unexecuted commands after 'ctrl-c', 'empty+enter', or after 'ctrl-d'
+  then
+    echo -ne "${_backnone}${_frontgrey}"                    #disable prompt colors for the command's output
+    #remove in last history cmd its line number (if any) and send to syslog
+    if [ -n "$AUDIT_SYSLOG" ]
+    then
+      if ! logger -p user.info -t "$AUDIT_STR $PWD" "${AUDIT_CMD##*( )?(+([0-9])?(\*)+( ))}"
+      then
+        echo error "$AUDIT_STR $PWD" "${AUDIT_CMD##*( )?(+([0-9])?(\*)+( ))}"
+      fi
+    else
+      echo $( date +%F_%H:%M:%S ) "$AUDIT_STR $PWD" "${AUDIT_CMD##*( )?(+([0-9])?(\*)+( ))}" >>/var/log/userlog.info
+  fi
+  #echo "===cmd:$BASH_COMMAND/subshell:$BASH_SUBSHELL/fc:$(fc -l -1)/history:$(history 1)/histline:${AUDIT_CMD%%+([^ 0-9])*}/last_histline:${AUDIT_LASTHISTLINE}===" #for debugging
+    return 0
+  else
+    return 1
+  fi
+}
+
+#audit the session closing
+function AUDIT_EXIT() {
+  local AUDIT_STATUS="$?"
+  if [ -n "$AUDIT_SYSLOG" ]
+  then
+    logger -p user.info -t "$AUDIT_STR" "#=== session closed ==="
+  else
+    echo $( date +%F_%H:%M:%S ) "$AUDIT_STR" "#=== session closed ===" >>/var/log/userlog.info
+  fi
+  exit "$AUDIT_STATUS"
+}
+
+#make audit trap functions readonly; disable trap DEBUG inherited (normally the default setting already)
+declare -frx +t AUDIT_DEBUG
+declare -frx +t AUDIT_EXIT
+ #audit the session opening
+if [ -n "$AUDIT_SYSLOG" ]
+then
+  logger -p user.info -t "$AUDIT_STR" "#=== session opened ===" #audit the session openning
+else
+  echo $( date +%F_%H:%M:%S ) "$AUDIT_STR" "#=== session opened ===" >>/var/log/userlog.info
+fi
+
+#enable the trap DEBUG (at every call of $PROMPT_COMMAND) and trap EXIT
+declare -rx PROMPT_COMMAND="trap 'AUDIT_DEBUG; trap DEBUG' DEBUG"
+declare -rx BASH_COMMAND                                    #current command executed by user or a trap
+declare -rx SHELLOPT                                        #shell options, like functrace
+trap AUDIT_EXIT EXIT
+
