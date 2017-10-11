@@ -1,0 +1,117 @@
+### default for all ## See https://www.cyberciti.biz/faq/create-ssh-config-file-on-linux-unix/
+Host *
+	LogLevel VERBOSE
+	# Adjust the fingerprint to match what you see delivered by remote server
+	FingerprintHash md5
+	ForwardAgent no
+	ForwardX11 no
+	ForwardX11Trusted yes
+	#User ron
+	#Port 22
+	Protocol 2
+	ServerAliveInterval 60
+	ServerAliveCountMax 15
+	VisualHostKey yes
+	# Ensure KnownHosts are unreadable if leaked - it is otherwise easier to know which hosts your keys have access to.
+	HashKnownHosts yes
+	# Host keys the client accepts - order here is honored by OpenSSH
+	HostKeyAlgorithms ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-ed25519,ssh-rsa,ecdsa-sha2-nistp521-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp521,ecdsa-sha2-nistp384,ecdsa-sha2-nistp256
+	KexAlgorithms curve25519-sha256@libssh.org,ecdh-sha2-nistp521,ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256
+	MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com
+	Ciphers chacha20-poly1305@openssh.com,aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr
+
+Host jomsai
+	HostName github.com
+	User git
+	Port 22
+	#IdentityFile ~/.ssh/github_rsa
+	IdentityFile ~/.ssh/id_rsa
+ 
+Host plontip
+	Hostname plontip.tklapp.com
+	User root
+	Port 22
+	#IdentityFile ~/.ssh/id_rsa
+	IdentityFile ~/.ssh/432bb.pem
+
+## Login My AWS Cloud as ubuntu user unless IP changes so need a HostName##
+Host aws
+	HostName plontip.tklapp.com
+	User root
+	Port 22
+	IdentityFile ~/.ssh/id_rsa
+	#Remote /etc/ssh/ed25519 key 256 01:ee:c5:66:9b:10:e0:04:c9:ed:a6:30:0a:cb:17:f5 ED25519
+	#ProxyCommand -o FingerprintHash=md5   #### I put this in Defaults area above!
+
+Host crul
+	Hostname 192.168.1.198
+	User crul
+	Port 22
+	IdentityFile ~/.ssh/id_rsa
+
+Host vit
+	Hostname 192.168.64.18
+	User vit
+	Port 8822
+	IdentityFile ~/.ssh/id_rsa
+
+Host rol
+	Hostname 192.168.64.13
+	User rol
+	Port 8822
+	IdentityFile ~/.ssh/id_rsa
+
+Host coz
+	Hostname 192.168.64.9
+	User coz
+	Port 4422
+	IdentityFile ~/.ssh/id_rsa
+
+Host sval
+	Hostname 192.168.64.10
+	User sval
+	Port 22
+	IdentityFile ~/.ssh/id_rsa
+
+Host jac
+	Hostname 192.168.1.43
+	#Hostname 172.20.10.7
+	#Hostname 192.168.64.28
+	User jac
+	Port 22
+	IdentityFile ~/.ssh/id_rsa
+
+Host ned
+	Hostname 192.168.64.27
+	User ned
+	Port 22
+	IdentityFile ~/.ssh/id_rsa
+
+Host tes
+	Hostname 192.168.64.30
+	User tes
+	Port 22
+	IdentityFile ~/.ssh/id_ed25519
+
+Host bem
+	#Hostname 192.168.1.78
+	Hostname 192.168.64.31
+	User bem
+	Port 22
+	IdentityFile ~/id_ed25519
+
+## Asus Router
+Host asus
+	Hostname 192.168.1.1
+	User Hd6apy32Knn9
+	Port 4422
+	IdentityFile id_rsa_mozilla_2017-06-13
+
+Host tplink
+	Hostname 10.10.10.1
+	User z00pDDq22z
+	Port 4422
+	IdentityFile id_rsa_mozilla_2017-06-13
+	KexAlgorithms +diffie-hellman-group1-sha1
+	KexAlgorithms +diffie-hellman-group14-sha1
+	#KexAlgorithms +kexguess2@matt.ucc.asn.au
