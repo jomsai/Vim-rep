@@ -96,7 +96,7 @@ alias ld='ls -d */' # only Dirs
 alias ls.d='ls -ld `find . -maxdepth 1 -type d -o -type l`'  # Dot DIR Only
 alias less='less -FSRXc'  # Preferred 'less' implementation
 ##=========Edit Source Backup Dotfiles==========##
-alias so='source ~/.bash_profile && \cp ~/.bash_profile ~/.bash_profile.bak && \cp ~/.bash_profile ~/Vim-rep/dotfiles/bash_profile_$(date "+%b_%d_%Y_%H.%M.%S").txt && echo "Yeah Baby!"'
+alias so='source ~/.bash_profile && \cp ~/.bash_profile ~/.bash_profile.bak && \cp ~/.bash_profile ~/Vim-rep/dotfiles/BASHPROFILE_MacOS_Aliases_$(date "+%Y-%m-%d_%H%M%S").txt && echo "Yeah Baby!"'
 # To Source my .vimrc works but exits 1 due to Vundle ERR so next requires || 
 alias sovim='\cp ~/.vimrc ~/.vimrc.bak && \cp ~/.vimrc ~/Vim-rep/dotfiles/VIMRC.txt && echo "Whatttyyyaaaaa"'
 alias sotmux='\cp ~/.tmux.conf ~/.tmux.conf.bak && \cp ~/.tmux.conf ~/Vim-rep/dotfiles/tmux.conf.txt'
@@ -492,8 +492,8 @@ ques=${bldblu}?${txtrst}
 #rminode () { find . -inum "$1" -exec rm {} + ; }
 # Make an ISO OS File an isohybrid
 #hdiutil convert -format UDRW -o /path/to/target.img /path/to/source.iso
-# Backup a file with date eg cp file file.$(date "+%b_%d_%Y_%H.%M.%S")
-
+# Backup a file with date eg cp file file.$(date "+%b_%d_%Y_%H.%M.%S").txt ==> file.Oct_16_2017_13.50.13.txt
+# Backup file.txt with datetime suffix==> file.$(date "+%Y-%m-%d_%H%M%S").txt ==> file.YY-MM-DD_ssssss.txt
 export CURL_CA_BUNDLE=/etc/ssl/cert.pem
 
 # Git autocompletion & prompt
