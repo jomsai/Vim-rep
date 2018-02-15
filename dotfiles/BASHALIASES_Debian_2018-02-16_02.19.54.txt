@@ -320,6 +320,7 @@ alias shred7='sudo shred -fzv -n7 "$@"'
 alias wipedisk='sudo wipefs --all'  ##ARG1=/dev/sdX
 
 alias c='/usr/bin/clear'
+alias matrix='cmatrix -sb -C blue'
 alias diff='colordiff'
 alias du='du -ach'
 alias du2='ncdu'
@@ -408,10 +409,18 @@ alias rsyncbak='sudo rsync -avzu --progress /home/fzh/Documents/Debian_Setup /me
 
 alias randpw="openssl rand -base64 44" #15 CHAR PW so remove the last CHAR
 alias randpw2="</dev/urandom tr -dc '12345!@#_$-%qwertQWERTasdfgASDFGzxcvbZXCVB' | head -c44; echo "" "
+
+#alias shaall='rhash -aiv --bsd --percents --speed'  # Write ALL the hashes rhash does without any name added
+alias shaall='rhash -aiv --bsd --percents --speed'
+alias sharhashls='rhash --list-hashes'  # LIST of All hashes rhash can do
+alias shacrc='rhash -C'  # CRC32 hash
+alias sha3='rhash --sha3-512'
 alias sha1='openssl dgst -sha1'
 alias sha256='openssl dgst -sha256'
 alias sha512='openssl dgst -sha512'
 alias shamd5='openssl dgst -md5'
+alias sharmd='openssl dgst -rmd160'
+alias shatiger='rhash --tiger'
 alias shawp='openssl dgst -whirlpool'
 alias termsize='echo "Rows=$(tput lines) Cols=$(tput cols)"'
 alias timecheck='echo "Current TZ is ==> ${reverse}$(sudo cat /etc/timezone)${rst}" && sudo dpkg-reconfigure --frontend noninteractive tzdata'
