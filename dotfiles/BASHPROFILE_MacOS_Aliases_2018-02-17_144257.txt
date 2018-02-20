@@ -99,7 +99,7 @@ alias less='less -FSRXc'  # Preferred 'less' implementation
 alias so='source ~/.bash_profile && \cp ~/.bash_profile ~/.bash_profile.bak && \cp ~/.bash_profile /Users/maxod/Documents/GitHub/Vim-rep/dotfiles/BASHPROFILE_MacOS_Aliases_$(date "+%Y-%m-%d_%H%M%S").txt && echo "Yeah Baby!"'
 # To Source my .vimrc works but exits 1 due to Vundle ERR so next requires || 
 alias sovim='\cp ~/.vimrc ~/.vimrc.bak && \cp ~/.vimrc /Users/maxod/Documents/GitHub/Vim-rep/dotfiles/VIMRC.$(date "+%b_%d_%Y_%H.%M.%S").txt && echo "Whatttyyyaaaaa"'
-alias sotmux='\cp ~/.tmux.conf ~/.tmux.conf.bak && \cp /Users/maxod/Documents/GitHub/Vim-rep/dotfiles/tmux.conf.$(date "+%b_%d_%Y_%H.%M.%S").txt'
+alias sotmux='\cp ~/.tmux.conf ~/.tmux.conf.bak && \cp ~/.tmux.conf ~/Documents/GitHub/Vim-rep/dotfiles/TMUXCONF_MacOS.$(date "+%b_%d_%Y_%H.%M.%S").txt'
 alias tmux3='tmux && tmux split-window -v -l 30 && tmux split-window -h'
 alias tmuxhh='tmux split-window -h -p 50'
 alias ebrc="vim ~/.bash_profile"  # Quick access to the file in Vim
@@ -110,17 +110,19 @@ alias c='clear'
 alias cx='chmod a+x' # Requires ARG e.g. $ cx *.txt etc
 alias chrome="open -a \"Google Chrome\""
 alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
+alias clamtest='wget http://www.eicar.org/download/eicar.com -O ~/eicar.com'
 alias wipefree='sudo diskutil secureErase freespace 0' # ARG1=PathToExtHD e.g. /Volumes/xxx\ Ext\ Drive
 alias h='history 40'
 alias j='jobs -l'
 #alias joff="kill $(jobs -l | awk '/Stopped/{print $3}')"
 alias joff="kill $(\jobs -l | grep Stopped | cut -d' ' -f3)"
-alias rm='rm -iP' # -i is interactive -P is wipe 3 times 1s then 0s then 1s
+alias rm='rm -ivP' # -i is interactive -P is wipe 3 times 1s then 0s then 1s
 alias cp='cp -i'
 alias mv='mv -i'
 alias mkdir='mkdir -p'
 mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\"" ; }
 alias pi='echo $(echo "scale=50; 4*a(1)" | bc -l)'
+alias pubkey='wget keybase.io/leokwa/private/leokwa/mascpar.public.gpg.asc'
 alias catread='cat ./README'
 alias spk1='say "What the hell do you want from me"'
 alias spk2='say "after a while ya just see blonde und brunette" && cmatrix'
@@ -157,8 +159,9 @@ alias nface="scutil --nwi | grep interfaces: | cut -c 21-23"  #LINUX  netstat -r
 alias intip="ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'"
 alias intips="ifconfig $nface | grep inet | cut -d ' ' -f2"  #inet4 & inet6 intIP
 alias extip='curl ifconfig.io'
-alias extip2="dig +short myip.opendns.com @resolver1.opendns.com"
-alias extip3="curl icanhazip.com"  #site curl ip.appspot.com is unreliable 
+alias extip2='curl ipinfo.io'  # Takes ARG=any IP or if no ARG does local ext IP
+alias extip3="dig +short myip.opendns.com @resolver1.opendns.com"
+alias extip4="curl icanhazip.com"  #site curl ip.appspot.com is unreliable 
 alias macch='sudo macchanger -r en4'
 alias geoip='curl ipinfo.io/"$1"'
 #geoip2() { read ip; curl ipinfo.io/$ip; }  #Alternative to read in the IP
@@ -186,7 +189,8 @@ alias sshrsakey='ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa_mozilla_$(date +%Y-%
 alias sshed255key='ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_mozilla_$(date +%Y-%m-%d) -C "Mozilla key for $USER"'
 alias sshgit='ssh -T -i ~/.ssh/github_rsa git@github.com'  #-T stops pseudoterminal warning
 alias sshkeys='ssh-keygen -lv -f ~/.ssh/id_rsa.pub && ssh-add -l'
-alias sshstartkey='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_ed25519 && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"'
+alias sshkeyed='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_ed25519_mozilla_2017-12-20 && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"'
+alias sshkeyrsa='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_rsa_mozilla_2017-12-20 && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"'
 alias sshkeychainadd='/usr/bin/ssh-add -K ~/.ssh/id_ed25519' # ARG1 identity key
 alias sshpid='ps -e | grep ssh-agent | cut -d " " -f1'  #PID of ssh service so I can whack it
 #alias sshpid='ps -e | grep ssh-agent | cut -d " " -f1 && sudo killall ssh-agent && '  #Need a restart method
@@ -258,8 +262,10 @@ alias logdump='sudo find / -maxdepth 4 -type f -iname "*log" -print0 | xargs -0 
 function logknock2() { log show --predicate 'eventMessage contains "OBJECTIVE-SEE ERROR"' --info ; }
 alias nixrtkt='sudo ./chkrootkit'
 alias sha1='openssl dgst -sha1 '
-alias sha256='openssl dgst -sha256 '
-alias sha512='openssl dgst -sha512 '
+alias sha256='openssl dgst -sha256'
+alias sha512='openssl dgst -sha512'
+alias shamd5='openssl dgst -md5'
+alias shawp='openssl dgst -whirlpool'
 alias sudo='sudo '
 alias sbb='sudo $(fc -ln -1)'  # sudo !! shortcut
 alias securekeyboard='defaults read -app Terminal SecureKeyboardEntry' # 1 means other apps cannot read the Terminal

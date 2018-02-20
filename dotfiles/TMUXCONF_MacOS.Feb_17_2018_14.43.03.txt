@@ -1,0 +1,19 @@
+set -s escape-time 0
+set -g history-limit 50000
+set -g display-time 4000
+set -g status-interval 5
+setw -g xterm-keys on  # Xterm Key Binding
+set -g base-index 1  # Count Sessions from 1 on
+set -g set-titles off
+set -g status on
+set -g status-position bottom  #set -g status-position [bottom | top]
+set -g status-fg white
+set -g status-bg blue
+set -g status-justify centre
+set -g status-interval 5 
+set -g status-left-length 50 #90
+set -g status-right-length 50 #60
+set -g status-left "#[fg=Green]#(whoami)#[fg=white]::#[fg=yellow]#(curl ipecho.net/plain;echo)#[fg=white]"
+set -g status-right '#[fg=red]#(ifconfig | grep netmask | grep broadcast | cut -c 7-19)#[fg=black] | #[fg=yellow]%a %h-%d %H:%M '
+setw -g window-status-current-format "#[fg=cyan,reverse]#{pane_current_path}::#W "
+set-window-option -g automatic-rename off
