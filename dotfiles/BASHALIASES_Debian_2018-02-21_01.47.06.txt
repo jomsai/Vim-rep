@@ -405,7 +405,7 @@ alias nowdate='date +"%d-%m-%Y"'
 alias pi='echo $(echo "scale=60; 4*a(1)" | bc -l)' #Need to download bc 1st
 alias pwage='sudo chage --list' #Needs a user ARG
 alias python3='/usr/bin/python3.5'
-alias rsyncbak='sudo rsync -avzu --progress /home/fzh/Documents/Debian_Setup /media/fzh/EX1HD/'
+alias rsyncbak='sudo rsync -avzu --progress /home/$USER/Documents/Debian_Setup /media/$USER/EX1HD/'
 
 alias randpw="openssl rand -base64 44" #15 CHAR PW so remove the last CHAR
 alias randpw2="</dev/urandom tr -dc '12345!@#_$-%qwertQWERTasdfgASDFGzxcvbZXCVB' | head -c44; echo "" "
