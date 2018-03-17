@@ -336,6 +336,7 @@ alias wipedisk='sudo wipefs --all'  ##ARG1=/dev/sdX
 
 alias c='/usr/bin/clear'
 alias matrix='cmatrix -sb -C blue'
+alias debversion='sudo lsb_release -da && sudo cat /etc/os-release && sudo cat /etc/debian_version  && sudo cat /etc/issue && sudo hostnamectl'
 alias diff='colordiff'
 alias du='du -ach'
 alias du2='ncdu'
@@ -395,6 +396,7 @@ function cleanpdf2() {
 alias cx='chmod a+x' #ARG1 = *.txt etc.
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
+alias gpgverify='gpg2 --keyid-format 0xlong --verify'  #ARG1=sigfile ARG2=iso
 alias grep='grep --color=auto'
 alias fhere="find . -name "
 alias fs='sudo fsarchiver probe -v'
