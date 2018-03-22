@@ -10,9 +10,11 @@ let g:airline_theme='luna' " luna angr wombat bubblegum etc
 " /home/$USER/.vim/bundle/vim-airline-themes/autoload/airline/themes
 " vim-airline settings
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
+" let g:airline_powerline_fonts = 1
+" let g:airline#extensions#tabline#left_sep = ' '
+" let g:airline#extensions#tabline#left_alt_sep = '|'
+" Below makes Airline look like Powerline to compare
+let g:airline_section_z = airline#section#create(['windowswap', '%3p%% ','linenr', ':%3v'])
 
 " Syntastic recommmends these settings as a first until used to it
 set statusline+=%#warningmsg#
@@ -109,13 +111,13 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
-" Netrw Settings!
+" Netrw Settings after :Ex :Sex :Vex to invoke it in Vim!
 " let g:netrw_preview=1  " open previews 0=horiz 1=vert & works with alto
-" let g:netrw_browse_split=1  "Default=0Horiz, =1Vert, =2Tab =3Window
+let g:netrw_browse_split=2  "Default=1Horiz, =2Vert, =3Tab =4Window
 " let g:netrw_alto=1  " Opens files to the right
-" let g:netrw_winsize=30  " Netrw Window xx% of Whole Window
-let g:netrw_liststyle=0  " 0=ThinList 1=LongList,2=WideList 3=Tree
-let g:netrw_fastbrowse=0  "0=Slow -many refreshes, 1=Med, 2=Fast
+let g:netrw_winsize=30  " Netrw Window 30% of Whole Window
+let g:netrw_liststyle=3  " 0=ThinList 1=LongList,2=WideList 3=Tree
+let g:netrw_fastbrowse=4  "0=Slow -many refreshes, 1=Med, 2=Fast
 let g:netrw_keepdir=0  "Default=1 to make cwd immune from browse
 " let g:netrw_retmap=1  " Default=0 Mouse mappings I do not want
 let g:netrw_silent=1  " NETRW messages arrive silently=1 or otherwise=2

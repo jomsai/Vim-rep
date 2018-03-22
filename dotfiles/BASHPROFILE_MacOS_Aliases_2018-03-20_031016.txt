@@ -44,7 +44,6 @@ set -o vi  # in terminal hit ESC and long commands are then editable vi style
 export HISTFILESIZE=50000
 export HISTSIZE=30000
 export HISTCONTROL=erasedups:ignoredups:ignorespace
-#export HISTCONTROL=
 #export HISTIGNORE=
 #export HISTFILE=~/.bash_history_forensic
 #export HISTTIMEFORMAT="%F-%R "  # Forensic useful timestamp
@@ -106,6 +105,8 @@ alias ebrc="vim ~/.bash_profile"  # Quick access to the file in Vim
 alias evimrc="vim ~/.vimrc"
 alias etmux='vim ~/.tmux.conf' 
 ##=================MISC=========================##
+alias brewperms='sudo chown -R $(whoami) $(brew --prefix)/*'  #Resets screwed up brew permissions
+alias brewupgrade='brew update && brew upgrade'
 alias c='clear'
 alias cx='chmod a+x' # Requires ARG e.g. $ cx *.txt etc
 alias chrome="open -a \"Google Chrome\""
@@ -130,6 +131,7 @@ alias cpwd='pwd|tr -d "\n"|pbcopy'
 function yt() { sudo youtube-dl -U && youtube-dl -cit -f mp4 "$1" ; }
 #alias ckgy='vlc rtsp://newcap-RedDeer-CKGY.wm.llnwd.net/newcap_RedDeer-CKGY' # Country Radio?
 alias macupdate='sudo softwareupdate --install --all'
+alias macxcodetools='xcode-select --install'  # Installs Xcode SelectTools
 alias todo="echo $2 \`date +%FT%R\` >> ~/Documents/todo.log"
 ##=======Random Functions for PW generation (2 are Linux Only)=======##
 randpw() { openssl rand -base64 45 ; }
@@ -289,9 +291,9 @@ alias cryptin='ccrypt -e $@' # ARG= any file
 alias cryptout='ccrypt -d $@' # ARG= any file.cpt encrypted file
 
 # tcpdump aliases use -I to turn on Monitor Mode only for WiFi Interface
-tdump () { sudo tcpdump -i $(nface) -PnnvvveXXSs 1514 -c2000 -w /tmp/tdump2k.pcapng ; }
-tdumpwifi () { sudo tcpdump -i $(nface) -IPnnvvveXXSs 1514 -c2000 -w /tmp/tdump2k.pcapng ; }
-tdumpping () { sudo tcpdump -i $(nface) -IPennvXXSs 1514 icmp -c20 -w /tmp/tdumpping.pcapng ; }
+tdump () { sudo tcpdump -i $(nface) -pnnvvveXXSs 1514 -c2000 -w /tmp/tdump2k.pcapng ; }
+tdumpwifi () { sudo tcpdump -i $(nface) -IpnnvvveXXSs 1514 -c2000 -w /tmp/tdump2k.pcapng ; }
+tdumpping () { sudo tcpdump -i $(nface) -IpennvXXSs 1514 icmp -c20 -w /tmp/tdumpping.pcapng ; }
 function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}  #$sanitize file/DIR Permissions
 
 ##===========Pkgsrc Package Manager=============##
@@ -316,6 +318,7 @@ alias gl="git log --pretty=format:'%h %ad | %s [%an]' --graph --since='30 days a
 alias gogit='cd ~/Vim-rep && gs'
 alias gk='gitk --all&'
 alias gx='gitx --all'
+alias gitdelete='git add -u . && git commit -m "removing deleted files from tracking" && git push origin master'
 # NOTE: hist alias in .gitconfig used as git hist gives a pretty=format history
 # https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
 alias gitjustify='git remote set-url origin git@github.com:jomsai/Vim-rep.git' #Stops git push asking for password 
@@ -352,7 +355,7 @@ gohome()
 }
 ##============END Message Center================##
 ##============Archive Aliases Functions=========##
-alias mktar='tar -cvf'
+alias mktar='tar -cvf'  ##ARG1=path/file ARG2= files to package
 alias mkbz2='tar -cvjf'
 alias mkgz='tar -cvzf'
 zipf () { zip -r "$1".zip "$1" ; }  # zipf:Create a ZIP archive of a folder

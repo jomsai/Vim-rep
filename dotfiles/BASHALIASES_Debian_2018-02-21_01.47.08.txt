@@ -9,7 +9,7 @@ alias apt3='sudo apt-get upgrade firefox-esr && sudo apt-get update && sudo apt-
 alias sai='sudo apt-get update && sudo apt-get upgrade && sudo apt-get install'
 alias sau='sudo apt-get upgrade' #needs a package ARG to upgrade the package
 alias sar='sudo apt-get remove'
-alias sap='sudo apt-get purge'
+alias sap='sudo apt-get purge --auto-remove'
 alias aptfind='sudo apt-cache search'
 alias aptdepends='sudo apt-cache depends' # Needs 1 package ARG & lists all its dependencies
 alias aptverify='sudo dpkg --verify'  #Needs a package ARG
@@ -98,9 +98,9 @@ alias nfaceinfo='sudo lshw -C network'
 alias ethinfo='sudo ethtool enp2s0'
 #alias intip='ifconfig | head -n 2 | grep inet | cut -c 14-24'
 alias intip="ip addr | grep global | cut -d '/' -f1 | cut -c 10-22"
-alias extip="curl icanhazip.com"
-alias extip2="dig +short myip.opendns.com @resolver1.opendns.com"
-alias extip3='curl ifconfig.io'
+alias extip='curl ifconfig.io'
+alias extip2="curl icanhazip.com"
+alias extip3="dig +short myip.opendns.com @resolver1.opendns.com"
 alias extip4='wget http://ipinfo.io/ip -qO -'
 alias ipgeo='curl ipinfo.io' #ARG1=IP queries an IP else the local extip
 alias gateway='sudo route -n'
@@ -405,7 +405,7 @@ alias nowdate='date +"%d-%m-%Y"'
 alias pi='echo $(echo "scale=60; 4*a(1)" | bc -l)' #Need to download bc 1st
 alias pwage='sudo chage --list' #Needs a user ARG
 alias python3='/usr/bin/python3.5'
-alias rsyncbak='sudo rsync -avzu --progress /home/fzh/Documents/Debian_Setup /media/fzh/EX1HD/'
+alias rsyncbak='sudo rsync -avzu --progress /home/$USER/Documents/Debian_Setup /media/$USER/EX1HD/'
 
 alias randpw="openssl rand -base64 44" #15 CHAR PW so remove the last CHAR
 alias randpw2="</dev/urandom tr -dc '12345!@#_$-%qwertQWERTasdfgASDFGzxcvbZXCVB' | head -c44; echo "" "
@@ -452,19 +452,20 @@ alias aidelog='sudo tail -n 80 /var/log/aide/aide.log'
 #==================Github Aliases================#
 alias ga='git add -A'                       #ga:    Git add all files
 alias gb='git branch'
-alias gcob='git checkout -b'
-alias gf='git fetch'
-alias gs='git status'                       #gs:    Git status
 alias gc='git commit -m'                    #gc:    Git commit w/ message
-alias gpu='git pull'                        #gpu:   Git pull
-alias gp='git push origin master'           #gp:    Git push
-alias gr='git revert HEAD'                  #gr:    Git revert HEAD
-alias gd="git diff --color"					#gd:	Git diff in color
-alias glog='git log'
+alias gcl='git clone'
 alias gco='git checkout'
-alias gk='gitk --all&'
-alias gx='gitx --all'
+alias gcob='git checkout -b'
+alias gd="git diff --color"					#gd:	Git diff in color
 alias gitdelete='git add -u . && git commit -m "removing deleted files from tracking" && git push origin master'
+alias gf='git fetch'
+alias gk='gitk --all&'
+alias glog='git log'
+alias gp='git push origin master'           #gp:    Git push
+alias gpu='git pull'                        #gpu:   Git pull
+alias gr='git revert HEAD'                  #gr:    Git revert HEAD
+alias gs='git status'                       #gs:    Git status
+alias gx='gitx --all'
 
 # Git aliases from https://gist.github.com/ald890/9089169
 #alias g="git"

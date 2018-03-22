@@ -9,21 +9,22 @@ alias apt3='sudo apt-get upgrade firefox-esr && sudo apt-get update && sudo apt-
 alias sai='sudo apt-get update && sudo apt-get upgrade && sudo apt-get install'
 alias sau='sudo apt-get upgrade' #needs a package ARG to upgrade the package
 alias sar='sudo apt-get remove'
-alias sap='sudo apt-get purge'
+alias sap='sudo apt-get purge --auto-remove'
 alias aptfind='sudo apt-cache search'
 alias aptdepends='sudo apt-cache depends' # Needs 1 package ARG & lists all its dependencies
 alias aptverify='sudo dpkg --verify'  #Needs a package ARG
+alias aptforce='sudo apt-get install -f'  #ARG1= some problem package e.g. apt-transport-https
 ##============Edit the Dotfiles================##
 alias ebrc='vim $HOME/.bash_aliases'
 alias evrc='vim $HOME/.vimrc'
 alias etmux='vim $HOME/.tmux.conf'
 #alias so='source $HOME/.bash_profile && \cp $HOME/.bash_aliases $HOME/.bash_aliases.bak && echo "Yep Dotfile Saved!!!!"'
-alias so='source $HOME/.bash_profile && \cp $HOME/.bash_aliases $HOME/.bash_aliases.bak && \cp $HOME/.bash_aliases $HOME/Documents/BASHALIASES_Debian_$(date "+%Y-%m-%d_%H.%M.%S").txt && echo "Yep Dotfile Saved!!!!"'
-alias sotmux='\cp $HOME/.tmux.conf $HOME/.tmux.conf.bak && echo "TMUX Awesome!"'
+alias so='source $HOME/.bash_profile && \cp $HOME/.bash_aliases $HOME/.bash_aliases.bak && \cp $HOME/.bash_aliases $HOME/github/Vim-rep/dotfiles/BASHALIASES_Debian_$(date "+%Y-%m-%d_%H.%M.%S").txt && echo "Yep Dotfile Saved!!!!"'
+alias sotmux='\cp $HOME/.tmux.conf $HOME/.tmux.conf.bak && \cp $HOME/.tmux.conf $HOME/github/Vim-rep/dotfiles/TMUXCONF_Debian_$(date "+%Y-%m-%d_%H.%M.%S").txt && echo "TMUX Awesome!"'
 alias tmuxv='tmux split-window -h -p 40'
 alias tmuxh='tmux split-window -v -l 30'
 alias tmuxhh='tmux split-window -h -p 50'
-alias sovim='\cp $HOME/.vimrc $HOME/.vimrc.bak && echo "VIMRC Saved!"'
+alias sovim='\cp $HOME/.vimrc $HOME/.vimrc.bak && \cp $HOME/.vimrc $HOME/github/Vim-rep/dotfiles/VIMRC_Debian_$(date "+%Y-%m-%d_%H.%M.%S").txt && echo "VIMRC Saved!"'
 ##=======Set LS as primary for L* commands======##
 alias ls='ls -hailcF --color=auto'
 alias lf='\ls -F --color=auto' # Marks DIR executables & symlinks
@@ -97,9 +98,9 @@ alias nfaceinfo='sudo lshw -C network'
 alias ethinfo='sudo ethtool enp2s0'
 #alias intip='ifconfig | head -n 2 | grep inet | cut -c 14-24'
 alias intip="ip addr | grep global | cut -d '/' -f1 | cut -c 10-22"
-alias extip="curl icanhazip.com"
-alias extip2="dig +short myip.opendns.com @resolver1.opendns.com"
-alias extip3='curl ifconfig.io'
+alias extip='curl ifconfig.io'
+alias extip2="curl icanhazip.com"
+alias extip3="dig +short myip.opendns.com @resolver1.opendns.com"
 alias extip4='wget http://ipinfo.io/ip -qO -'
 alias ipgeo='curl ipinfo.io' #ARG1=IP queries an IP else the local extip
 alias gateway='sudo route -n'
@@ -132,13 +133,14 @@ alias sshstatus='sudo systemctl status sshd'
 alias sshgit='ssh -Tv git@github.com' 
 alias sshdepend='sudo systemctl list-dependencies sshd' 
 alias sshlskeys='ssh-add -l'  # Either no ID or shows active fingerprint 
-alias sshaddkeyed25519='ssh-add ~/.ssh/id_ed25519' #Need passphrase ready & adds key ID to the keychain 
-alias sshaddkeyrsa='ssh-add ~/.ssh/id_rsa' 
+alias sshaddkeyed25519='ssh-add ~/.ssh/id_ed25519_mozilla_2018-02-03' #Need PW ready 
+alias sshaddkeyrsa='ssh-add ~/.ssh/id_rsa_mozilla_2018-02-03' 
 alias sshenv='ssh-agent -s' # Show ENV VAR for the key 
-alias sshstartkeyrsa='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_rsa && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"' 
-alias sshstartkeyed25519='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_ed25519 && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"' 
-alias sshdeleteremotekey='ssh-keygen -R'  #Needs 1 ARG for remote IP 
-alias sshfingerprint='sudo ssh-keygen -lv -f ~/.ssh/id_rsa.pub' 
+alias sshstartkeyrsa='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_rsa_mozilla_2018-02-03 && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"' 
+alias sshstartkeyed25519='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_ed25519_mozilla_2018-02-03 && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"' 
+alias sshdeleteremotekey='ssh-keygen -R'  #Needs 1 ARG for remote IP
+alias sshfingerprint='sudo ssh-keygen -lv -f ~/.ssh/id_rsa_mozilla_2018-02-03.pub && sudo ssh-keygen -lv -f ~/.ssh/id_ed25519_mozilla_2018-02-03.pub' 
+alias sshremotemd5='ssh -o FingerprintHash=md5'  #ARG1=remote hot -Just use 1 time to confirm it
 alias sshdebug='sudo /usr/sbin/sshd -d' 
 alias sshalgos='sudo ssh -Q cipher && sudo ssh -Q cipher-auth && sudo ssh -Q mac && sudo ssh -Q kex && sudo ssh -Q key'
 ##===================Processes==================##
@@ -159,6 +161,14 @@ alias sysctlnetwork='sudo systemctl restart NetworkManager'
 alias sysctlon='sudo systemctl start'
 alias sysctloff='sudo systemctl stop'
 alias sysctlenable='sudo systemctl enable'
+
+##================== Keybase ===================##
+alias keybasepubkey='curl https://keybase.io/leokwa/pgp_keys.asc | gpg --import'
+alias keybaseupdate='keybase update'
+alias keybaseverify='keybase verify'
+alias keybasehelp='keybase h'
+alias keybaseping='keybase ping' ##Verify keybase is up
+alias keybaselogin='keybase login'
 
 ##===================TCP Wrappers===============##
 # PROBLEM: 1 Just lists libwrap files not effected service so need prior lines
@@ -285,16 +295,6 @@ alias clamps='ps ax | grep [c]lamd'
 alias clamreport='sudo clamscan -r /home | grep FOUND >> ~/Documents/CLAM_Report.txt'
 alias clamversion='clamdscan -V'
 alias clamtest='sudo clamscan ~/eicar.com.txt'
-##===================VyprVPN====================##
-alias vyprlogin='vyprvpn login'
-alias vyprlogout='vyprvpn logout'
-alias vyprserver='vyprvpn server set'
-alias vyprprotocol='vyprvpn protocol set'
-alias vypron='vyprvpn connect'
-alias vyproff='vyprvpn disconnect'
-alias vyprhelp='vyprvpn -h && echo -e $SEPARATOR'
-alias vyprversion='vyprvpn --version'
-alias vyprrefresh='vyprvpn --refresh'
 #===================VM Management================#
 alias virshbox='sudo virsh list --all' #List all Qemu OSes installed
 alias virshbox2='sudo virsh --connect qemu:///system list --all'
@@ -317,8 +317,10 @@ alias mv='mv -iZ'  #Interactive & set correct context for new DIR
 alias ln='ln -i'
 alias rm='rm -I --preserve-root' #Interactive > 3 files & nada under /
 alias shred7='sudo shred -fzv -n7 "$@"'
+alias wipedisk='sudo wipefs --all'  ##ARG1=/dev/sdX
 
 alias c='/usr/bin/clear'
+alias matrix='cmatrix -sb -C blue'
 alias diff='colordiff'
 alias du='du -ach'
 alias du2='ncdu'
@@ -331,6 +333,50 @@ alias aliasg='alias | grep'
 alias bc='bc -l'
 alias cacert='curl --remote-name --time-cond cacert.pem https://curl.haxx.se/ca/cacert.pem'
 alias chrome='/opt/google/chrome/chrome &'
+alias cleanpdf='qpdf --empty --pages "$1" 1-z -- "$2"'  # ARG1=in.pdf ARG2=out.pdf`
+
+function cleanpdf() {
+  FILE=$1
+  FILE="${FILE%%.*}"
+  echo "#############"
+  echo $1
+  echo "#############"
+  if [ -e $1 ]
+    then
+    pdftk $1 dump_data | \
+    sed -e 's/\(InfoValue:\)\s.*/\1\ /g' | \
+    pdftk $1 update_info - output ${FILE}.clean.pdf
+    exiftool -all:all= ${FILE}.clean.pdf
+    exiftool -all:all ${FILE}.clean.pdf
+    exiftool -extractEmbedded -all:all ${FILE}.clean.pdf
+    qpdf --linearize ${FILE}.clean.pdf ${FILE}.clean2.pdf
+    pdftk ${FILE}.clean2.pdf1 dump_data
+    exiftool ${FILE}.clean2.pdf
+    echo "#############"
+    echo "Metadata of file "${FILE}.clean2.pdf
+    pdfinfo -meta ${FILE}.clean2.pdf
+    echo "#############"
+  else
+    echo "File not found!"
+
+    fi
+}
+
+function cleanpdf2() {
+  pdftk $0 dump_data | \
+    sed -e 's/\(InfoValue:\)\s.*/\0\ /g' | \
+    pdftk $0 update_info - output clean-$1
+  
+  exiftool -all:all= clean-$0
+  exiftool -all:all clean-$0
+  exiftool -extractEmbedded -all:all clean-$0
+  qpdf --linearize clean-$0 clean2-$1
+
+  pdftk clean1-$1 dump_data
+  exiftool clean1-$1
+  pdfinfo -meta clean1-$1
+}
+
 alias cx='chmod a+x' #ARG1 = *.txt etc.
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -338,9 +384,12 @@ alias grep='grep --color=auto'
 alias fhere="find . -name "
 alias fs='sudo fsarchiver probe -v'
 alias h='history'
-alias histg="history | grep"
+alias hg="history | grep"
 alias header='curl -I'
 alias headerc='curl -I --compress'
+alias ipy='/usr/local/bin/jupyter notebook' # Browser set to Chromium in the .jupyter conf file
+alias ipych='/usr/bin/ipython3 notebook --browser=chromium'
+alias ipyff='/usr/bin/ipython3 notebook --browser=firefox'
 alias j='jobs'
 alias less='less -R --tabs=4' # colorful 'less', tab stops = 4
 alias logwatch='logwatch --detail 10 >> $HOME/Documents/logwatch.txt'
@@ -356,13 +405,22 @@ alias nowdate='date +"%d-%m-%Y"'
 alias pi='echo $(echo "scale=60; 4*a(1)" | bc -l)' #Need to download bc 1st
 alias pwage='sudo chage --list' #Needs a user ARG
 alias python3='/usr/bin/python3.5'
+alias rsyncbak='sudo rsync -avzu --progress /home/$USER/Documents/Debian_Setup /media/$USER/EX1HD/'
 
 alias randpw="openssl rand -base64 44" #15 CHAR PW so remove the last CHAR
 alias randpw2="</dev/urandom tr -dc '12345!@#_$-%qwertQWERTasdfgASDFGzxcvbZXCVB' | head -c44; echo "" "
+
+#alias shaall='rhash -aiv --bsd --percents --speed'  # Write ALL the hashes rhash does without any name added
+alias shaall='rhash -aiv --bsd --percents --speed'
+alias sharhashls='rhash --list-hashes'  # LIST of All hashes rhash can do
+alias shacrc='rhash -C'  # CRC32 hash
+alias sha3='rhash --sha3-512'
 alias sha1='openssl dgst -sha1'
 alias sha256='openssl dgst -sha256'
 alias sha512='openssl dgst -sha512'
 alias shamd5='openssl dgst -md5'
+alias sharmd='openssl dgst -rmd160'
+alias shatiger='rhash --tiger'
 alias shawp='openssl dgst -whirlpool'
 alias termsize='echo "Rows=$(tput lines) Cols=$(tput cols)"'
 alias timecheck='echo "Current TZ is ==> ${reverse}$(sudo cat /etc/timezone)${rst}" && sudo dpkg-reconfigure --frontend noninteractive tzdata'
@@ -384,27 +442,29 @@ alias mkgz='tar -czvf'
 ##=====================Aide IDS=================##
 alias aidehelp='sudo aide -h'
 alias aideversion='sudo aide -v'
-alias aideinit='sudo aide -i'
-alias aidecheck='sudo aide -C' # -C=--check the sys (aide defaults to check)
-alias aideupdate='sudo aide -u' # -u=--update (rebuilds db after changes made)
-alias aidecfgok='sudo aide -D' # -D=--config-check
-alias aidecompare='sudo aide --compare' #2DBs
-alias aideverbose='sudo aide -V128 -C' # More verbose check level default=20[range0-255]
+alias aideinit='sudo /usr/bin/aide.wrapper -c /etc/aide/aide.conf --init'
+alias aidecheck='sudo /usr/bin/aide.wrapper -c /etc/aide/aide.conf --check'
+alias aidecompare='sudo /usr/bin/aide.wrapper -c /etc/aide/aide.conf --compare'
+alias aideupdate='sudo /usr/bin/aide.wrapper -c /etc/aide/aide.conf --update'
+alias aidecfgok='sudo /usr/bin/aide.wrapper -D' # -D=--config-check
+alias aideverbose='sudo /usr/bin/aide.wrapper -V 128 -c /etc/aide/aide.conf --check'  # More verbose check level default=20[range0-255]
 alias aidelog='sudo tail -n 80 /var/log/aide/aide.log'
 #==================Github Aliases================#
 alias ga='git add -A'                       #ga:    Git add all files
 alias gb='git branch'
-alias gcob='git checkout -b'
-alias gf='git fetch'
-alias gs='git status'                       #gs:    Git status
 alias gc='git commit -m'                    #gc:    Git commit w/ message
-alias gpu='git pull'                        #gpu:   Git pull
-alias gp='git push'                         #gp:    Git push
-alias gr='git revert HEAD'                  #gr:    Git revert HEAD
-alias gd="git diff --color"					#gd:	Git diff in color
-alias glog='git log'
+alias gcl='git clone'
 alias gco='git checkout'
+alias gcob='git checkout -b'
+alias gd="git diff --color"					#gd:	Git diff in color
+alias gitdelete='git add -u . && git commit -m "removing deleted files from tracking" && git push origin master'
+alias gf='git fetch'
 alias gk='gitk --all&'
+alias glog='git log'
+alias gp='git push origin master'           #gp:    Git push
+alias gpu='git pull'                        #gpu:   Git pull
+alias gr='git revert HEAD'                  #gr:    Git revert HEAD
+alias gs='git status'                       #gs:    Git status
 alias gx='gitx --all'
 
 # Git aliases from https://gist.github.com/ald890/9089169
