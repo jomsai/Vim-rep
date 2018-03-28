@@ -117,7 +117,7 @@ alias netstatd='sudo dstat -f' #See man dstat for all the single options instead
 alias networkreload='sudo systemctl restart NetworkManager && sudo systemctl status NetworkManager'
 
 alias kernel='hostnamectl | grep Kernel | cut -d ":" -f2 | cut -c 2-35'
-alias kernelno='uname -r'
+alias kernelnum='uname -r'
 alias lanports='sudo nmap -T4 -A -F -v 192.168.1.0/24 >> $HOME/Documents/LANPORTSCAN.txt'
 alias os='hostnamectl | grep System | cut -d ":" -f2 | cut -c 2-28'
 alias routes='netstat -r' # Or route
@@ -127,17 +127,17 @@ alias udp='netstat -anp udp'
 alias ports="sudo lsof -i | grep LISTEN && netstat -an | grep LISTEN"  #ports: listen connections x2
 alias listen='netstat -anp tcp | grep LISTEN'  # listen: All listen connections
 netips() { sudo netstat -nat | awk '{ print $5}' | cut -d: -f1 | sed -e '/^$/d' | uniq; }
-alias sock='lsof -i'  #All open TCP/IP Sockets
+alias socks='lsof -i'  #All open TCP/IP Sockets
 alias loop='netstat -anp tcp | grep 127.0.0.1'  # Loopback interface tcp stats
 alias tdump='sudo tcpdump -i 1 -c4000 -ttt -w ~/tmp/tcpdump4k.pcap-ng'
 uuid() { nmcli c | grep ethernet | awk '{print $4}' ; } # Works if interface has 3 words eg wired connection 1
 
 alias cdmounts='cd /media/$USER/'
-alias mount='mount |column -t'
+alias mounts='mount |column -t'
 
 alias sshreload='sudo systemctl stop sshd && sudo systemctl start sshd && sudo systemctl status sshd && echo "SSH Reloaded"' 
 alias sshstatus='sudo systemctl status sshd' 
-alias sshgit='ssh -Tv git@github.com' 
+alias sshgit='ssh -Tv -p 22 git@github.com' 
 alias sshdepend='sudo systemctl list-dependencies sshd' 
 alias sshlskeys='ssh-add -l'  # Either no ID or shows active fingerprint 
 alias sshaddkeyed25519='ssh-add ~/.ssh/id_ed25519_mozilla_2018-02-03' #Need PW ready 
@@ -164,7 +164,7 @@ alias sysctlall='sudo systemctl list-unit-files --all'
 alias sysctlstatus='sudo systemctl status'
 alias sysctlreload='sudo systemctl reload'
 alias sysctlrestart='sudo systemctl restart'
-alias sysctlnetwork='sudo systemctl restart NetworkManager'
+alias sysctlnetwork='sudo systemctl restart NetworkManager && sudo systemctl status NetworkManager'
 alias sysctlon='sudo systemctl start'
 alias sysctloff='sudo systemctl stop'
 alias sysctlenable='sudo systemctl enable'
@@ -192,7 +192,7 @@ alias gp='git push origin master'           #gp:    Git push
 alias gpu='git pull'                        #gpu:   Git pull
 alias gr='git revert HEAD'                  #gr:    Git revert HEAD
 alias gs='git status'                       #gs:    Git status
-alias gittar='tar cjvf ~/Desktop/github-deb.tbz ~/github'
+alias gittar='sudo tar cjvf ~/Desktop/opt_trainting.tbz /opt/training && tar cjvf ~/Desktop/github-deb.tbz ~/github'
 alias gx='gitx --all'
 
 # Git aliases from https://gist.github.com/ald890/9089169
@@ -368,6 +368,7 @@ alias shred7='sudo shred -fzv -n7 "$@"'
 alias wipedisk='sudo wipefs --all'  ##ARG1=/dev/sdX
 
 alias c='/usr/bin/clear'
+alias firefoxv='firefox-esr --version'
 alias matrix='cmatrix -sb -C blue'
 alias debversion='sudo lsb_release -da && sudo cat /etc/os-release && sudo cat /etc/debian_version  && sudo cat /etc/issue && sudo hostnamectl'
 alias diff='colordiff'
