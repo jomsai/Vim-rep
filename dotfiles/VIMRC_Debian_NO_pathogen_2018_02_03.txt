@@ -1,0 +1,41 @@
+set nocompatible
+set number
+set ruler
+set showcmd
+set magic
+set wildmenu
+set shell=bash
+set term=xterm-256color
+set t_Co=256
+set autochdir
+set noautoindent
+
+set showmatch
+set smartindent
+set tabstop=2
+set softtabstop=2
+set expandtab
+set smarttab
+set shiftwidth=2
+set laststatus=2
+
+set ignorecase
+set smartcase
+
+set hlsearch
+set incsearch
+
+set synmaxcol=2048
+set scrolloff=5
+set sidescroll=1
+set nostartofline
+set confirm
+
+set visualbell
+
+set autowrite           " Automatically save before commands like :next and :make
+set hidden              " Hide buffers when they are abandoned
+set mouse=a             " Enable mouse usage (all modes)
+
+map ,c :w <CR> :!clear && gcc % <CR>
+map ,r :w <CR> :!clear && gcc % -o %< && ./%< <CR>
