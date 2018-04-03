@@ -343,14 +343,18 @@ alias clamtest='sudo clamscan ~/eicar.com.txt'
 alias virshbox='sudo virsh list --all' #List all Qemu OSes installed
 alias virshbox2='sudo virsh --connect qemu:///system list --all'
 alias virtgui='sudo virt-manager &' #Start virt-manager GUI App from CLI
-#====cpu#==64bit=or=32==Intel=vmx=AMD=svm=etc====#
+#====cpu#==64bit=or=32==Intel=vmx=AMD=svm=etc====#                      
 alias cpuinfo='cat /proc/cpuinfo | grep "model name" | uniq | cut -d ":" -f2 | cut -c 2-50'
-alias cpus='grep processor /proc/cpuinfo'
-alias cpuspecs='head /proc/cpuinfo'
-alias cpuvmspecs='egrep "(vmx|svm)" --color /proc/cpuinfo' #Intel uses vmx & AMD uses svm but either OK
-alias cpuram='free -mlt'
-alias cpuswap='free -mlt'
-alias vmsize='ls -Rh ~/VirtualBox\ VMs/ | grep .vdi'
+alias cpus='grep processor /proc/cpuinfo'                                                 
+alias cpuspecs='head /proc/cpuinfo'                                     
+alias cpuvmspecs='egrep "(vmx|svm)" --color /proc/cpuinfo | uniq | grep vmx' #Intel uses vmx & AMD uses svm but either OK
+alias cpuvmspecs2='sudo lscpu | grep vmx'  ## vmx is Intel Vtd flag. For AMD it is svm    
+alias cpuram='free -t'                                                                
+alias cpuswap='free -t'                                                               
+alias cpuflags="egrep -wo 'vmx|ept|vpid|npt|tpr_shadow|flexpriority|vnmi|lm|aes' /proc/cpuinfo  | sort | uniq"
+alias cpuall='sudo lscpu'                                                             
+alias cpubits='grep -w -o lm /proc/cpuinfo | uniq'  ## lm=64bit cpu                   
+alias cpubasic="egrep -wo 'vmx|lm|aes' /proc/cpuinfo  | sort | uniq | sed -e 's/aes/Hardware encryption=Yes (&)/g' -e 's/lm/64 bit cpu=Yes (&)/g' -e 's/vmx/Intel hardware virtualization=Yes (&)/g'"
 #================ Python Virtualenv =============#
 alias ae='deactivate &> /dev/null; source ./venv/bin/activate'
 alias de='deactivate'
