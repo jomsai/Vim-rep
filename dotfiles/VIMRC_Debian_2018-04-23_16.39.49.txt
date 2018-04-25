@@ -1,0 +1,209 @@
+execute pathogen#infect()
+
+syntax enable
+filetype plugin indent on
+
+let g:airline_theme='luna' " angr is good also
+" See themes at https://github.com/vim-airline/vim-airline/wiki/Screenshots
+
+" vim-airline settings
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+
+" Syntastic recommmends these settings as a first until used to it
+set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" TmuxLine Settings
+let g:tmuxline_powerline_separators = 0
+
+
+" colors do :colo x<TAB><TAB> to see all colors start with x
+set background=dark
+"let g:molokai_original = 1
+let g:rehash256 = 1
+
+set encoding=utf-8 nobomb
+set nomodeline
+set clipboard=unnamed
+set wildmode=longest,list  " Bash-style tab completion At command line, complete longest common string, then list alternatives
+set wildmenu
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip  " MacOSX/Linux- Some file types not to search with
+
+" Turn off save swaps wipes out history counts! Undo OK
+set noswapfile  " No swap files
+set nowritebackup
+set nobackup
+set viminfo='0,f0,%  " If no ARG won't use the file at all
+set history=1000  " Need to confirm this with backups off! 
+set undolevels=200  " Confirm this 
+" set updatecount=100  " switch every 100 chars
+
+set laststatus=2  " Always show a status line even if only 1 window
+set ignorecase  " Default to using case insensitive searches
+set smartcase  " if search has Capital letter be sensitive to that
+set smarttab  " Handle tabs more intelligently
+set hlsearch  " Highlight searches by default
+set incsearch  " Incrementally search while typing a /regex
+set ruler
+set magic
+
+set showmatch
+set smartindent
+set tabstop=2
+set softtabstop=2
+set expandtab
+set smarttab
+set shiftwidth=2
+set laststatus=2
+
+"2 line number commands, see  http://vim.wikia.com/wiki/Display_line_numbers 
+set number " Show line numbers 
+" set relativenumber  " Display line number relative to cursor
+" set numberwidth=5
+
+" Some Column stuff I need to evaluate
+set cul  " highlight current cursorline (cul)
+"hi CursorLine term=none cterm=none ctermbg=3  " adjust color
+"set colorcolumn=81  " 80-column line
+" set textwidth=80  "Show where 80 CHAR ends
+"set colorcolumn=+1
+" highlight! link ColorColumn CursorColumn " 1st time to see this link notation
+set cuc  " cursorcolumn (cuc) enabled
+
+set synmaxcol=2048  " Syntax coloring too-long lines is slow????
+set showmode
+set showmatch  " Show matching brackets
+set showcmd " Display incomplete command low R corner Vim window as I type
+set scrolloff=5  " when scrolling, keep cursor 5 lines away from screen border
+set sidescroll=1  " Also for side scrolling
+set sidescrolloff=15
+set nostartofline  " Cursor movement doesn't auto go to BOL
+set shortmess+=a  " Use [+]/[RO]/[w] for modified/readonly/written
+set confirm  " Y-N-C prompt if closing with unsaved changes
+set autochdir  " Change to DIR of the file you just opened say you used a filepath
+
+set term=xterm-256color  "Some color schemes need these 2 lines
+set t_Co=256
+
+set mouse-=a   " Disable mouse
+set mousehide  " Hide mouse after chars typed
+
+set noerrorbells  " No noise I hope no CLUNK!
+set vb t_vb= " disable any beeps or flashes on error
+set visualbell  " Use visual bell instead of beeping when doing something wrong
+" set novisualbell  " No blinking
+
+set backspace=2  " Delete (backspace) Key works on Mac OS X
+
+" Looking for a way to open a shell console when only Vim windows open
+set ttyfast  " we have a fast terminal
+set shell=bash
+
+set fileformats=unix,dos,mac  " support all three newline formats
+
+" Set , as mapleader & Open my .vimrc auto in V split
+"let mapleader = "," " remains in effect in Bash so switched off
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>  " Hit ,ev to edit-vert .vimrc
+nnoremap <leader>sv :source $MYVIMRC<cr>  " Hit ,sv to quick so .vimrc
+
+set splitbelow
+set splitright
+
+" split screen navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Netrw Settings!
+" let g:netrw_preview=1  " open previews 0=horiz 1=vert & works with alto
+" let g:netrw_browse_split=1  "Default=0Horiz, =1Vert, =2Tab =3Window
+" let g:netrw_alto=1  " Opens files to the right
+" let g:netrw_winsize=30  " Netrw Window xx% of Whole Window
+let g:netrw_liststyle=0  " 0=ThinList 1=LongList,2=WideList 3=Tree
+let g:netrw_fastbrowse=0  "0=Slow -many refreshes, 1=Med, 2=Fast
+let g:netrw_keepdir=0  "Default=1 to make cwd immune from browse
+" let g:netrw_retmap=1  " Default=0 Mouse mappings I do not want
+let g:netrw_silent=1  " NETRW messages arrive silently=1 or otherwise=2
+" let g:netrw_special_syntax=1  " fg bg cterm effects poss. Eval. this
+let g:netrw_banner=0  " no banner
+
+
+" Maybe over 700 Flazz color choices not just these
+" colorscheme delek
+" colorscheme blue
+" colorscheme industry
+" colorscheme peachpuff
+" colorscheme ron
+" colorscheme shine
+" colorscheme zellner
+" colorscheme solarized
+" colorscheme vividchalk
+" colorscheme wombat
+" colorscheme molokai
+" colorscheme elflord
+" colorscheme zenburn
+" colorscheme morning
+" colorscheme desert
+" colorscheme evening
+" colorscheme pablo
+" colorscheme desert256
+" colorscheme breeze
+" colorscheme morning
+" colorscheme darkblue
+" colorscheme gothic
+" colorscheme aqua
+" colorscheme earth
+" colorscheme slate
+" colorscheme torte
+" colorscheme murphy
+" colorscheme koehler
+" colorscheme relaxedgreen
+" colorscheme darkblack
+" colorscheme chocolateliquor
+" colorscheme less
+" colorscheme impact
+" colorscheme motus
+" colorscheme freya
+" colorscheme black_angus
+" colorscheme badwolf
+" colorscheme jellybeans
+" colorscheme laederon
+" colorscheme bubblegum
+" colorscheme ubaryd
+" colorscheme tomorrow
+" colorscheme base16
+" colorscheme murmur
+" colorscheme sol
+" colorscheme papercolor
+" colorscheme distinguished
+" colorscheme behelit
+" colorscheme dark
+" colorscheme durant
+" colorscheme hybridline
+" colorscheme hybrid
+" colorscheme luna
+" colorscheme monochrome
+" colorscheme raven
+" colorscheme simple
+" colorscheme term
+" colorscheme understated
+" colorscheme ir_black
+" colorscheme peaksea
+" colorscheme inkpot
+" colorscheme kolor
+" colorscheme candycode " nice scheme & less busy with no cursorline
+colorscheme valloric
+"
+" 2 C Programming Comma/Letter shortcuts to compile code
+map ,c :w <CR> :!clear && gcc % <CR>
+map ,r :w <CR> :!clear && gcc % -o %< && ./%< <CR>
+
