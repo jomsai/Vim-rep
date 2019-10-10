@@ -2,9 +2,10 @@
 ##===My PS1 from Kirsle Online PS1 generator===##
 #PS1="\[$(tput bold)\]\[$(tput setaf 5)\]\t\[$(tput setaf 2)\][\[$(tput setaf 4)\] \u \[$(tput setaf 1)\]]==> \[$(tput setaf 3)\]\h \[$(tput setaf 6)\] \W ]\[$(tput bold)\]\[$(tput setaf 2)\][ $?! ]\[$(tput setaf 4)\][[>\[$(tput setaf 1)\]\\$ \[$(tput sgr0)\]"
 
-PS1="\[$(tput bold)\]\[$(tput setaf 5)\]\t\[$(tput setaf 2)\][\[$(tput setaf 6)\] \u@\[$(tput setaf 3)\]\h \[$(tput setaf 6)\] \W ]\[$(tput bold)\]\[$(tput setaf 2)\][ $?! ]\[$(tput setaf 4)\][[>\[$(tput setaf 1)\]\\$ \[$(tput sgr0)\]"
+PS1='\[$(tput bold)\]\[$(tput setaf 5)\]\t\[$(tput setaf 2)\][\[$(tput setaf 6)\] \u@\[$(tput setaf 3)\]\h \[$(tput setaf 6)\] \W ]\[$(tput bold)\]\[$(tput setaf 2)\][ $? ]\[$(tput setaf 4)\][[>\[$(tput setaf 1)\]\\$ \[$(tput sgr0)\]'
 ##===============Apt Package Manager===========##
-alias apt3='sudo apt upgrade firefox-esr && sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && echo "Yawzaa!"'
+alias apt3='sudo apt upgrade firefox && sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && echo "Yawzaa!"'
+alias aptclean='sudo apt upgrade firefox && sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt-get autoremove -y && sudo apt-get autoclean && echo "All clean!"'
 alias apt4='sudo unattended-upgrade -d && echo $SEP && sudo tail -n20 /var/log/unattended-upgrades/unattended-upgrades.log && echo $SEP && sudo cat /var/log/syslog | grep nattended'  # Unattended Upgrades in DEBUG mode done
 alias sai='sudo apt-get update && sudo apt-get upgrade && sudo apt-get install'
 alias sau='sudo apt-get upgrade' #needs a package ARG to upgrade the package
@@ -12,6 +13,7 @@ alias sarm='sudo apt-get remove'
 alias sap='sudo apt-get purge --auto-remove'
 alias aptfind='sudo apt-cache search'
 alias aptdepends='sudo apt-cache depends' # Needs 1 package ARG & lists all its dependencies
+alias aptnew='sudo apt list --upgradable'
 alias aptshow='apt-cache show' ##ARG1=<package name> to see information on a package 
 alias aptpolicy='apt-cache policy' ##ARG1=<package name> to see version information for a package 
 alias aptverify='sudo dpkg --verify'  #Needs a package ARG
@@ -122,7 +124,7 @@ alias nettop='sudo iftop -pPl'
 alias netstatd='sudo dstat -f' #See man dstat for all the single options instead of FULL -f here
 alias kernel='hostnamectl | grep Kernel | cut -d ":" -f2 | cut -c 2-35'
 alias kernelno='uname -r'
-alias scanlan='sudo nmap -vv --open --reason -T4 -A -F -oX /opt/nmap_scans/scanlan.$(date "+%b_%d_%Y_%H.%M.%S").xml --stylesheet=nmap.xsl 192.168.1.116'
+alias scanlan='sudo nmap -vv --open --reason -T4 -A -F -oX /opt/nmap_scans/scanlan.$(date "+%b_%d_%Y_%H.%M.%S").xml --stylesheet=nmap.xsl' ##ARG1=IP
 ##> portscan function as needed taking ARG1=someIP
 function portscan() {
 	sudo nmap -vv --open --reason -T4 -A -oX /opt/nmap_scans/portscan.$(date "+%b_%d_%Y_%H.%M.%S").xml \
@@ -204,9 +206,8 @@ alias logauditsshfail='sudo cat /var/log/audit/audit.log | grep "res=failed"'  #
 alias logauditsshfail2='sudo cat /var/log/audit/audit.log | grep "acct=\"root\"" | grep res=failed'
 
 alias logsar='sar -A > ~/.sysstat.log/$(date +`hostname`-%d-%m-%y-%H%M.log)'
-
-
-
+alias logapp='sudo gnome-logs'
+alias logwatch='sudo logwatch --detail 10 >> /opt/logwatch/logwatch.txt'
 ##===================TCP Wrappers===============##
 # PROBLEM: 1 Just lists libwrap files not effected service so need prior lines
 alias tcpallowssh='sudo echo "sshd  :   192.168.1. 192.168.64." >> /etc/hosts.allow'
@@ -245,6 +246,8 @@ alias iptdropinvalid='sudo iptables -A INPUT -m conntrack --ctstate INVALID -j D
 alias iptlogon1='sudo iptables -N LOGGING && sudo iptables -A INPUT -j LOGGING'
 alias iptlogon2='sudo iptables -A LOGGING -m limit --limit 2/min -j LOG --log-prefix "IPTables Packet Dropped: " --log-level 7'
 alias iptlogon3='sudo iptables -A LOGGING -j DROP'
+# Allow OpenVPN
+alias iptvpnudpon='iptables -A OUTPUT -p udp --dport 1194 -j ACCEPT'
 
 alias iptpersist='sudo apt-get install iptables iptables-persistent && sudo dpkg-reconfigure iptables-persistent && echo "PersistON!"'
 alias iptpersist2='sudo systemctl restart netfilter-persistent.service && sudo systemctl status netfilter-persistent.service'
@@ -301,16 +304,16 @@ alias pammodules='ls /lib/*/security'
 alias pamlog='sudo cat /var/log/auth.log | grep pam'
 alias pamuserblocks='sudo pam_tally2 -u' #Query blocks of a -u=user
 alias pamunblockuser='sudo pam_tally2 -r -u' # -r=reset -u=user
-##=======Trojans Rootkits Viruses===============##
+##======= Trojans Rootkits Viruses Intrusions ==========##
 alias rkupdate='sudo rkhunter --update --sk'  ##--sk = skip keypress
 alias rkversion='sudo rkhunter --version && sudo rkhunter --versioncheck'
 alias rkdb='sudo rkhunter --propupd'
 alias rkchk='sudo rkhunter -c --enable all --disable none'
 alias rkchkrwo='sudo rkhunter -c --enable all --disable none --rwo'
 alias rkvalid='sudo rkhunter -C' # Check if setup OK after making /etc/rkhunter.conf changes
-alias rkcron='sudo rkhunter --cronjob > /tmp/RKHUNTERLOG.txt' #No color, no keypresses, to a file
+alias rkcron='sudo rkhunter --cronjob > /opt/rootkits/RKHUNTERCRON.txt' #No color, no keypresses, to a file
 alias rklog='sudo cat /var/log/rkhunter.log'
-alias rklogexport='sudo cat /var/log/rkhunter/rkhunter.log > ~/Desktop/RKHUNTERLOG.txt'
+alias rklogexport='sudo cat /var/log/rkhunter/rkhunter.log > ~/opt/rootkits/RKHUNTERLOG.txt'
 alias rktests='sudo rkhunter --list rootkits && sudo rkhunter --list tests'
 alias rkcheck2='sudo chkrootkit -e'
 alias unhideall='sudo unhide -m -d sys procall brute reverse'
@@ -338,6 +341,7 @@ alias clamps='ps ax | grep [c]lamd'
 alias clamreport='sudo clamscan -r /home | grep FOUND >> ~/Documents/CLAM_Report.txt'
 alias clamversion='clamdscan -V'
 alias clamtest='sudo clamscan ~/eicar.com.txt'
+function uid0() { awk -F: '($3 == "0") {print}' /etc/passwd; }
 #=============VM Management grep virt=============#
 alias virtls='sudo virsh list --all' #List all Qemu OSes installed
 alias virtls2='sudo virsh --connect qemu:///system list --all'
@@ -356,6 +360,17 @@ alias cpuall='sudo lscpu'
 alias cpuhw='sudo hwinfo --short /dev/sda'
 alias cpubits='grep -w -o lm /proc/cpuinfo | uniq'  ## lm=64bit cpu
 alias cpubasic="egrep -wo 'vmx|lm|aes' /proc/cpuinfo  | sort | uniq | sed -e 's/aes/Hardware encryption=Yes (&)/g' -e 's/lm/64 bit cpu=Yes (&)/g' -e 's/vmx/Intel hardware virtualization=Yes (&)/g'"
+##========Sanitize Files/Partitions=============##
+alias scrubdod='scrub -p dod -f "$@"' ## ARG1=File or Block Device
+alias scrubdodrm='scrub -r -p dod -f "$@"' ## ARG1=File. -r=remove the File. 
+alias scrubschneier='scrub --pattern=schneier -f "$@"' ## ARG1=File or Block Device 
+alias shred7='sudo shred -fzv -n7 "$@"' ## ARG1=File or Block Device
+alias shred7rm='sudo shred -fzvu -n7 "$@"' ## ARG1=File or Block Device though with -u to remove is for Files.
+alias ddwipe='sudo dd if=/dev/urandom of="$@"' ## ARG1=File or Block Device.
+alias nwiperandom='sudo nwipe --method=random --nowait "$@"' ## ARG1=Devices only
+alias nwipe3='sudo nwipe --method=dodshort --nowait "$@"'  ## ARG1=Deivces only. DODSHORT is actually default method.
+alias nwipemersenne='sudo nwipe --prng=mersenne --rounds=2 --nowait "$@"'  ## ARG1 RNG mersenne wipe of a device.
+
 #================Misc Aliases====================#
 #==============Some safer Options================#
 alias chown='chown --preserve-root'
@@ -368,8 +383,7 @@ alias cronls="crontab -l"  ## min hr dom mon dow
 alias mv='mv -iZ'  #Interactive & set correct context for new DIR
 alias ln='ln -i'
 alias rm='rm -I --preserve-root' #Interactive > 3 files & nada under /
-alias shred7='sudo shred -fzv -n7 "$@"'
-alias shred7rm='sudo shred -fzvu -n7 "$@"'
+
 alias diff='colordiff'
 alias du='du -ach'
 alias du2='ncdu'
@@ -395,7 +409,7 @@ alias grep='grep --color=auto'
 alias findhere="find . -name "
 alias findperm4k='/usr/bin/find / -perm -g=s -o -perm -4000 ! -type l -maxdepth 3 -exec ls -ld {} \; 2>/dev/null'
 alias firefoxv='firefox-esr --version'
-alias ffjail='firejail /usr/bin/firefox &'
+alias ffjail='firejail /usr/bin/firefox-esr &'
 alias fs='sudo fsarchiver probe -v'
 alias h='history'
 alias histg="history | grep"
@@ -407,7 +421,6 @@ alias j2="ps -a -o pid,user,cmd,state | grep 'T$'"  ## Better than $ jobs -p
 alias jnb='jupyter notebook'
 alias jstop='for x in `jobs -p`; do kill -9 $x; done'   ## ARG1=<job num>
 alias less='less -R --tabs=4' # colorful 'less', tab stops = 4
-alias logwatch='logwatch --detail 10 >> $HOME/Documents/logwatch.txt'
 alias mkdir='mkdir -p -v'
 function mkdircd () { mkdir -p "$@" && eval cd "\"\$$#\""; }
 alias mount='mount |column -t'
@@ -439,7 +452,6 @@ alias timeset2='sudo tlsdate -wv -x socks5://127.0.0.1:9050' ## Use tor port if 
 
 alias timezonentpset='sudo timedatectl set-timezone America/Chicago set-ntp 1'
 alias timestats='timedatectl'
-function uid0() { awk -F: '($3 == "0") {print}' /etc/passwd; }
 alias vi=vim
 alias edit="$EDITOR"  # if not set then use vim in quotes
 
@@ -750,12 +762,17 @@ alias virchk='$transfercheck'  ## VirusTotal check of any file as ARG1 then past
 ## work in progress
 alias nums='python2 print '\n'.join("%i Byte = %i Bit = largest number: %i" % (j, j*8, 256**j-1) for j in (1 << i for i in xrange(8)))'
 ##============= Eval Aliases from https://www.addictivetips.com/ubuntu-linux-tips/edit-the-bashrc-file-on-linux/
-
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
-
 bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 
+##== Anaconda PyENV in the shell ==##
+alias condaoff='conda config --set auto_activate_base false'
+alias condaon='conda config --set auto_activate_base true'
+alias condanav='anaconda-navigator'
+alias condajn='jupyter-notebook' ## if Anaconda initialized you get Anaconda Jupyter.
+alias envon='conda activate'  ## Activate the conda virtualenv for python
+alias envoff='conda deactivate'  ## To exit or deactivate a python virtualenvironment
 ##============END Message Center================##
 ##============To Remember or Works in Progress==##
 # alias X then unalias X to set unset aliases
