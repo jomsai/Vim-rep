@@ -128,14 +128,20 @@ alias sshlskeys='ssh-add -l'  # Either no ID or shows active fingerprint
 alias sshkey='ssh-add ~/.ssh/id_ed25519_mozilla_2020-01-08' #Need PW ready 
 alias sshkeyrsa='ssh-add ~/.ssh/id_rsa_mozilla_2020-01-08' 
 alias sshenv='ssh-agent -s' # Show ENV VAR for the key 
+<<<<<<< HEAD:dotfiles/BASHALIASES_Debian_2020-05-16_14.11.18.txt
 alias sshstartkey='eval `ssh-agent` && ssh-add ~/.ssh/id_ed25519_mozilla_2020-01-08 && ssh-add -l && ssh-agent -s && echo "ssh agent on so go"' 
 alias sshstartkeyrsa='eval `ssh-agent` && ssh-add ~/.ssh/id_rsa_mozilla_2020-01-08 && ssh-add -l && ssh-agent -s && echo "ssh agent on so go"' 
+=======
+alias sshstartkey='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_ed25519_mozilla_2020-01-08 && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"' 
+alias sshstartkeyrsa='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_rsa_mozilla_2020-01-08 && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"' 
+>>>>>>> 5428fd720dacf211af8bc022cf5193ec8f2ddc6b:dotfiles/BASHALIASES_Debian_2020-01-12_15.07.20.txt
 alias sshdeleteremotekey='ssh-keygen -R'  #Needs 1 ARG for remote IP
 alias sshfingerprintsha256='sudo ssh-keygen -lvE sha256 -f'  ##ARG1=filepath to a keyfile 
 alias sshfingerprintmd5='sudo ssh-keygen -lvE md5 -f'  ##ARG1=filepath to keyifile
 alias sshremotemd5='ssh -o FingerprintHash=md5'  #ARG1=remote hot -Just use 1 time to confirm it
 alias sshdebug='sudo /usr/sbin/sshd -d' 
 alias sshalgos='sudo ssh -Q cipher && sudo ssh -Q cipher-auth && sudo ssh -Q mac && sudo ssh -Q kex && sudo ssh -Q key'
+<<<<<<< HEAD:dotfiles/BASHALIASES_Debian_2020-05-16_14.11.18.txt
 alias sshgenedkey='ssh-keygen -t ed25519 -o -a 25 -f ~/.ssh/edkey_$(date +%Y-%m-%d) -C "Mozilla key for $USER"'
 ##============== NORDVPN ================##
 alias nordauto='nordvpn set autoconnect enabled'
@@ -153,6 +159,8 @@ alias nordtcp='nordvpn set protocol TCP'
 alias nordth='nordvpn connect Thailand'
 alias nordudp='nordvpn set protocol UDP'
 alias nordus='nordvpn set autoconnect enabled US Dallas && nordvpn c'
+=======
+>>>>>>> 5428fd720dacf211af8bc022cf5193ec8f2ddc6b:dotfiles/BASHALIASES_Debian_2020-01-12_15.07.20.txt
 ##===================Processes==================##
 alias psg='ps aux | grep -v grep | grep -i -e VSZ -e' #Needs 1 ARG to grep for
 alias psl='ps aux | less'
@@ -198,9 +206,13 @@ alias logauditsshfail2='sudo cat /var/log/audit/audit.log | grep "acct=\"root\""
 alias logsar='sar -A > ~/.sysstat.log/$(date +`hostname`-%d-%m-%y-%H%M.log)'
 alias logapp='sudo gnome-logs'
 alias logwatchconfig='sudo vim /usr/share/logwatch/default.conf/logwatch.conf'
+<<<<<<< HEAD:dotfiles/BASHALIASES_Debian_2020-05-16_14.11.18.txt
 alias logwatchhome2='sudo bash -c "logwatch --detail 10 >> $HOME/Documents/logwatch.`date +\%Y-\%m-\%d`.txt"'
 alias logwatchhome='sudo bash -c "logwatch --detail 10 >> /opt/logwatch/logwatch.`date +\%Y-\%m-\%d`.txt"'
 alias loglynisaudit='sudo bash -c "lynis audit system > /opt/lynislogs/lynisaudit.`date +\%Y-\%m-\%d`.txt"'
+=======
+alias logwatchhome='sudo logwatch --detail 10 >> $HOME/Documents/logwatch.`date +\%Y-\%m-\%d`.txt'
+>>>>>>> 5428fd720dacf211af8bc022cf5193ec8f2ddc6b:dotfiles/BASHALIASES_Debian_2020-01-12_15.07.20.txt
 ##===================TCP Wrappers===============##
 # PROBLEM: 1 Just lists libwrap files not effected service so need prior lines
 alias tcpallowssh='sudo echo "sshd  :   192.168.1. 192.168.64." >> /etc/hosts.allow'
@@ -430,11 +442,14 @@ alias shatiger='rhash --tiger'
 alias shawp='openssl dgst -whirlpool'
 alias stdnote='.$HOME/Downloads/standard-notes-*-x86_64.AppImage'
 alias strip='egrep -v "^#|^$"' ##ARG1=<file> strips comments
+<<<<<<< HEAD:dotfiles/BASHALIASES_Debian_2020-05-16_14.11.18.txt
 
 function strip2() {
 grep -v '^#' $@ | grep -v '^$' ;
 }
 
+=======
+>>>>>>> 5428fd720dacf211af8bc022cf5193ec8f2ddc6b:dotfiles/BASHALIASES_Debian_2020-01-12_15.07.20.txt
 alias termsize='echo "Rows=$(tput lines) Cols=$(tput cols)"'
 alias timecheck='echo "Current TZ is ==> ${reverse}$(sudo cat /etc/timezone)${rst}" && sudo dpkg-reconfigure --frontend noninteractive tzdata'
 alias timezoneset='echo "America/Chicago" | sudo tee /etc/timezone'

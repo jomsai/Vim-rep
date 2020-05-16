@@ -1,0 +1,52 @@
+##==============My .bash_profile===============##
+
+source ~/.bashrc
+
+#========Paths Exports in .bash_profile==========#
+#==============Uncomment as needed===============#
+PATH=$PATH:$HOME/bin
+BASH_ENV=$HOME/.bashrc
+USERNAME='poz'
+export USERNAME BASH_ENV PATH
+VISUAL=/usr/bin/vim; export VISUAL
+EDITOR=/usr/bin/vim; export EDITOR
+PAGER=/usr/bin/less; export PAGER
+SHELL=/bin/bash
+export CURL_CA_BUNDLE=/home/$USER/cacert.pem 
+export HISTFILESIZE=50000
+export HISTSIZE=20000
+export HISTCONTROL=erasedups:ignoredups:ignorespace
+
+##======Environemental Variables================##
+alias env='printenv'
+alias env2='export -p'
+alias path='echo -e ${PATH//:/\\n}'  # executable Paths
+alias bashv='/bin/bash --version | grep bash | cut -d "," -f2 | cut -c 10-50'
+alias langus='sudo locale-gen en_US.UTF-8 && export LANGUAGE=en_US.UTF-8 &&
+  export LANG=en_US.UTF-8 && export LC_ALL=en_US.UTF-8 && sudo locale-gen
+  en_US.UTF-8 && sudo dpkg-reconfigure locales' ## Last command needs user to select from a dialog box 
+alias shoptvar='shopt -p' # ShowALL & u=OFF, s=ON status
+alias shopton='shopt -s'    # Show all s=ON
+alias shoptoff='shopt -u'   # Show all u=OFF
+#=Bash Options=shopt -s=set -u=unset options===##
+# -p=ListALLOptions -q=EXIT0 if set 1 if not===##
+#= -o=List all SET env Options that are set on=##
+#shopt -s cdspell  #small spell autocorrects
+set -o vi
+shopt -s cdable_vars  # cd ls assumes DIR where ls is
+shopt -s autocd  ## no need to type cd just put dir at prompt hit <CR> and go
+
+shopt -s checkhash   # ls (does exist? yes ok do it)
+#shopt -s checkwinsize   #update winsize if needed
+#shopt -s sourcepath  #Already Default enabled
+shopt -s no_empty_cmd_completion
+shopt -s extglob   # Needed for programmable completion
+#histappend --try to list long commands on 1 line
+# Disable options: # No shell warn incoming mail
+shopt -u mailwarn
+unset MAILCHECK
+#====history related shopt options
+shopt -s cmdhist #Saves all of a long cmd in history
+shopt -s histappend histreedit histverify
+#PROMPT_COMMAND='history -a'
+##==============================================##

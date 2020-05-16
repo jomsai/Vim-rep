@@ -63,7 +63,7 @@ let g:airline_symbols.linenr = '☰'
 let g:airline_symbols.maxlinenr = ''
 
 """##========= Syntastic Settings ==========##
-set statusline+=%#warningmsg#
+" set statusline+=%#warningmsg#
 " set statusline+=%{SyntasticStatuslineFlag()}
 " set statusline=%t%h%m%r%=[%b\ 0x%02B]\ \ \ %l,%c%V\ %P
 set statusline=%2*%n\|%<%*%-.40F%2*\|\ %2*%M\ %3*%=%1*\ %1*%2.6l%2*x%1*%1.9(%c%V%)%2*[%1*%P%2*]%1*%2B
@@ -103,6 +103,7 @@ set formatoptions=tcrql         " t - autowrap to textwidth
                                 " l - don't format already long lines
 
 " map ,<Tab> :set hls<CR>/\\n.*\\n/<CR>  " Highlight every other line
+
 
 
 """##========= VIM Basic Settings ==========##
@@ -290,7 +291,6 @@ iab RuL ----+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 " colorscheme understated
 " colorscheme ir_black
 " colorscheme peaksea
-" colorscheme inkpot
+colorscheme inkpot
 " colorscheme kolor
-colorscheme valloric
-
+" colorscheme valloric
