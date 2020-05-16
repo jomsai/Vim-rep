@@ -4,16 +4,15 @@
 
 PS1='\[$(tput bold)\]\[$(tput setaf 5)\]\t\[$(tput setaf 2)\][\[$(tput setaf 6)\] \u@\[$(tput setaf 3)\]\h \[$(tput setaf 6)\] \W ]\[$(tput bold)\]\[$(tput setaf 2)\][ $? ]\[$(tput setaf 4)\][[>\[$(tput setaf 1)\]\\$ \[$(tput sgr0)\]'
 ##===============Apt Package Manager===========##
-alias apt3='sudo apt upgrade firefox && sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && echo "Yawzaa!"'
+alias apt3='sudo apt upgrade firefox && sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt-get autoremove && sudo apt-get autoclean && echo "Yawzaa!"'
 alias aptclean='sudo apt upgrade firefox && sudo apt update -y && sudo apt upgrade -y && sudo apt dist-upgrade -y && sudo apt-get autoremove -y && sudo apt-get autoclean && echo "All clean!"'
 alias apt4='sudo unattended-upgrade -d && echo $SEP && sudo tail -n20 /var/log/unattended-upgrades/unattended-upgrades.log && echo $SEP && sudo cat /var/log/syslog | grep nattended'  # Unattended Upgrades in DEBUG mode done
 alias sai='sudo apt-get update && sudo apt-get upgrade && sudo apt-get install'
 alias sau='sudo apt-get upgrade' #needs a package ARG to upgrade the package
-alias sarm='sudo apt-get remove'
-alias sap='sudo apt-get purge --auto-remove'
+alias sarm='sudo apt-get remove && sudo apt-get purge --auto-remove'
 alias aptfind='sudo apt-cache search'
 alias aptdepends='sudo apt-cache depends' # Needs 1 package ARG & lists all its dependencies
-alias aptnew='sudo apt list --upgradable'
+alias aptup='sudo apt list --upgradable'
 alias aptshow='apt-cache show' ##ARG1=<package name> to see information on a package 
 alias aptpolicy='apt-cache policy' ##ARG1=<package name> to see version information for a package 
 alias aptverify='sudo dpkg --verify'  #Needs a package ARG
@@ -30,9 +29,6 @@ alias etmux='vim $HOME/.tmux.conf'
 #alias so='source $HOME/.bash_profile && \cp $HOME/.bash_aliases $HOME/.bash_aliases.bak && echo "Yep Dotfile Saved!!!!"'
 alias so='source $HOME/.bash_profile && \cp $HOME/.bash_aliases $HOME/.bash_aliases.bak && \cp $HOME/.bash_aliases $HOME/github/Vim-rep/dotfiles/BASHALIASES_Debian_$(date "+%Y-%m-%d_%H.%M.%S").txt && echo "Yep Dotfile Saved!!!!"'
 alias sotmux='\cp $HOME/.tmux.conf $HOME/.tmux.conf.bak && \cp $HOME/.tmux.conf $HOME/github/Vim-rep/dotfiles/TMUXCONF_Debian_$(date "+%Y-%m-%d_%H.%M.%S").txt && echo "TMUX Awesome!"'
-alias tmuxv='tmux split-window -h -p 60'
-alias tmuxh='tmux split-window -v -l 30'
-alias tmuxhh='tmux split-window -h -p 50'
 alias sovim='\cp $HOME/.vimrc $HOME/.vimrc.bak && \cp $HOME/.vimrc $HOME/github/Vim-rep/dotfiles/VIMRC_Debian_$(date "+%Y-%m-%d_%H.%M.%S").txt && echo "VIMRC Saved!"'
 ##=======Set LS as primary for L* commands======##
 alias ls='ls -hailcF --color=auto'
@@ -50,7 +46,8 @@ alias lswc='ls | wc -l'  # This ls has how many lines?
 alias ld='ls -d */'   # only Dirs
 alias ldr='\ls -lhiFr --color=auto' #DIR only reverse Alphabet
 alias l.='ls -dAFh .[^.]*'  # ls only Dotfiles
-alias lst='ls -hFtal | grep $(date +%Y-%m-%d)' #ls Today
+alias lt='ls -hFtal' #ls Today
+alias ltr='ls -hFtalr' #ls Time reversed
 alias lu='ls -l /dev/disk/by-uuid'
 alias lz='ls -Z'  #SELinux Security Context ls
 alias lg='ls | grep'
@@ -70,51 +67,22 @@ alias sudo='sudo '
 alias sbb='sudo $(fc -ln -1)'  # sudo !! shortcut
 alias sutop='sudo /bin/su -' #Ubuntu way to root prompt
 alias sushi='sudo bash'
-##======Environemental Variables================##
-alias env='printenv'
-alias env2='export -p'
-alias path='echo -e ${PATH//:/\\n}'  # executable Paths
-alias bashv='/bin/bash --version | grep bash | cut -d "," -f2 | cut -c 10-50'
-alias shoptvar='shopt -p' # ShowALL & u=OFF, s=ON status
-alias shopton='shopt -s'    # Show all s=ON
-alias shoptoff='shopt -u'   # Show all u=OFF
-#=Bash Options=shopt -s=set -u=unset options===##
-# -p=ListALLOptions -q=EXIT0 if set 1 if not===##
-#= -o=List all SET env Options that are set on=##
-#shopt -s cdspell  #small spell autocorrects
-set -o vi
-shopt -s cdable_vars  # cd ls assumes DIR where ls is
-shopt -s autocd  ## no need to type cd just put dir at prompt hit <CR> and go
-
-shopt -s checkhash   # ls (does exist? yes ok do it)
-#shopt -s checkwinsize   #update winsize if needed
-#shopt -s sourcepath  #Already Default enabled
-shopt -s no_empty_cmd_completion
-shopt -s extglob   # Needed for programmable completion
-#histappend --try to list long commands on 1 line
-# Disable options: # No shell warn incoming mail
-shopt -u mailwarn
-unset MAILCHECK
-#====history related shopt options
-shopt -s cmdhist #Saves all of a long cmd in history
-shopt -s histappend histreedit histverify
-#PROMPT_COMMAND='history -a'
 ##=================Networking===================##
 alias pi='echo $(echo "scale=70; 4*a(1)" | bc -l)'
 alias ping3='ping -c3 -s1 8.8.8.8'
-alias fastping='ping -c 100 -s.2'
 #alias nface="ip -s link | grep 2: | cut -d ' ' -f2" #Linux
 #alias nface2="ip addr | grep 'state UP' | gawk '{print $2}' | sed -e 's/://'"
 alias nface="ip addr | grep 'state UP' | cut -d ' ' -f2 | sed -e 's/://'"
 alias nfaceinfo='sudo lshw -C network'
 alias ethinfo='sudo ethtool enp2s0'
 #alias intip='ifconfig | head -n 2 | grep inet | cut -c 14-24'
-alias intip="ip addr | grep global | cut -d '/' -f1 | cut -c 10-22"
+alias intip="ip addr | grep global | cut -d '/' -f1 | cut -c 10-24"
 alias extip='wget http://ipinfo.io/ip -qO -'
 alias extip2="curl icanhazip.com"
 alias extip3="dig +short myip.opendns.com @resolver1.opendns.com"
 alias extip4='curl ifconfig.io'  ## Server down 2018-07
 alias ipgeo='curl ipinfo.io' #ARG1=IP queries an IP else the local extip
+alias dnslsof='sudo lsof -Pni | grep dnscrypt'
 alias gateway='sudo route -n'
 alias macnew='sudo macchanger -r'  ##ARG1=interface
 alias macnew2='sudo ifconfig en6 hw ether'  ## ARG=1 random MAC address
@@ -124,6 +92,7 @@ alias nettop='sudo iftop -pPl'
 alias netstatd='sudo dstat -f' #See man dstat for all the single options instead of FULL -f here
 alias kernel='hostnamectl | grep Kernel | cut -d ":" -f2 | cut -c 2-35'
 alias kernelno='uname -r'
+alias iflist='sudo nmap --iflist' ## Local interfaces/Routes printed in nice fashion.
 alias scanlan='sudo nmap -vv --open --reason -T4 -A -F -oX /opt/nmap_scans/scanlan.$(date "+%b_%d_%Y_%H.%M.%S").xml --stylesheet=nmap.xsl' ##ARG1=IP
 ##> portscan function as needed taking ARG1=someIP
 function portscan() {
@@ -140,37 +109,58 @@ alias ports="sudo lsof -i | grep LISTEN && netstat -an | grep LISTEN"  #ports: l
 alias listen='netstat -anp tcp | grep LISTEN'  # listen: All listen connections
 alias sock='lsof -i'  #All open TCP/IP Sockets
 alias loop='netstat -anp tcp | grep 127.0.0.1'  # Loopback interface tcp stats
-alias tdump='sudo tcpdump -i 1 -c4000 -ttt -w /tmp/tcpdump4k.pcap-ng'
+alias tdump='sudo tcpdump -i 1 -c4000 -ttt -w ~/Documents/tcpdump4k.pcap-ng'
 alias toron='.$HOME/tor-browser_en-US/start-tor-browser.desktop'
 alias tordns='tor-resolve'  #ARG=Domain resolves to IP
 alias torchroot='chroot --userspec=tor:tor /opt/torchroot /usr/bin/tor'
 alias torupdate='sudo tor-browser -u'
 uuid() { nmcli c | grep ethernet | awk '{print $4}' ; } # Works if interface has 3 words eg wired connection 1
 
-alias cdmounts='cd /media/$USER/'
+alias hds='ls /media/$USER/'  ## Show mounted HardDrives 
+alias cdhds='cd /media/$USER/'  ## cd to HD DIr
 alias mount='mount |column -t'
-
+##============== SSH ================##
 alias sshreload='sudo systemctl stop sshd && sudo systemctl start sshd && sudo systemctl status sshd && echo "SSH Reloaded"' 
 alias sshstatus='sudo systemctl status sshd' 
 alias sshgit='ssh -Tv git@github.com' 
 alias sshdepend='sudo systemctl list-dependencies sshd' 
 alias sshlskeys='ssh-add -l'  # Either no ID or shows active fingerprint 
-alias sshaddkeyed25519='ssh-add ~/.ssh/id_ed25519_mozilla_2018-04-23.pub' #Need PW ready 
-alias sshaddkeyrsa='ssh-add ~/.ssh/id_rsa_mozilla_2018-04-23.pub' 
+alias sshkey='ssh-add ~/.ssh/id_ed25519_mozilla_2020-01-08' #Need PW ready 
+alias sshkeyrsa='ssh-add ~/.ssh/id_rsa_mozilla_2020-01-08' 
 alias sshenv='ssh-agent -s' # Show ENV VAR for the key 
-alias sshstartkeyrsa='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_rsa_mozilla_2018-04-23.pub && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"' 
-alias sshstartkeyed25519='eval `ssh-agent` && sudo ssh-add ~/.ssh/id_ed25519_mozilla_2018-04-23.pub && sudo ssh-add -l && sudo ssh-agent -s && echo "ssh agent on so go"' 
+alias sshstartkey='eval `ssh-agent` && ssh-add ~/.ssh/id_ed25519_mozilla_2020-01-08 && ssh-add -l && ssh-agent -s && echo "ssh agent on so go"' 
+alias sshstartkeyrsa='eval `ssh-agent` && ssh-add ~/.ssh/id_rsa_mozilla_2020-01-08 && ssh-add -l && ssh-agent -s && echo "ssh agent on so go"' 
 alias sshdeleteremotekey='ssh-keygen -R'  #Needs 1 ARG for remote IP
 alias sshfingerprintsha256='sudo ssh-keygen -lvE sha256 -f'  ##ARG1=filepath to a keyfile 
 alias sshfingerprintmd5='sudo ssh-keygen -lvE md5 -f'  ##ARG1=filepath to keyifile
 alias sshremotemd5='ssh -o FingerprintHash=md5'  #ARG1=remote hot -Just use 1 time to confirm it
 alias sshdebug='sudo /usr/sbin/sshd -d' 
 alias sshalgos='sudo ssh -Q cipher && sudo ssh -Q cipher-auth && sudo ssh -Q mac && sudo ssh -Q kex && sudo ssh -Q key'
-alias sshaws='ssh -p 22 -i ~/.ssh/khaoba1.pem -o FingerprintHash=md5 ubuntu@18.222.20.215'
-alias sshaws2='ssh -p 22 -i ~/.ssh/khaoba1.pem ubuntu@18.222.20.215'
+alias sshgenedkey='ssh-keygen -t ed25519 -o -a 25 -f ~/.ssh/edkey_$(date +%Y-%m-%d) -C "Mozilla key for $USER"'
+##============== NORDVPN ================##
+alias nordauto='nordvpn set autoconnect enabled'
+alias nordcyber='nordvpn set cybersec enabled'
+alias norddallas='nordvpn connect US Dallas'
+alias nordhk='nordvpn connect HK'
+alias nordinfo='nordvpn account && nordvpn status && nordvpn settings'
+alias nordks='nordvpn set killswitch enabled'
+alias nordnotify='nordvpn set notify enabled'
+alias nordobs='nordvpn set obfuscate enabled'
+alias nordoff='nordvpn d'
+alias nordon='nordvpn c'
+alias nordovpn='nordvpn set technology OpenVPN'
+alias nordtcp='nordvpn set protocol TCP'
+alias nordth='nordvpn connect Thailand'
+alias nordudp='nordvpn set protocol UDP'
+alias nordus='nordvpn set autoconnect enabled US Dallas && nordvpn c'
 ##===================Processes==================##
 alias psg='ps aux | grep -v grep | grep -i -e VSZ -e' #Needs 1 ARG to grep for
 alias psl='ps aux | less'
+alias psmem='sudo ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%mem | head'
+alias pscpu='sudo ps -eo pid,ppid,cmd,%mem,%cpu --sort=-%cpu | head'
+alias pscpu2='sudo ps -Ao user,uid,comm,pid,pcpu,tty --sort=-pcpu | head -n 10'
+alias pscpu3='sudo ps -Ao user,uid,comm,pid,pcpu,pmem --sort=-pcpu | head -n 10'
+
 alias jstop='kill `jobs -ps`'
 # See https://serverfault.com/questions/240155/how-can-i-kill-all-stopped-jobs
 alias j2="ps -a -o pid,user,cmd,state | grep 'T$'"                                                                                                                                                                                                              
@@ -207,7 +197,10 @@ alias logauditsshfail2='sudo cat /var/log/audit/audit.log | grep "acct=\"root\""
 
 alias logsar='sar -A > ~/.sysstat.log/$(date +`hostname`-%d-%m-%y-%H%M.log)'
 alias logapp='sudo gnome-logs'
-alias logwatch='sudo logwatch --detail 10 >> /opt/logwatch/logwatch.txt'
+alias logwatchconfig='sudo vim /usr/share/logwatch/default.conf/logwatch.conf'
+alias logwatchhome2='sudo bash -c "logwatch --detail 10 >> $HOME/Documents/logwatch.`date +\%Y-\%m-\%d`.txt"'
+alias logwatchhome='sudo bash -c "logwatch --detail 10 >> /opt/logwatch/logwatch.`date +\%Y-\%m-\%d`.txt"'
+alias loglynisaudit='sudo bash -c "lynis audit system > /opt/lynislogs/lynisaudit.`date +\%Y-\%m-\%d`.txt"'
 ##===================TCP Wrappers===============##
 # PROBLEM: 1 Just lists libwrap files not effected service so need prior lines
 alias tcpallowssh='sudo echo "sshd  :   192.168.1. 192.168.64." >> /etc/hosts.allow'
@@ -215,7 +208,7 @@ alias tcpdenyall='sudo echo "ALL   :   ALL" >> /etc/hosts.deny'
 #alias tcpservices='ldd $(which {/usr/bin/*,/usr/sbin/*}) | grep libwrap'
 alias tcpservices2='ldd /{,usr/}{bin,sbin}/* | grep -B 50 libwrap | grep '^/''
 #alias tcpdaemon='ldd $(which sshd) | grep libwrap' #Requires a file path eg /usr/sbin/sshd
-alias tcpstatus='sudo tcpdmatch sshd' #Requires a IP or domain ARG
+alias tcpstatus='sudo tcpdmatch in.sshd' #Requires a IP or domain ARG
 alias tcpconfig='sudo tcpdchk -v'
 alias tcplog='cat /var/log/auth.log | grep -i ip'
 ##========Firewall Iptables or UFW==============##
@@ -225,36 +218,20 @@ alias iptlsin='sudo iptables -L INPUT -n -v --line-numbers'
 alias iptlsout='sudo iptables -L OUTPUT -n -v --line-numbers'
 alias iptlsfw='sudo iptables -L FORWARD -n -v --line-numbers'
 alias iptmyrules='sudo iptables -S'
-
-alias iptflush='sudo iptables -t nat -F && sudo iptables -t mangle -F && sudo iptables -F && sudo iptables -X && echo "Flushed!"'
-alias iptdropall='sudo iptables -P INPUT DROP && sudo iptables -P FORWARD DROP && sudo iptables -P OUTPUT DROP && echo "All Chains Dropped"'
-alias ipt6flush='sudo ip6tables -t nat -F && sudo ip6tables -t mangle -F && sudo ip6tables -F && sudo ip6tables -X && echo "Flushed!"'
-alias ipt6dropall='sudo ip6tables -P INPUT DROP && sudo ip6tables -P FORWARD DROP && sudo ip6tables -P OUTPUT DROP && echo "IPv6-dropped!"'
-
-alias iptlo='sudo iptables -A INPUT -i lo -j ACCEPT'
-alias iptestablishedin='sudo iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT'
-alias iptestablishedout='sudo iptables -A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT'
-alias iptdnseth0='sudo iptables -A OUTPUT -o eth0 -p udp -m udp --dport 53 -j ACCEPT'
-alias ipthttpeth0='sudo iptables -A OUTPUT -o eth0 -p tcp -m tcp --dport 80 -m state --state NEW -j ACCEPT'
-alias ipthttpseth0='sudo iptables -A OUTPUT -o eth0 -p tcp -m tcp --dport 443 -m state --state NEW -j ACCEPT'
-alias iptsshineth0='sudo iptables -A INPUT -i eth0 -p tcp -s 192.168.1.0/24 --dport 22 -m state --state NEW,ESTABLISHED -j ACCEPT'
-alias iptsshouteth0='sudo iptables -A OUTPUT -o eth0 -p tcp --sport 22 -m state --state ESTABLISHED -j ACCEPT'
-alias iptrmoutrule='sudo iptables -D OUTPUT' #Needs #ARG for OUTPUT rule to remove
-alias iptrminrule='sudo iptables -D INPUT' #Needs #ARG for INPUT rule to remove
-alias iptlimitssh='sudo iptables -A INPUT -p tcp --syn --dport 22 -m connlimit --connlimit-above 3 -j REJECT'
-alias iptdropinvalid='sudo iptables -A INPUT -m conntrack --ctstate INVALID -j DROP'
-alias iptlogon1='sudo iptables -N LOGGING && sudo iptables -A INPUT -j LOGGING'
-alias iptlogon2='sudo iptables -A LOGGING -m limit --limit 2/min -j LOG --log-prefix "IPTables Packet Dropped: " --log-level 7'
-alias iptlogon3='sudo iptables -A LOGGING -j DROP'
-# Allow OpenVPN
-alias iptvpnudpon='iptables -A OUTPUT -p udp --dport 1194 -j ACCEPT'
-
-alias iptpersist='sudo apt-get install iptables iptables-persistent && sudo dpkg-reconfigure iptables-persistent && echo "PersistON!"'
-alias iptpersist2='sudo systemctl restart netfilter-persistent.service && sudo systemctl status netfilter-persistent.service'
-#===== Arch Rule to make the rules persistent =##
 alias iptsave='iptables-save > /etc/iptables/iptables.rules'
 #===== Restore ruleset instead of a reboot ====##
 alias iptrestore='iptables-restore < /etc/iptables/iptables.rules'
+
+##=============== UFW ===================##
+alias ufwdisable='sudo ufw disable'
+alias ufwenable='sudo ufw enable && sudo ufw logging high'
+alias ufwlisten='sudo ufw show listening'
+alias ufwlog='sudo cat /var/log/ufw.log'
+alias ufwlogrules='sudo ufw show logging-rules > ~/Documents/ufw_log_rules.txt'
+alias ufwraw='sudo ufw show raw'
+alias ufwreload='sudo ufw reload'
+alias ufwrestart='sudo ufw disable && sudo ufw enable'
+alias ufwstats='sudo ufw status verbose && sudo ufw version'
 ##================Fail2ban Aliases=============##
 alias f2bsshlog='sudo cat /var/log/auth.log | grep "Failed password"'
 alias f2bblocks='sudo iptables -L -n'
@@ -265,33 +242,33 @@ alias f2blog2='sudo tail -n 40 /var/log/secure'
 alias f2bstatus='sudo systemctl status fail2ban'
 alias f2bstatus2='sudo fail2ban-client status'
 ##====================AppArmor=================##
-alias armor1='sudo apt-get install apparmor apparmor-utils apparmor-easyprof apparmor-profiles apparmor-profiles-extra apparmor-notify'
-alias armor2='sudo perl -pi -e 's,GRUB_CMDLINE_LINUX="(.*)"$,GRUB_CMDLINE_LINUX="$1 apparmor=1 security=apparmor",' /etc/default/grub'
-alias armor3='sudo update-grub && sudo reboot'
-alias armorstatus='sudo aa-status'
-alias armormodule='sudo cat /sys/module/apparmor/parameters/enabled'  # Y=Yes N=No & ya got a problem!
-alias armorstart='sudo /etc/init.d/apparmor start'
-alias armorclear='sudo /etc/init.d/apparmor start apparmor ACTION=clear' # clear policy cache
-alias armorunload='sudo /etc/init.d/apparmor start apparmor ACTION=teardown' # unload all policy
-alias armorreload='sudo /etc/init.d/apparmor start apparmor ACTION=reload' # unload all policy
-alias armorforcereload='sudo /etc/init.d/apparmor start apparmor ACTION=force-reload'  # same as 'reload'
-alias armorenforce='sudo aa-enforce' #ARG=/path/to/app
-alias armorenforceall='sudo aa-enforce /etc/apparmor.d/*'
-alias armorcomplainadd='sudo aa-complain'  #ARG=/path/to/app
-alias armorcomplainall='sudo aa-complain /etc/apparmor.d/*'
+alias aa1='sudo apt-get install apparmor apparmor-utils apparmor-easyprof apparmor-profiles apparmor-profiles-extra apparmor-notify'
+alias aa2='sudo perl -pi -e 's,GRUB_CMDLINE_LINUX="(.*)"$,GRUB_CMDLINE_LINUX="$1 apparmor=1 security=apparmor",' /etc/default/grub'
+alias aa3='sudo update-grub && sudo reboot'
+alias aastatus='sudo aa-status'
+alias aamodule='sudo cat /sys/module/apparmor/parameters/enabled'  # Y=Yes N=No & ya got a problem!
+alias aastart='sudo /etc/init.d/apparmor start'
+alias aaclear='sudo /etc/init.d/apparmor start apparmor ACTION=clear' # clear policy cache
+alias aaunload='sudo /etc/init.d/apparmor start apparmor ACTION=teardown' # unload all policy
+alias aareload='sudo /etc/init.d/apparmor start apparmor ACTION=reload' # unload all policy
+alias aaforcereload='sudo /etc/init.d/apparmor start apparmor ACTION=force-reload'  # same as 'reload'
+alias aaenforce='sudo aa-enforce' #ARG=/path/to/app
+alias aaenforceall='sudo aa-enforce /etc/apparmor.d/*'
+alias aacomplainadd='sudo aa-complain'  #ARG=/path/to/app
+alias aacomplainall='sudo aa-complain /etc/apparmor.d/*'
 # 2 commnds to reload aa and unloading reloading the kernel
-alias armorkernelstop='sudo /etc/init.d/apparmor stop && sudo update-rc.d -f apparmor remove'
-alias armorkernelstart='sudo /etc/init.d/apparmor start && sudo update-rc.d apparmor defaults'
-alias armornotify='sudo adduser "$USER" sudo && sudo aa-notify -p'  ## Turn on notifications if $USER is in group sudo or adm
-alias armorlog='sudo cat /var/log/auth.log | grep armor'
-alias armorlog2='sudo aa-logprof' #Interactive session
-alias armorlog3='sudo cat /var/log/kern.log | grep armor'
-alias armorlog4='sudo tail -f /var/log/syslog | grep 'DENIED''
-alias armorutil='sudo aa-logprof' #Reads logs & queries whether to allow or not
-alias armorgenprof='sudo aa-genprof'  # ARG1=Some APP to Generate Profile for
-alias armorunconfined2='sudo aa-unconfined --paranoid'
-alias armorunconfined='sudo aa-unconfined'
-#alias armorunconfined3='ps auxZ | grep -v '\''^unconfined'\'''
+alias aakernelstop='sudo /etc/init.d/apparmor stop && sudo update-rc.d -f apparmor remove'
+alias aakernelstart='sudo /etc/init.d/apparmor start && sudo update-rc.d apparmor defaults'
+alias aanotify='sudo adduser "$USER" sudo && sudo aa-notify -p'  ## Turn on notifications if $USER is in group sudo or adm
+alias aalog='sudo cat /var/log/auth.log | grep armor'
+alias aalog2='sudo aa-logprof' #Interactive session
+alias aalog3='sudo cat /var/log/kern.log | grep armor'
+alias aalog4='sudo tail -f /var/log/syslog | grep "DENIED"'
+alias aautil='sudo aa-logprof' #Reads logs & queries whether to allow or not
+alias aagenprof='sudo aa-genprof'  # ARG1=Some APP to Generate Profile for
+alias aaunconfined2='sudo aa-unconfined --paranoid'
+alias aaunconfined='sudo aa-unconfined'
+#alias aaunconfined3='ps auxZ | grep -v '\''^unconfined'\'''
 ##===================SELINUX===================##
 alias seapp='sealert -b'  #Brings up the setroubleshooter app
 alias selogs='sudo sealert -a /var/log/audit/audit.log'  #GUI tool parses the logfile
@@ -384,6 +361,7 @@ alias mv='mv -iZ'  #Interactive & set correct context for new DIR
 alias ln='ln -i'
 alias rm='rm -I --preserve-root' #Interactive > 3 files & nada under /
 
+alias conv2pdf='unoconv -f pdf "$@"' ## ARG1=some pptx ppt odt file etc
 alias diff='colordiff'
 alias du='du -ach'
 alias du2='ncdu'
@@ -391,14 +369,15 @@ alias df='df -Tha'
 alias df2='sudo pydf'
 alias dfhome='sudo df -ha /; sudo pydf'
 alias dfhere='sudo df -ha ./'
-
+alias entropy='sudo cat /proc/sys/kernel/random/entropy_avail'
 alias aliasg='alias | grep'
 alias base64enc='openssl enc -base64 <<<'
 alias base64dec='openssl enc -base64 -d <<<'
 #alias base64paste='pbpaste | base64 --decode'  ## Copy text to clipboard then run this (MacOS only)
 alias videohttp='cd ~/Videos && python2 -m CGIHTTPServer'  ## Browse to http://0.0.0.0:8000/ 
 alias bc='bc -l'
-alias cacert='curl --remote-name --time-cond cacert.pem https://curl.haxx.se/ca/cacert.pem'
+#alias cacert='curl cacert --remote-name --time-cond cacert.pem https://curl.haxx.se/ca/cacert.pem'
+alias cacert='curl cacert --remote-name cacert.pem https://curl.haxx.se/ca/cacert.pem'
 alias chrome='/opt/google/chrome/chrome &'
 alias matrix='sudo cmatrix -s'
 alias cx='chmod a+x' #ARG1 = *.txt etc.
@@ -410,9 +389,16 @@ alias findhere="find . -name "
 alias findperm4k='/usr/bin/find / -perm -g=s -o -perm -4000 ! -type l -maxdepth 3 -exec ls -ld {} \; 2>/dev/null'
 alias firefoxv='firefox-esr --version'
 alias ffjail='firejail /usr/bin/firefox-esr &'
+
+## Weather forecast takes 2 ARGs city and 2 letter country code
+function forecast() {
+  sudo python3 /opt/py3/getOpenWeather.py "$1" "$2" ; 
+}
+
 alias fs='sudo fsarchiver probe -v'
 alias h='history'
 alias histg="history | grep"
+alias hwipe="echo '' > ~/.bash_history && history -c"
 alias header='curl -I'
 alias headerc='curl -I --compress'
 # See https://serverfault.com/questions/240155/how-can-i-kill-all-stopped-jobs
@@ -443,27 +429,35 @@ alias sharmd='openssl dgst -rmd160'
 alias shatiger='rhash --tiger'
 alias shawp='openssl dgst -whirlpool'
 alias stdnote='.$HOME/Downloads/standard-notes-*-x86_64.AppImage'
+alias strip='egrep -v "^#|^$"' ##ARG1=<file> strips comments
+
+function strip2() {
+grep -v '^#' $@ | grep -v '^$' ;
+}
+
 alias termsize='echo "Rows=$(tput lines) Cols=$(tput cols)"'
 alias timecheck='echo "Current TZ is ==> ${reverse}$(sudo cat /etc/timezone)${rst}" && sudo dpkg-reconfigure --frontend noninteractive tzdata'
 alias timezoneset='echo "America/Chicago" | sudo tee /etc/timezone'
 alias timeset='sudo tlsdate -wv' ## Download tlsdate. -v=verbose, -w=HTTPS option
-
 alias timeset2='sudo tlsdate -wv -x socks5://127.0.0.1:9050' ## Use tor port if open
-
 alias timezonentpset='sudo timedatectl set-timezone America/Chicago set-ntp 1'
 alias timestats='timedatectl'
+alias todo='echo `date +%FT%R` >> ~/Documents/todo.log'
+alias todosee='cat /home/poz/Documents/todo.log'
+alias tmuxv='tmux split-window -h -p 60'
+alias tmuxh='tmux split-window -v -l 30'
+alias tmuxhh='tmux split-window -h -p 50'
 alias vi=vim
 alias edit="$EDITOR"  # if not set then use vim in quotes
-
 alias wdir='watch -p -n 10 "ls $@"' #Needs DIR ARG and use in 2 tmux splits
 alias wget="wget -c"  #won't quit with poor connection
 #alias yt="youtube-dl -f mp4"
 function yt() { youtube-dl -f mp4 $@ ; }
 function rminode () { find . -inum $@ -exec rm {} \; ; }
+alias tutupdate='rm -f ~/Documents/tutanota-desktop-linux.AppImage && wget https://mail.tutanota.com/desktop/tutanota-desktop-linux.AppImage'
 ##=Archival & Packaging & see zipf extract fxs=##
-alias mktar='tar -cvf'
-alias mkbz2='tar -cvjf'
-alias mkgz='tar -czvf'
+alias mktarz='tar czvf'
+alias mktarj='tar cjvf'
 ##=====================Aide IDS=================##
 alias aidehelp='sudo aide -h'
 alias aideversion='sudo aide -v'
@@ -502,8 +496,9 @@ alias ghash="git log -n1|head -n1|grep -o '[[:xdigit:]]\{7,\}'"  ## Shows the la
 #alias gb="git reset --soft HEAD~1"
 
 # https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
-alias gitcompletion='sudo apt-get install git bash-completion'
-source ~/git-completion.bash   # need the file from URL above ~/git-completion.bash
+#alias gitcompletion='sudo apt-get install git bash-completion && source ~/git-completion.bash'   # need the file from URL above ~/git-completion.bash
+alias gitcomplete='sudo apt-get install git bash-completion && curl -O https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash && source git-completion.bash'
+
 ##=================Docker=======================##
 alias docimg='sudo systemctl status docker && echo "$(tput setaf 3)##=====Docker Status and Current Docker Images=====##$(tput sgr0)" && sudo docker images'
 alias dockali='sudo docker run -i -t b0d9d7dfbd0a /bin/bash'
@@ -767,6 +762,10 @@ bind '"\e[B": history-search-forward'
 bind '"\eh": "\C-a\eb\ed\C-y\e#man \C-y\C-m\C-p\C-p\C-a\C-d\C-e"'
 
 ##== Anaconda PyENV in the shell ==##
+##==> https://uoa-eresearch.github.io/eresearch-cookbook/recipe/2014/11/20/conda/
+##==> https://conda.io/en/latest/index.html
+alias condapythons='conda search "^python$"'  ## Make a new ENV with conda ==> conda create -n yourenvname python=x.x anaconda
+alias condaupdate='conda update conda -y'
 alias condaoff='conda config --set auto_activate_base false'
 alias condaon='conda config --set auto_activate_base true'
 alias condanav='anaconda-navigator'
